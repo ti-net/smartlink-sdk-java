@@ -1,20 +1,9 @@
-package com.tinet.smartlink.commons.sdk;
+package com.tinet.smartlink.sdk.core;
 
-import com.tinet.smartlink.sdk.core.response.BaseResponse;
+public class User {
 
-public class UserResponse extends BaseResponse {
-
-    private Integer id;
     private String name;
     private String password;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

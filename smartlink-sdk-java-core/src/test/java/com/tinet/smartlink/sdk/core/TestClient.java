@@ -1,7 +1,5 @@
-package com.tinet.smartlink.commons.sdk;
+package com.tinet.smartlink.sdk.core;
 
-import com.tinet.smartlink.sdk.core.SmartlinkClient;
-import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import org.junit.Before;

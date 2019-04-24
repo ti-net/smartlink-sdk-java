@@ -8,8 +8,9 @@
     <artifactId>smartlink-sdk-java</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>Smartlink SDK for Java</name>
     <modules>
-        <module>smartlink-java-sdk-core</module>
+        <module>smartlink-sdk-java-core</module>
     </modules>
 
     <build>

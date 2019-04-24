@@ -1,4 +1,4 @@
-package com.tinet.smartlink.commons.sdk;
+package com.tinet.smartlink.sdk.core;
 
 import com.tinet.smartlink.sdk.core.response.PagedResponse;
 

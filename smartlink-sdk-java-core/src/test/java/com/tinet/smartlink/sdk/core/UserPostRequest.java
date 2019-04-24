@@ -1,6 +1,5 @@
-package com.tinet.smartlink.commons.sdk;
+package com.tinet.smartlink.sdk.core;
 
-import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 public class UserPostRequest extends BaseRequest<UserPostResponse> {
