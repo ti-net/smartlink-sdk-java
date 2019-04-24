@@ -104,7 +104,9 @@ public abstract class BaseRequest<T extends BaseResponse> {
     public abstract Class<T> getResponseClass();
 
     protected void putBodyParameter(String key, Object value) {
-        if (key == null || value == null) return;
+        if (key == null || value == null) {
+            return ;
+        }
         bodyParameters.put(key, String.valueOf(value));
     }
 }

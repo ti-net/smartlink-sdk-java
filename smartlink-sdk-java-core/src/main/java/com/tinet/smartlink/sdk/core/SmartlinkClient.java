@@ -74,7 +74,7 @@ public class SmartlinkClient {
     public SmartlinkClient(SmartlinkClientConfiguration configuration) {
         this.configuration = configuration;
         config(this.configuration);
-        httpClient = httpClientBuilder.setKeepAliveStrategy(new SDKConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
+        httpClient = httpClientBuilder.setKeepAliveStrategy(new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
                 .build();
         httpHost = new HttpHost(configuration.getHost());
     }

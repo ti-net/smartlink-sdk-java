@@ -9,14 +9,14 @@ import org.apache.http.protocol.HttpContext;
  * @author houfc
  * @date 2019/1/8
  */
-public class SDKConnectionKeepAliveStrategy implements ConnectionKeepAliveStrategy {
+public class SdkConnectionKeepAliveStrategy implements ConnectionKeepAliveStrategy {
 
     /**
      * 默认为 5分钟
      */
     private long keepAliveDurationMillis = SmartlinkClientConfiguration.KEEP_ALIVE_DURATION_MILLIS;
 
-    public SDKConnectionKeepAliveStrategy(long keepAliveDurationMillis) {
+    public SdkConnectionKeepAliveStrategy(long keepAliveDurationMillis) {
         this.keepAliveDurationMillis = keepAliveDurationMillis;
     }
 
