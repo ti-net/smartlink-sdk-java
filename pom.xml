@@ -11,6 +11,7 @@
     <name>Smartlink SDK for Java</name>
     <modules>
         <module>smartlink-sdk-java-core</module>
+        <module>smartlink-sdk-java-sqc</module>
     </modules>
 
     <build>
