@@ -46,7 +46,10 @@ public abstract class BaseRequest<T extends BaseResponse> {
     }
 
     /**
-     *
+     * 添加version 时 Controller的 GetMapping 注解需要加上 params 参数 其值为 Version={SDK中version 值}
+     * <pre>
+     *     GetMapping(value = "/check", params = "Version=2019-06-10")
+     * </pre>
      * @param uri 请求的 URI
      * @param httpMethod http 请求方法
      * @param version 该请求所使用的版本号，建议以上线日期为准备，例如: 2019-06-10
