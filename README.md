@@ -51,3 +51,10 @@ try {
     e.printStackTrace();
 }
 ```
+
+## 同时修改父子工程所有pom的版本号
+
+```sh
+mvn versions:set -DgenerateBackupPoms=false -DnewVersion=2.0.1
+```
+

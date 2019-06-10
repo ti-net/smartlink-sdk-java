@@ -41,9 +41,22 @@ public abstract class BaseRequest<T extends BaseResponse> {
      * @param uri 请求的 URI
      * @param httpMethod http 请求方法
      */
-    public BaseRequest(String uri, HttpMethodType httpMethod) {
+    protected BaseRequest(String uri, HttpMethodType httpMethod) {
+        this(uri, httpMethod, null);
+    }
+
+    /**
+     *
+     * @param uri 请求的 URI
+     * @param httpMethod http 请求方法
+     * @param version 该请求所使用的版本号，建议以上线日期为准备，例如: 2019-06-10
+     */
+    protected BaseRequest(String uri, HttpMethodType httpMethod, String version) {
         this.httpMethod = httpMethod;
         uri(uri);
+        if (version != null) {
+            putQueryParameter("Version", version);
+        }
     }
 
     private void uri(String uri) {
