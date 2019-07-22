@@ -2,7 +2,10 @@ package com.tinet.sqc.sdk.request;
 
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
+import com.tinet.sqc.sdk.model.Record;
 import com.tinet.sqc.sdk.response.PushCdrResponse;
+
+import java.util.List;
 
 /**
  * 推送CDR文件
@@ -26,11 +29,8 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     /**
      * cdr文件类型
      * cdr_ib： 呼入主话单
-     * cdr_ib_detail：呼入从话单
      * cdr_ob_agent：外呼先呼座席侧主话单
-     * cdr_ob_agent_detail：外呼先呼座席侧从话单
      * cdr_ob_customer：外呼先呼客户侧主话单
-     * cdr_ob_customer_detail：外呼先呼客户侧从话单
      */
     private String cdrType;
 
@@ -39,13 +39,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      * 1：呼入
      * 2：网上400呼入
      * 3：点击外呼呼座席的通道
-     * 4：预览外呼呼座席的通道
-     * 5：预测外呼呼客户的通道
-     * 6：主叫外呼
-     * 7：自助录音
-     * 8：发送传真
-     * 9：内部呼叫
-     * 10：预约回呼
      */
     private Integer callType;
 
@@ -211,9 +204,9 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private String clid;
 
     /**
-     * 录音下载地址
+     * 录音属性（包括录音的下载地址和分轨录音属于哪一次）
      */
-    private String fileUrl;
+    private List<Record> records;
 
     /**
      * 平台回调地址，不传值默认不回调
@@ -225,19 +218,14 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private String asrProvider;
 
-    /**
-     * 如果录音做了分轨，该录音是双轨录音的一侧，必须指定该录音文件是 agent/client ，便于区分两侧。agent是坐席侧client是客户侧，不传值默认是单轨录音.
-     */
-    private String recordSide;
-
-    public String getFileUrl() {
-        return fileUrl;
+    public List<Record> getRecords() {
+        return records;
     }
 
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
-        if (fileUrl != null) {
-            putBodyParameter("fileUrl", fileUrl);
+    public void setRecords(List<Record> records) {
+        this.records = records;
+        if (records != null) {
+            putBodyParameter("records", records);
         }
     }
 
@@ -260,17 +248,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         this.asrProvider = asrProvider;
         if (asrProvider != null) {
             putBodyParameter("asrProvider", asrProvider);
-        }
-    }
-
-    public String getRecordSide() {
-        return recordSide;
-    }
-
-    public void setRecordSide(String recordSide) {
-        this.recordSide = recordSide;
-        if (recordSide != null) {
-            putBodyParameter("recordSide", recordSide);
         }
     }
 
@@ -594,7 +571,7 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     }
 
     public PushCdrRequest() {
-        super("/sqc/cdr", HttpMethodType.POST);
+        super("/sqc/cdr", HttpMethodType.POST,"2019-07-22");
     }
 
     @Override
