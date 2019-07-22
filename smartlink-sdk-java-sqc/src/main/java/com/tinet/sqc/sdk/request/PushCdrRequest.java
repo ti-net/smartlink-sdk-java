@@ -210,6 +210,69 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private String clid;
 
+    /**
+     * 录音下载地址
+     */
+    private String fileUrl;
+
+    /**
+     * 平台回调地址，不传值默认不回调
+     */
+    private String callbackUrl;
+
+    /**
+     * 可以自主选择转写引擎，不传值默认是天润自建引擎，
+     */
+    private String asrProvider;
+
+    /**
+     * 如果录音做了分轨，该录音是双轨录音的一侧，必须指定该录音文件是 agent/client ，便于区分两侧。agent是坐席侧client是客户侧，不传值默认是单轨录音.
+     */
+    private String recordSide;
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+        if (fileUrl != null) {
+            putBodyParameter("fileUrl", fileUrl);
+        }
+    }
+
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
+        if (callbackUrl != null) {
+            putBodyParameter("callbackUrl", callbackUrl);
+        }
+    }
+
+    public String getAsrProvider() {
+        return asrProvider;
+    }
+
+    public void setAsrProvider(String asrProvider) {
+        this.asrProvider = asrProvider;
+        if (asrProvider != null) {
+            putBodyParameter("asrProvider", asrProvider);
+        }
+    }
+
+    public String getRecordSide() {
+        return recordSide;
+    }
+
+    public void setRecordSide(String recordSide) {
+        this.recordSide = recordSide;
+        if (recordSide != null) {
+            putBodyParameter("recordSide", recordSide);
+        }
+    }
 
     public String getUniqueId() {
         return uniqueId;

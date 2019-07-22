@@ -23,6 +23,10 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
      */
     private String enterpriseId;
     /**
+     * 企业名
+     */
+    private String enterpriseName;
+    /**
      * 隐藏类型 0：不隐藏   1：中间四位隐藏  2：后四位隐藏 3：后八位隐藏 4：全部隐藏';
      */
     private Integer hiddenType;
@@ -47,7 +51,7 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
     private String token;
 
 
-  public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -132,6 +136,17 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
         this.token = token;
         if (token != null) {
             putBodyParameter("token", token);
+        }
+    }
+
+    public String getEnterpriseName() {
+        return enterpriseName;
+    }
+
+    public void setEnterpriseName(String enterpriseName) {
+        this.enterpriseName = enterpriseName;
+        if (enterpriseName != null) {
+            putBodyParameter("enterpriseName", enterpriseName);
         }
     }
 
