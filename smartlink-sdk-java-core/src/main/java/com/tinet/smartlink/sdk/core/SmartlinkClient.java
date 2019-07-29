@@ -9,6 +9,7 @@ import com.tinet.smartlink.sdk.core.response.BaseResponse;
 import com.tinet.smartlink.sdk.core.response.ErrorResponse;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -58,7 +59,7 @@ import java.net.URISyntaxException;
  */
 public class SmartlinkClient {
 
-    private HttpClient httpClient = null;
+    private HttpClient httpClient;
 
     private HttpHost httpHost = null;
 
@@ -131,7 +132,7 @@ public class SmartlinkClient {
                 throw new ClientException("ParseJsonError", "请求成功，解析返回结果失败，请确认SDK 版本是否正确", e);
             }
         } else {
-            if (503 == response.getStatusLine().getStatusCode()) {
+            if (HttpStatus.SC_SERVICE_UNAVAILABLE == response.getStatusLine().getStatusCode()) {
                 try {
                     // HttpClient有清理CLOSE_WAIT状态的机制，只有在读body操作后才会触发HttpClient Manager回收连接，
                     // 否则会被认为该连接一直在处理请求。因此在处理异常请求部分的代码中增加 EntityUtils.consume(response.getEntity()) 方法读body操作
@@ -144,7 +145,7 @@ public class SmartlinkClient {
             ErrorResponse errorResponse = null;
             try {
                 errorResponse = readResponse(response, ErrorResponse.class);
-                if (500 >= response.getStatusLine().getStatusCode()) {
+                if (HttpStatus.SC_INTERNAL_SERVER_ERROR >= response.getStatusLine().getStatusCode()) {
                     throw new ServerException(errorResponse.getError().getCode(), errorResponse.getError().getMessage(), errorResponse.getRequestId());
                 } else {
                     throw new ClientException(errorResponse.getError().getCode(), errorResponse.getError().getMessage(), errorResponse.getRequestId());

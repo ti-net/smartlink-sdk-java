@@ -20,12 +20,19 @@ public class TestClient {
     }
 
     @Test
-    public void demo1Test() throws ServerException, ClientException {
-        UserRequset requset = new UserRequset();
-        requset.setName("hello");
-        requset.setPassword("world");
-        UserResponse response = smartLinkClient.getResponseModel(requset);
-        System.out.println(response);
+    public void demo1Test() {
+        for (int i = 0; i <= 999999; i++) {
+
+            try {
+                Thread.sleep(50);
+                UserRequset requset = new UserRequset();
+                requset.setName("hello");
+                requset.setPassword("world");
+                UserResponse response = smartLinkClient.getResponseModel(requset);
+            } catch (ServerException | ClientException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Test
