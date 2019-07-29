@@ -18,6 +18,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -86,16 +87,20 @@ public class SmartlinkClient {
 
     public <T extends BaseResponse> HttpResponse execute(BaseRequest<T> request, HttpHost host)
             throws ClientException, ServerException {
+        request.signRequest(signer, configuration.getCredentials(), host.getHostName(), request.uri());
         try {
-            request.signRequest(signer, configuration.getCredentials(), host.getHostName(), request.uri());
+
             BasicHttpEntityEnclosingRequest httpRequest = new BasicHttpEntityEnclosingRequest(request.httpMethod().toString(), request.uri() + "?" + request.generateUri());
+
 
             if (request.httpMethod().hasContent()) {
 
                 StringEntity entity = new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON);
                 httpRequest.setEntity(entity);
             }
-            if (host != null) httpHost = host;
+            if (host != null) {
+                httpHost = host;
+            }
             return httpClient.execute(httpHost, httpRequest);
         } catch (URISyntaxException e) {
             throw new ClientException("SDK", "URI 错误", e);
@@ -127,6 +132,13 @@ public class SmartlinkClient {
             }
         } else {
             if (503 == response.getStatusLine().getStatusCode()) {
+                try {
+                    // HttpClient有清理CLOSE_WAIT状态的机制，只有在读body操作后才会触发HttpClient Manager回收连接，
+                    // 否则会被认为该连接一直在处理请求。因此在处理异常请求部分的代码中增加 EntityUtils.consume(response.getEntity()) 方法读body操作
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    throw new ServerException("ServiceUnavailable", "服务不可用，请稍后再试。" + e.getMessage());
+                }
                 throw new ServerException("ServiceUnavailable", "服务不可用，请稍后再试。");
             }
             ErrorResponse errorResponse = null;
@@ -146,7 +158,9 @@ public class SmartlinkClient {
 
     private boolean isSuccess(HttpResponse response) {
         StatusLine statusLine = response.getStatusLine();
-        if (statusLine == null || statusLine.getStatusCode() >= 400) return false;
+        if (statusLine == null || statusLine.getStatusCode() >= 400) {
+            return false;
+        }
         return true;
     }
 
