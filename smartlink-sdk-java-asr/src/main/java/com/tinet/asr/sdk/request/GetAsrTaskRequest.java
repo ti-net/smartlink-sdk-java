@@ -2,8 +2,8 @@ package com.tinet.asr.sdk.request;
 
 
 import com.tinet.asr.sdk.response.GetAsrTaskResponse;
-import com.tinet.smartlink.commons.sdk.core.HttpMethodType;
-import com.tinet.smartlink.commons.sdk.core.request.BaseRequest;
+import com.tinet.smartlink.sdk.core.HttpMethodType;
+import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
  * 转写结果查询request

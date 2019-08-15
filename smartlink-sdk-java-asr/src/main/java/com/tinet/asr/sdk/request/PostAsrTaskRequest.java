@@ -2,8 +2,8 @@ package com.tinet.asr.sdk.request;
 
 
 import com.tinet.asr.sdk.response.PostAsrTaskResponse;
-import com.tinet.smartlink.commons.sdk.core.HttpMethodType;
-import com.tinet.smartlink.commons.sdk.core.request.BaseRequest;
+import com.tinet.smartlink.sdk.core.HttpMethodType;
+import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
  * 创建录音文件转写任务的request
