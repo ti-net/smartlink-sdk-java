@@ -9,6 +9,7 @@ import com.tinet.sqc.sdk.model.ChatRecord;
 import com.tinet.sqc.sdk.response.PushDialogueResponse;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 顺丰在线质检推送请求实体
@@ -18,173 +19,47 @@ import java.util.List;
  */
 public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
-
-    private String id;
-
-    /**
-     * 唯一标识
-     */
     private String uniqueId;
-    /**
-     * 账号名
-     */
+
     private String accountLoginName;
-    /**
-     * 企业编号
-     */
+
     private String enterpriseId;
-    /**
-     * 客户省份
-     */
+
     private String customerProvince;
-    /**
-     * 客户城市
-     */
+
     private String customerCity;
-    /**
-     * 客户号码
-     */
-    private String customerNumber;
-    /**
-     * 客户IP
-     */
+
     private String customerIp;
-    /**
-     * 客户浏览器标识
-     */
+
     private String browserUserAgent;
-    /**
-     * 座席编号
-     */
+
     private String cno;
-    /**
-     * 座席名称
-     */
+
     private String agentName;
-    /**
-     * 队列编号
-     */
+
     private String qno;
-    /**
-     * 队列名称
-     */
+
     private String qname;
-    /**
-     * 进入系统时间
-     */
+
     private Long startTime;
-    /**
-     * 转人工时间
-     */
+
     private Long sendChatTime;
-    /**
-     * 接通人工时间
-     */
+
     private Long chatBeginTime;
-    /**
-     * 最后一次人工交互时间
-     */
+
     private Long chatEndTime;
-    /**
-     * 最后一次机器人交互时间
-     */
+
+    private Long endTime;
+
     private Long robotEndTime;
-    /**
-     * 结束原因
-     */
+
     private Integer endReason;
-    /**
-     * 满意度
-     */
+
     private String investigation;
-    /**
-     * 预警规则名
-     */
-    private String[] alarmRule;
-    /**
-     * 预警
-     */
-    private String alarmResult;
-    /**
-     * 质检评语
-     */
-    private String qcComment;
-    /**
-     * 质检得分
-     */
-    private Double qcScore;
-    /**
-     * 人工质检得分
-     */
-    private Double qcReviewScore;
-    /**
-     * 人工质检评级
-     */
-    private String qcReviewStatus;
-    /**
-     * 质检评级
-     */
-    private String qcLevel;
-    /**
-     * 人工质检评级
-     */
-    private String qcReviewLevel;
-    /**
-     * 质检模板名称
-     */
-    private String qcTemplate;
-    /**
-     * 质检模板类型
-     */
-    private Integer qcTemplateType;
-    /**
-     * 质检状态(1未质检,2已自动质检,3已人工复核,4待座席确认,5申诉中,6座席已确认,7重新质检中,8已重新质检)
-     */
-    private Integer qcStatus;
-    /**
-     * 质检项得分
-     */
-    private JSONArray qcResult;
-    /**
-     * 质检项得分
-     */
-    private JSONArray qcResultScore;
-    /**
-     * 自动质检详细
-     */
-    private JSONArray autoItems;
-    /**
-     * 对话分析标签
-     */
-    private JSONArray dpTag;
-    /**
-     * 关键词组标记数
-     */
-    private JSONArray statMark;
-    /**
-     * 座席侧聊天内容
-     */
-    private JSONArray chatAgent;
-    /**
-     * 客户侧聊天内容
-     */
-    private JSONArray chatCustomer;
 
-    /**
-     * 通话记录列表
-     */
-    List<ChatRecord> chatRecordList;
+    private List<ChatRecord> chatAgent;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-        if (id != null) {
-            putBodyParameter("id", id);
-        }
-    }
+    private List<ChatRecord> chatCustomer;
 
     public String getUniqueId() {
         return uniqueId;
@@ -238,17 +113,6 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         this.customerCity = customerCity;
         if (customerCity != null) {
             putBodyParameter("customerCity", customerCity);
-        }
-    }
-
-    public String getCustomerNumber() {
-        return customerNumber;
-    }
-
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
-        if (customerNumber != null) {
-            putBodyParameter("customerNumber", customerNumber);
         }
     }
 
@@ -362,6 +226,17 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         }
     }
 
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+        if (endTime != null) {
+            putBodyParameter("endTime", endTime);
+        }
+    }
+
     public Long getRobotEndTime() {
         return robotEndTime;
     }
@@ -395,212 +270,25 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         }
     }
 
-    public String[] getAlarmRule() {
-        return alarmRule;
-    }
-
-    public void setAlarmRule(String[] alarmRule) {
-        this.alarmRule = alarmRule;
-        if (alarmRule != null) {
-            putBodyParameter("alarmRule", alarmRule);
-        }
-    }
-
-    public String getAlarmResult() {
-        return alarmResult;
-    }
-
-    public void setAlarmResult(String alarmResult) {
-        this.alarmResult = alarmResult;
-        if (alarmResult != null) {
-            putBodyParameter("alarmResult", alarmResult);
-        }
-    }
-
-    public String getQcComment() {
-        return qcComment;
-    }
-
-    public void setQcComment(String qcComment) {
-        this.qcComment = qcComment;
-        if (qcComment != null) {
-            putBodyParameter("qcComment", qcComment);
-        }
-    }
-
-    public Double getQcScore() {
-        return qcScore;
-    }
-
-    public void setQcScore(Double qcScore) {
-        this.qcScore = qcScore;
-        if (qcScore != null) {
-            putBodyParameter("qcScore", qcScore);
-        }
-    }
-
-    public Double getQcReviewScore() {
-        return qcReviewScore;
-    }
-
-    public void setQcReviewScore(Double qcReviewScore) {
-        this.qcReviewScore = qcReviewScore;
-        if (qcReviewScore != null) {
-            putBodyParameter("qcReviewScore", qcReviewScore);
-        }
-    }
-
-    public String getQcReviewStatus() {
-        return qcReviewStatus;
-    }
-
-    public void setQcReviewStatus(String qcReviewStatus) {
-        this.qcReviewStatus = qcReviewStatus;
-        if (qcReviewStatus != null) {
-            putBodyParameter("qcReviewStatus", qcReviewStatus);
-        }
-    }
-
-    public String getQcLevel() {
-        return qcLevel;
-    }
-
-    public void setQcLevel(String qcLevel) {
-        this.qcLevel = qcLevel;
-        if (qcLevel != null) {
-            putBodyParameter("qcLevel", qcLevel);
-        }
-    }
-
-    public String getQcReviewLevel() {
-        return qcReviewLevel;
-    }
-
-    public void setQcReviewLevel(String qcReviewLevel) {
-        this.qcReviewLevel = qcReviewLevel;
-        if (qcReviewLevel != null) {
-            putBodyParameter("qcReviewLevel", qcReviewLevel);
-        }
-    }
-
-    public String getQcTemplate() {
-        return qcTemplate;
-    }
-
-    public void setQcTemplate(String qcTemplate) {
-        this.qcTemplate = qcTemplate;
-        if (qcTemplate != null) {
-            putBodyParameter("qcTemplate", qcTemplate);
-        }
-    }
-
-    public Integer getQcTemplateType() {
-        return qcTemplateType;
-    }
-
-    public void setQcTemplateType(Integer qcTemplateType) {
-        this.qcTemplateType = qcTemplateType;
-        if (qcTemplateType != null) {
-            putBodyParameter("qcTemplateType", qcTemplateType);
-        }
-    }
-
-    public Integer getQcStatus() {
-        return qcStatus;
-    }
-
-    public void setQcStatus(Integer qcStatus) {
-        this.qcStatus = qcStatus;
-        if (qcStatus != null) {
-            putBodyParameter("qcStatus", qcStatus);
-        }
-    }
-
-    public JSONArray getQcResult() {
-        return qcResult;
-    }
-
-    public void setQcResult(JSONArray qcResult) {
-        this.qcResult = qcResult;
-        if (qcResult != null) {
-            putBodyParameter("qcResult", qcResult);
-        }
-    }
-
-    public JSONArray getQcResultScore() {
-        return qcResultScore;
-    }
-
-    public void setQcResultScore(JSONArray qcResultScore) {
-        this.qcResultScore = qcResultScore;
-        if (qcResultScore != null) {
-            putBodyParameter("qcResultScore", qcResultScore);
-        }
-    }
-
-    public JSONArray getAutoItems() {
-        return autoItems;
-    }
-
-    public void setAutoItems(JSONArray autoItems) {
-        this.autoItems = autoItems;
-        if (qcResultScore != null) {
-            putBodyParameter("autoItems", autoItems);
-        }
-    }
-
-    public JSONArray getDpTag() {
-        return dpTag;
-    }
-
-    public void setDpTag(JSONArray dpTag) {
-        this.dpTag = dpTag;
-        if (dpTag != null) {
-            putBodyParameter("dpTag", dpTag);
-        }
-    }
-
-    public JSONArray getStatMark() {
-        return statMark;
-    }
-
-    public void setStatMark(JSONArray statMark) {
-        this.statMark = statMark;
-        if (statMark != null) {
-            putBodyParameter("statMark", statMark);
-        }
-    }
-
-    public JSONArray getChatAgent() {
+    public List<ChatRecord> getChatAgent() {
         return chatAgent;
     }
 
-    public void setChatAgent(JSONArray chatAgent) {
+    public void setChatAgent(List<ChatRecord> chatAgent) {
         this.chatAgent = chatAgent;
         if (chatAgent != null) {
             putBodyParameter("chatAgent", chatAgent);
         }
     }
 
-    public JSONArray getChatCustomer() {
+    public List<ChatRecord> getChatCustomer() {
         return chatCustomer;
     }
 
-    public void setChatCustomer(JSONArray chatCustomer) {
+    public void setChatCustomer(List<ChatRecord> chatCustomer) {
         this.chatCustomer = chatCustomer;
         if (chatCustomer != null) {
             putBodyParameter("chatCustomer", chatCustomer);
-        }
-    }
-
-    public List<ChatRecord> getChatRecordList() {
-        return chatRecordList;
-    }
-
-    public void setChatRecordList(List<ChatRecord> chatRecordList) {
-        this.chatRecordList = chatRecordList;
-        if (chatRecordList != null) {
-            putBodyParameter("chatRecordList", chatRecordList);
         }
     }
 
