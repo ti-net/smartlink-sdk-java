@@ -9,7 +9,7 @@ import com.tinet.sqc.sdk.response.PushDialogueResponse;
 import java.util.List;
 
 /**
- * 顺丰在线质检推送请求实体
+ * 在线质检推送请求实体
  *
  * @author liuhy
  * @date 2019/8/13 9:50
