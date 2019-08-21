@@ -19,12 +19,18 @@ public class PushTicketRequest extends BaseRequest<PushTicketResponse> {
     
     private String accountLoginName;
     
-    private String enterpriseId;
+    private String userId;
     
     /**
      * 工单 ID
      */
     private String ticketId;
+    /**
+     * 工单 ID
+     */
+    private String taskId;
+    
+    private String comment;
     
     /**
      * 是否是结束结点，1 为结束结点
@@ -54,25 +60,46 @@ public class PushTicketRequest extends BaseRequest<PushTicketResponse> {
         }
     }
 
-    public String getEnterpriseId() {
-        return enterpriseId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
-        if (enterpriseId != null) {
-            putBodyParameter("enterpriseId", enterpriseId);
+    public void setUserId(String userId) {
+        this.userId = userId;
+        if (userId != null) {
+            putBodyParameter("userId", userId);
         }
     }
 
+    public String getComment() {
+        return comment;
+    }
+    
+    public void setComment(String comment) {
+        this.comment = comment;
+        if (comment != null) {
+            putBodyParameter("comment", comment);
+        }
+    }
     public String getTicketId() {
         return ticketId;
     }
-
+    
     public void setTicketId(String ticketId) {
         this.ticketId = ticketId;
         if (ticketId != null) {
             putBodyParameter("ticketId", ticketId);
+        }
+    }
+    
+    public String getTaskId() {
+        return taskId;
+    }
+    
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+        if (taskId != null) {
+            putBodyParameter("taskId", taskId);
         }
     }
 
