@@ -42,7 +42,116 @@ public class PushTicketRequest extends BaseRequest<PushTicketResponse> {
     private Long createTime;
     
     private Long updateTime;
-    
+
+    public String getAccountLoginName() {
+        return accountLoginName;
+    }
+
+    public void setAccountLoginName(String accountLoginName) {
+        this.accountLoginName = accountLoginName;
+        if (accountLoginName != null) {
+            putBodyParameter("accountLoginName", accountLoginName);
+        }
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+        if (enterpriseId != null) {
+            putBodyParameter("enterpriseId", enterpriseId);
+        }
+    }
+
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
+        if (ticketId != null) {
+            putBodyParameter("ticketId", ticketId);
+        }
+    }
+
+    public Integer getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Integer finished) {
+        this.finished = finished;
+        if (finished != null) {
+            putBodyParameter("finished", finished);
+        }
+    }
+
+    public String getCno() {
+        return cno;
+    }
+
+    public void setCno(String cno) {
+        this.cno = cno;
+        if (cno != null) {
+            putBodyParameter("cno", cno);
+        }
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
+        if (agentName != null) {
+            putBodyParameter("agentName", agentName);
+        }
+    }
+
+    public String getQno() {
+        return qno;
+    }
+
+    public void setQno(String qno) {
+        this.qno = qno;
+        if (qno != null) {
+            putBodyParameter("qno", qno);
+        }
+    }
+
+    public String getQname() {
+        return qname;
+    }
+
+    public void setQname(String qname) {
+        this.qname = qname;
+        if (qname != null) {
+            putBodyParameter("qname", qname);
+        }
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+        if (createTime != null) {
+            putBodyParameter("createTime", createTime);
+        }
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+        if (updateTime != null) {
+            putBodyParameter("updateTime", updateTime);
+        }
+    }
 
     public PushTicketRequest() {
         super("/sqc/pushTicket", HttpMethodType.POST);
