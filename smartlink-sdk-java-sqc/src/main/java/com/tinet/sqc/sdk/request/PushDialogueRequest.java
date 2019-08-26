@@ -50,7 +50,7 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
     private Long robotEndTime;
 
-    private Integer endReason;
+    private String endReason;
 
     private String investigation;
 
@@ -245,11 +245,11 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         }
     }
 
-    public Integer getEndReason() {
+    public String getEndReason() {
         return endReason;
     }
 
-    public void setEndReason(Integer endReason) {
+    public void setEndReason(String endReason) {
         this.endReason = endReason;
         if (endReason != null) {
             putBodyParameter("endReason", endReason);
