@@ -29,12 +29,12 @@ public class RealtimeQcResponse {
     /**
      * 质检项得分
      */
-    private List<QcResultScore> qcResultScore;
+    private List<QcResultScore> qcResultScores;
 
     /**
      * 对话分析标签
      */
-    private List<AutoDpResult> autoDpResult;
+    private List<AutoDpResult> autoDpResults;
 
     /**
      * 关键词组标记数
