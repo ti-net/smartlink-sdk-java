@@ -21,6 +21,17 @@ public class RealtimeQcResponse {
      */
     private String uniqueId;
 
+
+    /**
+     * 当前识别到的文本对应的识别编号
+     */
+    private String sentenceId;
+
+    /**
+     * 实时转写文本
+     */
+    private String text;
+
     /**
      * 质检得分
      */
