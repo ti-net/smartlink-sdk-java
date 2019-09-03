@@ -14,10 +14,6 @@ public class RealtimeQcRequest {
      */
     private String uniqueId;
 
-    /**
-     * 当前识别到的文本对应的识别编号
-     */
-    private String sentenceId;
 
     /**
      * 实时转写文本
@@ -29,5 +25,9 @@ public class RealtimeQcRequest {
      */
     private Integer side;
 
+    /**
+     * 备注信息，平台，质检后，默认将该结果返回。
+     */
+    private String commit;
 
 }
