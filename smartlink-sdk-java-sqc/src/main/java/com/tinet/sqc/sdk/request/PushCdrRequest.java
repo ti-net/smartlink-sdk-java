@@ -2,6 +2,7 @@ package com.tinet.sqc.sdk.request;
 
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
+import com.tinet.sqc.sdk.model.OriginData;
 import com.tinet.sqc.sdk.model.Record;
 import com.tinet.sqc.sdk.response.PushCdrResponse;
 
@@ -217,6 +218,23 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      * 可以自主选择转写引擎，不传值默认是天润自建引擎，
      */
     private String asrProvider;
+
+    /**
+     * 平台自定义字段传值list
+     */
+    private List<OriginData> originDataList;
+
+
+    public List<OriginData> getOriginDataList() {
+        return originDataList;
+    }
+
+    public void setOriginDataList(List<OriginData> originDataList) {
+        this.originDataList = originDataList;
+        if (originDataList != null) {
+            putBodyParameter("originDataList", originDataList);
+        }
+    }
 
     public List<Record> getRecords() {
         return records;

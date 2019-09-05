@@ -1,18 +1,15 @@
 package com.tinet.sqc.sdk.request;
 
 
-
-import com.alibaba.fastjson.JSONArray;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 import com.tinet.sqc.sdk.model.ChatRecord;
 import com.tinet.sqc.sdk.response.PushDialogueResponse;
 
 import java.util.List;
-import java.util.Set;
 
 /**
- * 顺丰在线质检推送请求实体
+ * 在线质检推送请求实体
  *
  * @author liuhy
  * @date 2019/8/13 9:50
@@ -23,7 +20,7 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
     private String accountLoginName;
 
-    private String enterpriseId;
+    private String userId;
 
     private String customerProvince;
 
@@ -53,7 +50,7 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
     private Long robotEndTime;
 
-    private Integer endReason;
+    private String endReason;
 
     private String investigation;
 
@@ -83,14 +80,14 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         }
     }
 
-    public String getEnterpriseId() {
-        return enterpriseId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
-        if (enterpriseId != null) {
-            putBodyParameter("enterpriseId", enterpriseId);
+    public void setUserId(String userId) {
+        this.userId = userId;
+        if (userId != null) {
+            putBodyParameter("userId", userId);
         }
     }
 
@@ -248,11 +245,11 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         }
     }
 
-    public Integer getEndReason() {
+    public String getEndReason() {
         return endReason;
     }
 
-    public void setEndReason(Integer endReason) {
+    public void setEndReason(String endReason) {
         this.endReason = endReason;
         if (endReason != null) {
             putBodyParameter("endReason", endReason);
@@ -298,6 +295,6 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
     @Override
     public Class<PushDialogueResponse> getResponseClass() {
-        return null;
+        return PushDialogueResponse.class;
     }
 }
