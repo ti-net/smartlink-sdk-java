@@ -51,7 +51,7 @@ public class GetAsrTaskResponse extends BaseResponse {
     /**
      * 错误码 如果查询状态成功或者转写中状态时，此字段为null
      */
-    private Integer errorCode;
+    private String errorCode;
 
 
 }
