@@ -91,4 +91,9 @@ public class Bot {
      */
     private Integer status;
 
+    /**
+     * 描述
+     */
+    private String description;
+
 }
