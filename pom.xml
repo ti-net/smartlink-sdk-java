@@ -13,6 +13,7 @@
         <module>smartlink-sdk-java-core</module>
         <module>smartlink-sdk-java-sqc</module>
         <module>smartlink-sdk-java-asr</module>
+        <module>smartlink-sdk-java-ai</module>
     </modules>
 
 </project>
