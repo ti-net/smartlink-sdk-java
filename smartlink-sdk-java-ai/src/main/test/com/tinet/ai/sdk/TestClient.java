@@ -2,8 +2,10 @@ package com.tinet.ai.sdk;
 
 import com.tinet.ai.sdk.request.KbArticleRequest;
 import com.tinet.ai.sdk.request.KbRepositoryRequest;
+import com.tinet.ai.sdk.request.TibotRequest;
 import com.tinet.ai.sdk.response.KbArticleResponse;
 import com.tinet.ai.sdk.response.KbRepositoryResponse;
+import com.tinet.ai.sdk.response.TibotResponse;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
@@ -49,15 +51,23 @@ public class TestClient {
     }
 
     @Test
-    public void testRepository() {
+    public void testRepository() throws ServerException, ClientException {
         KbRepositoryRequest repositoryRequest = new KbRepositoryRequest();
         repositoryRequest.setEnterpriseId(3000000);
 
-        KbRepositoryResponse repositoryResponse = new KbRepositoryResponse();
+        KbRepositoryResponse repositoryResponse = smartLinkClient.getResponseModel(repositoryRequest);
         System.out.println(repositoryResponse.getRequestId());
 
     }
+    @Test
+    public void testTibot() throws ServerException, ClientException {
+        TibotRequest request = new TibotRequest();
+        request.setUserId(3000000);
 
+        TibotResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
 
 
 }

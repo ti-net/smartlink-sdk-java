@@ -14,7 +14,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RobotResponse extends BaseResponse {
+public class TibotResponse extends BaseResponse {
 
-    private List<Bot> bots;
+    private List<Bot> tibots;
 }
