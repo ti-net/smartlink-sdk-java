@@ -12,7 +12,7 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
  **/
 public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
-    private Integer enterpriseId;
+    private String enterpriseId;
 
     private Integer kbId;
 
@@ -24,11 +24,11 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private Integer limit;
 
-    public Integer getEnterpriseId() {
+    public String getEnterpriseId() {
         return enterpriseId;
     }
 
-    public void setEnterpriseId(Integer enterpriseId) {
+    public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
         if (enterpriseId != null) {
             putQueryParameter("enterpriseId", enterpriseId);

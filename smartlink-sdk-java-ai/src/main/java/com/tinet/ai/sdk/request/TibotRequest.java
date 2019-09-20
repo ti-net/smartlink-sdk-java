@@ -15,17 +15,17 @@ public class TibotRequest extends BaseRequest<TibotResponse> {
     /**
      * 企业ID，也就是用户标识
      */
-    private Integer userId;
+    private String userId;
 
     public TibotRequest() {
         super("/api/tibots", HttpMethodType.GET);
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
         if (userId != null) {
             putQueryParameter("userId", userId);

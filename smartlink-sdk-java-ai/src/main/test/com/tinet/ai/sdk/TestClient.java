@@ -42,7 +42,7 @@ public class TestClient {
     public void testArticle() throws ServerException, ClientException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
-        articleRequest.setEnterpriseId(3000000);
+        articleRequest.setEnterpriseId(String.valueOf(3000000));
         articleRequest.setKbId(1);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
@@ -53,7 +53,7 @@ public class TestClient {
     @Test
     public void testRepository() throws ServerException, ClientException {
         KbRepositoryRequest repositoryRequest = new KbRepositoryRequest();
-        repositoryRequest.setEnterpriseId(3000000);
+        repositoryRequest.setEnterpriseId(String.valueOf(3000000));
 
         KbRepositoryResponse repositoryResponse = smartLinkClient.getResponseModel(repositoryRequest);
         System.out.println(repositoryResponse.getRequestId());
@@ -62,7 +62,7 @@ public class TestClient {
     @Test
     public void testTibot() throws ServerException, ClientException {
         TibotRequest request = new TibotRequest();
-        request.setUserId(3000000);
+        request.setUserId(String.valueOf(3000000));
 
         TibotResponse response = smartLinkClient.getResponseModel(request);
         System.out.println(response.getRequestId());

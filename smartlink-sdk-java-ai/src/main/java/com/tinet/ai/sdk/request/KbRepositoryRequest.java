@@ -1,6 +1,5 @@
 package com.tinet.ai.sdk.request;
 
-import com.tinet.ai.sdk.response.KbArticleResponse;
 import com.tinet.ai.sdk.response.KbRepositoryResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
@@ -13,17 +12,17 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
  **/
 public class KbRepositoryRequest extends BaseRequest<KbRepositoryResponse> {
 
-    private Integer enterpriseId;
+    private String enterpriseId;
 
     private Integer type;
 
     private String name;
 
-    public Integer getEnterpriseId() {
+    public String getEnterpriseId() {
         return enterpriseId;
     }
 
-    public void setEnterpriseId(Integer enterpriseId) {
+    public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
         if (enterpriseId != null) {
             putQueryParameter("enterpriseId", enterpriseId);

@@ -19,7 +19,7 @@ public class KbArticleResponseModel {
     /**
      * 企业ID
      */
-    private Integer enterpriseId;
+    private String enterpriseId;
 
     /**
      * 标题
