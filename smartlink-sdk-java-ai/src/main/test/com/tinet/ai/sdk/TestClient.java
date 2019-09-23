@@ -1,8 +1,10 @@
 package com.tinet.ai.sdk;
 
+import com.tinet.ai.sdk.request.KbArticleImageUrlRequest;
 import com.tinet.ai.sdk.request.KbArticleRequest;
 import com.tinet.ai.sdk.request.KbRepositoryRequest;
 import com.tinet.ai.sdk.request.TibotRequest;
+import com.tinet.ai.sdk.response.KbArticleImageUrlResponse;
 import com.tinet.ai.sdk.response.KbArticleResponse;
 import com.tinet.ai.sdk.response.KbRepositoryResponse;
 import com.tinet.ai.sdk.response.TibotResponse;
@@ -68,6 +70,14 @@ public class TestClient {
         System.out.println(response.getRequestId());
 
     }
+    @Test
+    public void testImageUrl() throws ServerException, ClientException {
+        KbArticleImageUrlRequest request = new KbArticleImageUrlRequest();
+        request.setFilePath("article/images/1569224913886.png");
 
+        KbArticleImageUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
 
 }

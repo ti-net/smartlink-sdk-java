@@ -5,7 +5,7 @@ import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
- * 知识库仓库请求
+ * 知识库仓库列表请求
  *
  * @author huwk
  * @date 2019/9/18
