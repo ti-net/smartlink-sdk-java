@@ -75,4 +75,9 @@ public class KbArticleResponseModel {
      * 更新人
      */
     private String updateUser;
+
+    /**
+     * 平台登录名
+     */
+    private String accountLoginName;
 }

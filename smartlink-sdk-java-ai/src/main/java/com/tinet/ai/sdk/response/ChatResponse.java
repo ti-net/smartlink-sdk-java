@@ -59,4 +59,9 @@ public class ChatResponse {
 	 * 企业Id
 	 */
 	private Integer userId;
+
+	/**
+	 * 机器人响应文本
+	 */
+	private String playText;
 }
