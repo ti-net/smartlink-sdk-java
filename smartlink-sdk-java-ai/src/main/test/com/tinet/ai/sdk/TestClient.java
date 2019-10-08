@@ -1,13 +1,7 @@
 package com.tinet.ai.sdk;
 
-import com.tinet.ai.sdk.request.KbArticleImageUrlRequest;
-import com.tinet.ai.sdk.request.KbArticleRequest;
-import com.tinet.ai.sdk.request.KbRepositoryRequest;
-import com.tinet.ai.sdk.request.TibotRequest;
-import com.tinet.ai.sdk.response.KbArticleImageUrlResponse;
-import com.tinet.ai.sdk.response.KbArticleResponse;
-import com.tinet.ai.sdk.response.KbRepositoryResponse;
-import com.tinet.ai.sdk.response.TibotResponse;
+import com.tinet.ai.sdk.request.*;
+import com.tinet.ai.sdk.response.*;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
@@ -80,4 +74,13 @@ public class TestClient {
 
     }
 
+    @Test
+    public void testAvatar() throws ServerException, ClientException {
+        BotAvatarUrlRequest request = new BotAvatarUrlRequest();
+        request.setFilePath("article/images/1569224913886.png");
+
+        BotAvatarUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
 }
