@@ -64,4 +64,8 @@ public class ChatResponse {
 	 * 机器人响应文本
 	 */
 	private String playText;
+	/**
+	 * 响应意图
+	 */
+	private String responseIntent;
 }
