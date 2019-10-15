@@ -16,5 +16,5 @@ import java.util.List;
 @Data
 public class TibotResponse extends BaseResponse {
 
-    private List<Bot> tibots;
+    private List<Bot> bots;
 }
