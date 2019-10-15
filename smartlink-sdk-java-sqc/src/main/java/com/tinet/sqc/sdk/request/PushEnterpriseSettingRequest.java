@@ -31,12 +31,9 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
      */
     private Integer hiddenType;
     /**
-     * 慧智产品开通状态  1：开启 0：关闭
-     * 用4位状态描述开通的产品，4位依次代表：asr、sqc、rms、tibot
-     * 例如：[1,0,0,0] 代表仅开asr，
-     * [0,1,0,1] 代表仅开启 sqc和tibot
+     * 企业开通产品状态 ：sqc、tibot、kb、qc (智能质检、机器人、知识库、普通质检)
      */
-    private Integer[] status;
+    private String[] status;
     /**
      * 配置状态  0：不生效  1：生效
      */
@@ -95,11 +92,11 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
         }
     }
 
-    public Integer[] getStatus() {
+    public String[] getStatus() {
         return status;
     }
 
-    public void setStatus(Integer[] status) {
+    public void setStatus(String[] status) {
         this.status = status;
         if (status != null) {
             putBodyParameter("status", status);
