@@ -83,4 +83,26 @@ public class TestClient {
         System.out.println(response.getRequestId());
 
     }
+
+    @Test
+    public void testFile() throws ServerException, ClientException {
+
+        KbFileRequest fileRequest = new KbFileRequest();
+        fileRequest.setEnterpriseId(String.valueOf(8000071));
+        fileRequest.setKbId(23);
+
+        KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
+        System.out.println(fileResponse.getRequestId());
+
+    }
+
+    @Test
+    public void testFileUrl() throws ServerException, ClientException {
+        KbFileUrlRequest request = new KbFileUrlRequest();
+        request.setFilePath("file/attachment/8000071/1571047487849.jpg");
+
+        KbFileUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
 }
