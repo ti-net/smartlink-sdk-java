@@ -13,4 +13,5 @@ public class ChatRequest {
 	private String uniqueId;
 	private String query;
 	private Boolean playStatus;
+	private String intent;
 }

@@ -18,7 +18,7 @@ public class TibotRequest extends BaseRequest<TibotResponse> {
     private String userId;
 
     public TibotRequest() {
-        super("/api/tibots", HttpMethodType.GET);
+        super("/robot/list", HttpMethodType.GET);
     }
 
     public String getUserId() {
