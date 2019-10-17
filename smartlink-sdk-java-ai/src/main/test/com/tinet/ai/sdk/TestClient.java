@@ -99,7 +99,8 @@ public class TestClient {
     @Test
     public void testFileUrl() throws ServerException, ClientException {
         KbFileUrlRequest request = new KbFileUrlRequest();
-        request.setFilePath("file/attachment/8000071/1571047487849.jpg");
+        request.setFileKey("file/attachment/8000071/1571047487849.jpg");
+        request.setFileName("CC呼叫云重点客户COP号码使用情况.xlsx");
 
         KbFileUrlResponse response = smartLinkClient.getResponseModel(request);
         System.out.println(response.getRequestId());

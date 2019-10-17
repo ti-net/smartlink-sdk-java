@@ -15,16 +15,28 @@ public class KbFileUrlRequest extends BaseRequest<KbFileUrlResponse> {
     /**
      * 文件路径
      */
-    private String filePath;
+    private String fileKey;
+    private String fileName;
 
-    public String getFilePath() {
-        return filePath;
+    public String getFileKey() {
+        return fileKey;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-        if (filePath != null) {
-            putQueryParameter("filePath", filePath);
+    public void setFileKey(String fileKey) {
+        this.fileKey = fileKey;
+        if (fileKey != null) {
+            putQueryParameter("fileKey", fileKey);
+        }
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+        if (fileName != null) {
+            putQueryParameter("fileName", fileName);
         }
     }
 
