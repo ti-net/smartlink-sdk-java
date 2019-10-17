@@ -77,7 +77,6 @@ public class TestClient {
     @Test
     public void testAvatar() throws ServerException, ClientException {
         BotAvatarUrlRequest request = new BotAvatarUrlRequest();
-        request.setFilePath("article/images/1569224913886.png");
 
         BotAvatarUrlResponse response = smartLinkClient.getResponseModel(request);
         System.out.println(response.getRequestId());
