@@ -14,23 +14,39 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
 public class BotAvatarUrlRequest extends BaseRequest<BotAvatarUrlResponse> {
 
     /**
-     * 文件路径
+     * 机器人id
      */
-    private String filePath;
+    private Integer botId;
 
-    public String getFilePath() {
-        return filePath;
+    /**
+     * 企业id
+     */
+    private String enterpriseId;
+
+    public String getEnterpriseId() {
+        return enterpriseId;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-        if (filePath != null) {
-            putQueryParameter("filePath", filePath);
+    public Integer getBotId() {
+        return botId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+        if (enterpriseId != null) {
+            putQueryParameter("enterpriseId", enterpriseId);
+        }
+    }
+
+    public void setBotId(Integer botId) {
+        this.botId = botId;
+        if (botId != null) {
+            putQueryParameter("botId", botId);
         }
     }
 
     public BotAvatarUrlRequest() {
-        super("/api/tibots/avatar", HttpMethodType.GET);
+        super("/api/tibots/avatar_by_id", HttpMethodType.GET);
     }
 
     @Override
