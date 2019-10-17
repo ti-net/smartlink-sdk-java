@@ -148,7 +148,7 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
     }
 
     public PushEnterpriseSettingRequest() {
-        super("/sqc/enterprise", HttpMethodType.POST);
+        super("/sqc/enterprise", HttpMethodType.POST, "2019-10-17");
     }
 
 
