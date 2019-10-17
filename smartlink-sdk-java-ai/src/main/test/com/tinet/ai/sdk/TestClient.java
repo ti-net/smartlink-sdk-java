@@ -100,6 +100,7 @@ public class TestClient {
         KbFileUrlRequest request = new KbFileUrlRequest();
         request.setFileKey("file/attachment/8000071/1571047487849.jpg");
         request.setFileName("CC呼叫云重点客户COP号码使用情况.xlsx");
+        request.setType("inline");
 
         KbFileUrlResponse response = smartLinkClient.getResponseModel(request);
         System.out.println(response.getRequestId());

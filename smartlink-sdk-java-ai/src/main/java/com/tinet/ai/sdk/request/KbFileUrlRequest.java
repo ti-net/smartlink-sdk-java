@@ -17,6 +17,7 @@ public class KbFileUrlRequest extends BaseRequest<KbFileUrlResponse> {
      */
     private String fileKey;
     private String fileName;
+    private String type;
 
     public String getFileKey() {
         return fileKey;
@@ -37,6 +38,17 @@ public class KbFileUrlRequest extends BaseRequest<KbFileUrlResponse> {
         this.fileName = fileName;
         if (fileName != null) {
             putQueryParameter("fileName", fileName);
+        }
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+        if (type != null) {
+            putQueryParameter("type", type);
         }
     }
 
