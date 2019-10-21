@@ -56,4 +56,9 @@ public class RealtimeQcResponse {
      */
     private String commit;
 
+    /**
+     * 话术推荐返回结果
+     */
+    private String speechCommendRestlt;
+
 }
