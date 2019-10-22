@@ -20,4 +20,12 @@ public class Record implements Serializable {
      * 如果录音做了分轨，该录音是双轨录音的一侧，必须指定该录音文件是 agent/client ，便于区分两侧。agent是坐席侧client是客户侧，不传值默认是单轨录音.
      */
     private String recordSide;
+    /**
+     * 录音地址是否长期有效
+     */
+    private boolean isErpetualUrl = false;
+    /**
+     * 录音是否需要存储
+     */
+    private boolean isStorageRecord = false;
 }
