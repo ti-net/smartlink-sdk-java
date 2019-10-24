@@ -129,7 +129,7 @@ public class PushAsrDurationRequest extends BaseRequest<PushAsrDurationResponse>
 
 
     public PushAsrDurationRequest() {
-        super("/sqc/bigBoss", HttpMethodType.POST);
+        super("/sqc/bigBoss/asrDuration", HttpMethodType.POST);
     }
 
     @Override
