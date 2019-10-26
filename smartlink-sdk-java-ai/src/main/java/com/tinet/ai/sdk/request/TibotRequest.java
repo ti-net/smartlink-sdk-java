@@ -17,14 +17,29 @@ public class TibotRequest extends BaseRequest<TibotResponse> {
      */
     private String userId;
 
+    /**
+     * 机器人类型
+     */
+    private Integer botType;
+
     public TibotRequest() {
         super("/robot/list", HttpMethodType.GET);
+    }
+
+    public Integer getBotType() {
+        return botType;
     }
 
     public String getUserId() {
         return userId;
     }
 
+    public void setBotType(Integer botType) {
+        this.botType = botType;
+        if (botType != null) {
+            putQueryParameter("botType", botType);
+        }
+    }
     public void setUserId(String userId) {
         this.userId = userId;
         if (userId != null) {
