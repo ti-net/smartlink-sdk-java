@@ -23,9 +23,9 @@ public class Record implements Serializable {
     /**
      * 录音地址是否长期有效
      */
-    private boolean isErpetualUrl = false;
+    private boolean erpetualUrl = false;
     /**
      * 录音是否需要存储
      */
-    private boolean isStorageRecord = false;
+    private boolean storageRecord = false;
 }
