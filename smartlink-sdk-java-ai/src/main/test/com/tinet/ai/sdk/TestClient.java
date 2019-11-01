@@ -108,4 +108,15 @@ public class TestClient {
         System.out.println(response.getRequestId());
 
     }
+
+    @Test
+    public void testCallScriptRecommendation() throws ServerException, ClientException {
+        CallScriptRecommendationRequest request = new CallScriptRecommendationRequest();
+        request.setBotId("646853");
+        request.setQuery("哈哈");
+        request.setTop(5);
+        CallScriptRecommendationResponse responseModel = smartLinkClient.getResponseModel(request);
+        System.out.println(responseModel.getRequestId());
+        System.out.println(responseModel.getRecommendations());
+    }
 }
