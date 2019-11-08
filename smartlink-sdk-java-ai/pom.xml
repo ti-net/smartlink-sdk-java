@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tinet.smartlink</groupId>
 	<artifactId>smartlink-sdk-java-ai</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4-RELEASE</version>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -41,6 +41,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.26</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.tyrus.bundles</groupId>
+			<artifactId>tyrus-standalone-client</artifactId>
+			<version>1.9</version>
 		</dependency>
         <dependency>
             <groupId>junit</groupId>
