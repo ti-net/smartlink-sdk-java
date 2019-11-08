@@ -6,14 +6,15 @@ import lombok.ToString;
 import java.util.Date;
 
 /**
- * 文章响应实体
+ * 文件库返回实体
  *
  * @author huwk
- * @date 2019/9/3
+ * @date 2019/10/16
  **/
 @Data
 @ToString
-public class KbArticleResponseModel {
+public class KbFileResponseModel {
+
     private String id;
 
     /**
@@ -27,14 +28,19 @@ public class KbArticleResponseModel {
     private String title;
 
     /**
-     * 相似文章
+     * 文件大小(K)
      */
-    private String similars;
+    private Long fileSize;
 
     /**
-     * 文章内容
+     * 文件类型
      */
-    private String content;
+    private String fileType;
+
+    /**
+     * 文件路径
+     */
+    private String filePath;
 
     /**
      * 目录ID
@@ -47,14 +53,9 @@ public class KbArticleResponseModel {
     private Integer kbId;
 
     /**
-     * 有效起始日期
+     * 所属知识库类型，冗余kbId对应库的类型
      */
-    private Date validDateFrom;
-
-    /**
-     * 有效终止时间
-     */
-    private Date validDateTo;
+    private Integer kbType;
 
     /**
      * 创建时间

@@ -1,23 +1,23 @@
 package com.tinet.ai.sdk.response;
 
-import com.tinet.ai.sdk.model.KbArticleResponseModel;
+import com.tinet.ai.sdk.model.KbFileResponseModel;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 
 import java.util.List;
 
 /**
- * 知识库文章列表响应
+ * 知识库文件库列表响应
  *
  * @author huwk
  * @date 2019/9/18
  **/
-public class KbArticleResponse extends BaseResponse {
+public class KbFileResponse extends BaseResponse {
     private int pageNumber;
     private int pageSize;
     private int totalCount;
     private int start;
     private int totalPageCount;
-    private List<KbArticleResponseModel> articles;
+    private List<KbFileResponseModel> files;
 
     public int getPageNumber() {
         return pageNumber;
@@ -59,11 +59,11 @@ public class KbArticleResponse extends BaseResponse {
         this.totalPageCount = totalPageCount;
     }
 
-    public List<KbArticleResponseModel> getArticles() {
-        return articles;
+    public List<KbFileResponseModel> getFiles() {
+        return files;
     }
 
-    public void setArticles(List<KbArticleResponseModel> articles) {
-        this.articles = articles;
+    public void setFiles(List<KbFileResponseModel> files) {
+        this.files = files;
     }
 }

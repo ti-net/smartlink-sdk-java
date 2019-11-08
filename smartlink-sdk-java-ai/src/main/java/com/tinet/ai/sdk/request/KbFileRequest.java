@@ -1,16 +1,16 @@
 package com.tinet.ai.sdk.request;
 
-import com.tinet.ai.sdk.response.KbArticleResponse;
+import com.tinet.ai.sdk.response.KbFileResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
- * 知识库文章列表请求
+ * 知识库文件列表请求
  *
  * @author huwk
  * @date 2019/9/18
  **/
-public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
+public class KbFileRequest extends BaseRequest<KbFileResponse> {
 
     private String enterpriseId;
 
@@ -90,12 +90,12 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
         }
     }
 
-    public KbArticleRequest() {
-        super("/api/articles", HttpMethodType.GET);
+    public KbFileRequest() {
+        super("/api/files", HttpMethodType.GET);
     }
 
     @Override
     public Class getResponseClass() {
-        return KbArticleResponse.class;
+        return KbFileResponse.class;
     }
 }

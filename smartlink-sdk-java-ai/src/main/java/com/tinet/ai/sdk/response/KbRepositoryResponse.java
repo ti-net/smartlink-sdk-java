@@ -6,7 +6,7 @@ import com.tinet.smartlink.sdk.core.response.BaseResponse;
 import java.util.List;
 
 /**
- * 知识库仓库响应
+ * 知识库仓库列表响应
  *
  * @author huwk
  * @date 2019/9/19

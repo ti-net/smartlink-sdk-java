@@ -1,9 +1,7 @@
 package com.tinet.ai.sdk;
 
-import com.tinet.ai.sdk.request.KbArticleRequest;
-import com.tinet.ai.sdk.request.KbRepositoryRequest;
-import com.tinet.ai.sdk.response.KbArticleResponse;
-import com.tinet.ai.sdk.response.KbRepositoryResponse;
+import com.tinet.ai.sdk.request.*;
+import com.tinet.ai.sdk.response.*;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
@@ -40,7 +38,7 @@ public class TestClient {
     public void testArticle() throws ServerException, ClientException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
-        articleRequest.setEnterpriseId(3000000);
+        articleRequest.setEnterpriseId(String.valueOf(3000000));
         articleRequest.setKbId(1);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
@@ -49,15 +47,65 @@ public class TestClient {
     }
 
     @Test
-    public void testRepository() {
+    public void testRepository() throws ServerException, ClientException {
         KbRepositoryRequest repositoryRequest = new KbRepositoryRequest();
-        repositoryRequest.setEnterpriseId(3000000);
+        repositoryRequest.setEnterpriseId(String.valueOf(3000000));
 
-        KbRepositoryResponse repositoryResponse = new KbRepositoryResponse();
+        KbRepositoryResponse repositoryResponse = smartLinkClient.getResponseModel(repositoryRequest);
         System.out.println(repositoryResponse.getRequestId());
 
     }
+    @Test
+    public void testTibot() throws ServerException, ClientException {
+        TibotRequest request = new TibotRequest();
+        request.setUserId(String.valueOf(3000000));
 
+        TibotResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
 
+    }
+    @Test
+    public void testImageUrl() throws ServerException, ClientException {
+        KbArticleImageUrlRequest request = new KbArticleImageUrlRequest();
+        request.setFilePath("article/images/1569224913886.png");
 
+        KbArticleImageUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
+
+    @Test
+    public void testAvatar() throws ServerException, ClientException {
+        BotAvatarUrlRequest request = new BotAvatarUrlRequest();
+        request.setBotId(126671);
+        request.setEnterpriseId("3000000");
+
+        BotAvatarUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
+
+    @Test
+    public void testFile() throws ServerException, ClientException {
+
+        KbFileRequest fileRequest = new KbFileRequest();
+        fileRequest.setEnterpriseId(String.valueOf(8000071));
+        fileRequest.setKbId(23);
+
+        KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
+        System.out.println(fileResponse.getRequestId());
+
+    }
+
+    @Test
+    public void testFileUrl() throws ServerException, ClientException {
+        KbFileUrlRequest request = new KbFileUrlRequest();
+        request.setFileKey("file/attachment/8000071/1571047487849.jpg");
+        request.setFileName("CC呼叫云重点客户COP号码使用情况.xlsx");
+        request.setType("inline");
+
+        KbFileUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getRequestId());
+
+    }
 }
