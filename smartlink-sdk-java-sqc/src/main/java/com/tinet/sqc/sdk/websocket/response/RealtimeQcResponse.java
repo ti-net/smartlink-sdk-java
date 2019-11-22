@@ -1,6 +1,6 @@
 package com.tinet.sqc.sdk.websocket.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.alibaba.fastjson.JSONArray;
 import com.tinet.sqc.sdk.websocket.model.AutoDpResult;
 import com.tinet.sqc.sdk.websocket.model.AutoItem;
 import com.tinet.sqc.sdk.websocket.model.KeywordMark;
@@ -60,5 +60,10 @@ public class RealtimeQcResponse {
      * 话术推荐返回结果
      */
     private String speechCommendRestlt;
+
+    /**
+     * 敏感词禁语标注结果
+     */
+    private JSONArray ForbiddenWords;
 
 }
