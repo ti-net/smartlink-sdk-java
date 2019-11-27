@@ -62,8 +62,8 @@ public class RealtimeQcResponse {
     private String speechCommendRestlt;
 
     /**
-     * 敏感词禁语标注结果
+     * 敏感词禁语标注结果 json字符串
      */
-    private JSONArray ForbiddenWords;
+    private String forbiddenWords;
 
 }
