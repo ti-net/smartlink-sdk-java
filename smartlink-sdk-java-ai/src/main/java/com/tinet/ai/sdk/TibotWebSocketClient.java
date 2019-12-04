@@ -212,7 +212,9 @@ public class TibotWebSocketClient {
     public void logout(String uniqueId) {
         StompSession.Subscription subscription = subscriptionMap.get(uniqueId);
         if (subscription != null) {
-            subscription.unsubscribe();
+            StompHeaders headers = new StompHeaders();
+            headers.set("uniqueId", uniqueId);
+            subscription.unsubscribe(headers);
             clientSessionMap.remove(uniqueId);
             subscriptionMap.remove(uniqueId);
         }
