@@ -37,6 +37,13 @@ public abstract class BaseRequest<T extends BaseResponse> {
     private String uri = "/";
 
     /**
+     * 超时时间
+     */
+    private Integer connectTimeout;
+    private Integer connectionRequestTimeout;
+    private Integer socketTimeout;
+
+    /**
      *
      * @param uri 请求的 URI
      * @param httpMethod http 请求方法
@@ -110,6 +117,30 @@ public abstract class BaseRequest<T extends BaseResponse> {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    public Integer getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public void setConnectTimeout(Integer connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public Integer getConnectionRequestTimeout() {
+        return connectionRequestTimeout;
+    }
+
+    public void setConnectionRequestTimeout(Integer connectionRequestTimeout) {
+        this.connectionRequestTimeout = connectionRequestTimeout;
+    }
+
+    public Integer getSocketTimeout() {
+        return socketTimeout;
+    }
+
+    public void setSocketTimeout(Integer socketTimeout) {
+        this.socketTimeout = socketTimeout;
     }
 
     /**

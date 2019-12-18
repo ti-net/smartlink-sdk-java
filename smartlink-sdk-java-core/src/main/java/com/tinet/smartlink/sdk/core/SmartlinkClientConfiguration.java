@@ -1,7 +1,9 @@
 package com.tinet.smartlink.sdk.core;
 
 import com.tinet.smartlink.sdk.core.auth.Credentials;
+import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpStatus;
 
 /**
  * @author houfc
@@ -112,6 +114,15 @@ public class SmartlinkClientConfiguration {
 
     public HttpHost getHost() {
         return host;
+    }
+
+    public void setHost(String address){
+        String[] hostAndPort = address.split(":");
+        if (hostAndPort.length == 2){
+            this.host = new HttpHost(hostAndPort[0], Integer.parseInt(hostAndPort[1]));
+        }else if (hostAndPort.length == 1){
+            this.host = new HttpHost(address);
+        }
     }
 
     public void setHost(HttpHost host) {

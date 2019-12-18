@@ -21,17 +21,26 @@ public class TestClient {
 
     @Test
     public void demo1Test() {
-        for (int i = 0; i <= 999999; i++) {
+        try {
+            UserPageResponse response = smartLinkClient.getResponseModel(new UserPageRequest());
+            System.out.println(response.getData().size());
+        } catch (ServerException e) {
+            e.printStackTrace();
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
 
-            try {
-                Thread.sleep(50);
-                UserRequset requset = new UserRequset();
-                requset.setName("hello");
-                requset.setPassword("world");
-                UserResponse response = smartLinkClient.getResponseModel(requset);
-            } catch (ServerException | ClientException | InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            UserPostRequest userPostRequest = new UserPostRequest();
+            userPostRequest.setName("1111");
+            userPostRequest.setPassword("32132131");
+            userPostRequest.setSocketTimeout(5010);
+            UserPostResponse response = smartLinkClient.getResponseModel(userPostRequest);
+            System.out.println(response.getName());
+        } catch (ServerException e) {
+            e.printStackTrace();
+        } catch (ClientException e) {
+            e.printStackTrace();
         }
     }
 
