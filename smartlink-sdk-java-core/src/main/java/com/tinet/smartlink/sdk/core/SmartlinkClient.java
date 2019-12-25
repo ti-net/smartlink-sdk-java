@@ -14,6 +14,10 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -22,6 +26,7 @@ import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -76,8 +81,7 @@ public class SmartlinkClient {
     public SmartlinkClient(SmartlinkClientConfiguration configuration) {
         this.configuration = configuration;
         config(this.configuration);
-        httpClient = httpClientBuilder.setKeepAliveStrategy(new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
-                .build();
+        httpClient = getHttpClient();
         httpHost = new HttpHost(configuration.getHost());
     }
 
@@ -91,17 +95,37 @@ public class SmartlinkClient {
         request.signRequest(signer, configuration.getCredentials(), host.getHostName(), request.uri());
         try {
 
-            BasicHttpEntityEnclosingRequest httpRequest = new BasicHttpEntityEnclosingRequest(request.httpMethod().toString(), request.uri() + "?" + request.generateUri());
+            String url = host.getSchemeName()+"://" + host.getHostName() + ":" + host.getPort() + request.uri() + "?" + request.generateUri();
+            StringEntity entity;
+            switch (request.httpMethod().toString()) {
+                case "GET":
+                    HttpGet get = new HttpGet(URI.create(url));
+                    setRequestConfig(get, request);
+                    return getHttpClient().execute(get);
+                case "POST":
+                    HttpPost post = new HttpPost(URI.create(url));
+                    entity = new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON);
+                    post.setEntity(entity);
+                    setRequestConfig(post, request);
+                    return getHttpClient().execute(post);
+                case "DELETE":
+                    HttpDelete delete = new HttpDelete(URI.create(url));
+                    setRequestConfig(delete, request);
+                    return getHttpClient().execute(delete);
+                default:
+                    break;
+            }
 
-
+            BasicHttpEntityEnclosingRequest httpRequest = new BasicHttpEntityEnclosingRequest(
+                    request.httpMethod().toString(), request.uri() + "?" + request.generateUri());
             if (request.httpMethod().hasContent()) {
-
-                StringEntity entity = new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON);
+                entity = new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON);
                 httpRequest.setEntity(entity);
             }
             if (host != null) {
                 httpHost = host;
             }
+
             return httpClient.execute(httpHost, httpRequest);
         } catch (URISyntaxException e) {
             throw new ClientException("SDK", "URI 错误", e);
@@ -111,6 +135,26 @@ public class SmartlinkClient {
             throw new ClientException("SDK", "服务器连接失败", e);
         }
     }
+
+    /**
+     * 保证httpClient单例
+     *
+     * @return
+     */
+    private HttpClient getHttpClient() {
+        if (httpClient == null) {
+            //多线程下多个线程同时调用getHttpClient容易导致重复创建httpClient对象的问题,所以加上了同步锁
+            synchronized (this) {
+                if (httpClient == null) {
+                    httpClient = httpClientBuilder
+                            .setKeepAliveStrategy(new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
+                            .build();
+                }
+            }
+        }
+        return httpClient;
+    }
+
 
     public <T extends BaseResponse> T getResponseModel (BaseRequest<T> request, String host)
             throws ServerException, ClientException {
@@ -181,5 +225,27 @@ public class SmartlinkClient {
                 .setConnectionRequestTimeout(configuration.getConnectionRequestTimeout())
                 .build();
         httpClientBuilder.setDefaultRequestConfig(requestConfig);
+    }
+
+    /**
+     * 对http请求进行设置
+     *
+     * @param httpRequestBase http请求
+     */
+    private void setRequestConfig(HttpRequestBase httpRequestBase, BaseRequest request) {
+        Integer socketTimeout = request.getSocketTimeout();
+        Integer connectionRequestTimeout = request.getConnectionRequestTimeout();
+        Integer connectTimeout = request.getConnectTimeout();
+        RequestConfig.Builder custom = RequestConfig.custom();
+        if (socketTimeout!=null){
+            custom.setSocketTimeout(socketTimeout);
+        }
+        if (connectionRequestTimeout!=null){
+            custom.setConnectionRequestTimeout(connectionRequestTimeout);
+        }
+        if (connectTimeout!=null){
+            custom.setConnectTimeout(connectTimeout);
+        }
+        httpRequestBase.setConfig(custom.build());
     }
 }
