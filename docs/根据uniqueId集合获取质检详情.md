@@ -315,431 +315,173 @@ public class ListCdrSqcDetailsTest {
 }
 ```
 
-#### 2.4  参数返回示例展示
-
-```json
+```java
+请求成功但无数据返回反参：
 {
-  "took": 39,
-  "timedOut": false,
-  "numReducePhases": 2,
-  "Shards": {
-    "total": 519,
-    "successful": 519,
-    "skipped": 0,
-    "failed": 0
-  },
-  "hits": {
-    "total": 51,
-    "maxScore": 3.3310907,
-    "hits": [
-      {
-        "Index": "cdr_index",
-        "Type": "cdr",
-        "Id": "1100038-98090488-1c8a-4ca2-9c43-b673f9fc392c-1574145100.123",
-        "Score": 3.3310907,
-        "Source": {
-          "cno": "001",
-          "status": 1,
-          "uniqueId": "98090488-1c8a-4ca2-9c43-b673f9fc392c-1574145100.123",
-          "accountLoginName": "sophia",
-          "enterpriseId": "1100038",
-          "agentName": "天润转写",
-          "startTime": 1574145100,
-          "endTime": 1574148100,
-          "answerTime": 1574145100,
-          "bridgeDuration": 3000,
-          "totalDuration": 3000,
-          "bridgeTime": 1574145100,
-          "recordFile": [
-            {
-              "type": "record",
-              "file": "7600109-20191105094402-04127209848-100658--record-sip-10-1572918242.23646.mp3"
-            }
-          ],
-          "recordFileType": "callback",
-          "callType": 3,
-          "endReason": 1,
-          "channelTime": 1574145100,
-          "cdrType": "cdrObAgent",
-          "qcStatus": 8,
-          "reQcCount": 1,
-          "statAgentDuration": 804760.0,
-          "agentThemes": [
-            {
-              "count": 6,
-              "word": "知道"
-            },
-            {
-              "count": 9,
-              "word": "解决"
-            }
-
-          ],
-          "statCustomerPercent": 55.0,
-          "statAgentMarkCount": 0,
-          "statCustomerInterrupt": 33,
-          "statCustomerMarkCount": 3,
-          "alarmRule": [],
-          "statSilenceDuration": 1626435.0,
-          "statSilenceRate": "054.21",
-          "customerThemes": [
-            {
-              "count": 4,
-              "word": "知道"
-            },
-            {
-              "count": 1,
-              "word": "解决"
-            }
-          ],
-          "qcTime": 1576827401,
-          "dpTag": [
-            {
-              "asrSide": 0,
-              "startTime": 680,
-              "deleted": 0,
-              "tagSide": 0,
-              "added": 0,
-              "tagType": 0,
-              "name": "没说开头语"
-            }
-          ],
-          "nlpTag": [
-            {
-              "side": 0,
-              "name": "管理层",
-              "count": 5
-            },
-            {
-              "side": 0,
-              "name": "网络",
-              "count": 4
-            }
-          ],
-          "statAgentPercent": 45.0,
-          "statCustomerWordcount": 208,
-          "statCustomerDuration": 999515.0,
-          "qcScore": 70.0,
-          "round": 237,
-          "statAgentWordcount": 272,
-          "statAgentInterrupt": 19,
-          "asrAgent": [
-            {
-              "side": 0,
-              "endTime": 3375,
-              "beginTime": 680,
-              "id": "0.1",
-              "text": "您好，准备的家居很高兴，为您服务",
-              "emotionValue": 5
-            },
-            {
-              "side": 0,
-              "endTime": 6515,
-              "beginTime": 5610,
-              "id": "0.2",
-              "text": "嗯",
-              "emotionValue": 5
-            }
-
-
-
-          ],
-          "asrCustomer": [
-            {
-              "side": 1,
-              "endTime": 12445,
-              "beginTime": 3510,
-              "id": "1.1",
-              "text": "哎，你好，我想找一下王艳，您帮我转一下，好不，我是金先生，嗯嗯嗯",
-              "emotionValue": 7
-            },
-            {
-              "side": 1,
-              "endTime": 18795,
-              "beginTime": 12610,
-              "id": "1.2",
-              "text": "嗯，那可以肯定啊，对对对啊，您就是吗哦，然后那个",
-              "emotionValue": 7
-            }
-
-
-          ],
-          "statMark": [
-            {
-              "length": 2,
-              "index": 23,
-              "id": "1.58",
-              "keyword": "媒体",
-              "type": 1,
-              "group": "敏感类"
-            },
-            {
-              "length": 2,
-              "index": 2,
-              "id": "1.175",
-              "keyword": "媒体",
-              "type": 1,
-              "group": "敏感类"
-            }
-          ],
-          "qcReviewScore": 0.0,
-          "qcReviewStatus": 0,
-          "qcTemplateType": 0,
-          "qcResult": [
-            {
-              "hit": null,
-              "item": "服务态度",
-              "weight": null,
-              "items": [
+    "message": "没有该通话质检的详细信息",
+    "code":200
+}
+异常信息：
+{
+    "error": {
+        "code": "MissingParameter",
+        "message": "系统服务异常"
+    }
+}
+请求成功反参：
+{
+    "result": [
+        {
+            "id": "29ba2d751bb74803a1e57ddc9d7e7ba8-1559354410.5",
+            "mainUniqueId": "29ba2d751bb74803a1e57ddc9d7e7ba8-1559354410.5",
+            "cdrId": "1100003-29ba2d751bb74803a1e57ddc9d7e7ba8-1559354410.5",
+            "qcTemplate": "changchengkuandai- 初始化模板",
+            "qcScore": 100,
+            "qcStatus": 7,
+            "qcResult": [
                 {
-                  "hit": null,
-                  "item": "规范用语",
-                  "weight": null,
-                  "items": [
-                    {
-                      "score": 2,
-                      "hit": null,
-                      "item": "结束语",
-                      "weight": 2,
-                      "items": null
-                    },
-                    {
-                      "score": 2,
-                      "hit": null,
-                      "item": "使用礼貌性语言",
-                      "weight": 2,
-                      "items": null
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "score": 30,
-              "hit": null,
-              "item": "态度语气",
-              "weight": 30,
-              "items": null
-            },
-            {
-              "score": 30,
-              "hit": null,
-              "item": "解决程度",
-              "weight": 30,
-              "items": null
-            }
-          ],
-          "qcUser": "admin",
-          "qcTemplate": "sophia- 初始化模板",
-          "autoItems": [],
-          "alarmResult": "",
-          "caseBaseActive": 0,
-          "qcReviewTime": 1574344004,
-          "qcType": 1,
-          "nextCdrDelayed": 0,
-          "qcResultScore": [
-            {
-              "score": 10.0,
-              "hit": null,
-              "item": "服务态度",
-              "weight": 10.0
-            },
-            {
-              "score": 30,
-              "hit": null,
-              "item": "态度语气",
-              "reviseItemCount": 0,
-              "appendItemCount": 0,
-              "weight": 30,
-              "qcItemCount": 0
-            }
-          ]
-        }
-      },
-      {
-        "Index": "cdr_index",
-        "Type": "cdr",
-        "Id": "1100038-3a04e4c6-457c-4c50-b8a5-d6bb3a5c5073-1574169457.123",
-        "Score": 3.3310907,
-        "Source": {
-          "cno": "003",
-          "status": 1,
-          "uniqueId": "3a04e4c6-457c-4c50-b8a5-d6bb3a5c5073-1574169457.123",
-          "accountLoginName": "sophia",
-          "enterpriseId": "1100038",
-          "agentName": "科大讯飞转写",
-          "startTime": 1574169457,
-          "endTime": 1574172457,
-          "answerTime": 1574169457,
-          "bridgeDuration": 3000,
-          "totalDuration": 3000,
-          "bridgeTime": 1574169457,
-          "recordFile": [
-            {
-              "type": "record",
-              "file": "7600109-20191101100613-14784681207-100146--record-sip-2-1572573973.31215.mp3"
-            }
-          ],
-          "recordFileType": "callback",
-          "callType": 3,
-          "endReason": 1,
-          "channelTime": 1574169457,
-          "cdrType": "cdrObAgent",
-          "qcStatus": 8,
-          "qcType": 1,
-          "reQcCount": 1,
-          "statAgentDuration": 423690.0,
-          "agentThemes": [
-            {
-              "count": 7,
-              "word": "活动"
-            },
-            {
-              "count": 7,
-              "word": "不会"
-            }
-          ],
-          "statCustomerPercent": 47.0,
-          "statAgentMarkCount": 1,
-          "statCustomerInterrupt": 3,
-          "statCustomerMarkCount": 0,
-          "alarmRule": [],
-          "statSilenceDuration": 2364200.0,
-          "statSilenceRate": "078.81",
-          "customerThemes": [
-            {
-              "count": 2,
-              "word": "活动"
-            },
-            {
-              "count": 10,
-              "word": "不会"
-            }
-          ],
-          "qcTime": 1576827412,
-          "dpTag": [],
-          "nlpTag": [],
-          "autoItems": [],
-          "statAgentPercent": 53.0,
-          "qcTemplateType": 0,
-          "statCustomerWordcount": 304,
-          "statCustomerDuration": 371280.0,
-          "qcScore": 70.0,
-          "qcResult": [
-            {
-              "hit": null,
-              "item": "服务态度",
-              "weight": null,
-              "items": [
+                    "score": 10,
+                    "item": "工单",
+                    "weight": 10
+                },
                 {
-                  "hit": null,
-                  "item": "规范用语",
-                  "weight": null,
-                  "items": [
-                    {
-                      "score": 2,
-                      "hit": null,
-                      "item": "结束语",
-                      "weight": 2,
-                      "items": null
-                    },
-                    {
-                      "score": 2,
-                      "hit": null,
-                      "item": "使用礼貌性语言",
-                      "weight": 2,
-                      "items": null
-                    }
-                  ]
+                    "score": 10,
+                    "item": "沟通技巧",
+                    "weight": 10
+                },
+                {
+                    "score": 15,
+                    "item": "服务态度与意识",
+                    "weight": 15
+                },
+                {
+                    "score": 5,
+                    "item": "结束",
+                    "weight": 5
+                },
+                {
+                    "score": 15,
+                    "item": "解决方案",
+                    "weight": 15
+                },
+                {
+                    "score": 12,
+                    "item": "排查流程",
+                    "weight": 12
+                },
+                {
+                    "score": 7,
+                    "item": "问候",
+                    "weight": 7
+                },
+                {
+                    "score": 8,
+                    "item": "探询",
+                    "weight": 8
+                },
+                {
+                    "score": 8,
+                    "item": "3A",
+                    "weight": 8
+                },
+                {
+                    "score": 10,
+                    "item": "核实信息",
+                    "weight": 10
                 }
-              ]
-            },
-            {
-              "score": 30,
-              "hit": null,
-              "item": "态度语气",
-              "weight": 30,
-              "items": null
-            },
-            {
-              "score": 30,
-              "hit": null,
-              "item": "解决程度",
-              "weight": 30,
-              "items": null
-            }
-          ],
-          "round": 103,
-          "statAgentWordcount": 289,
-          "statAgentInterrupt": 3,
-          "qcResultScore": [
-            {
-              "score": 10.0,
-              "hit": null,
-              "item": "服务态度",
-              "weight": 10.0
-            },
-            {
-              "score": 30,
-              "hit": null,
-              "item": "态度语气",
-              "reviseItemCount": 0,
-              "appendItemCount": 0,
-              "weight": 30,
-              "qcItemCount": 0
-            }
-          ],
-          "asrAgent": [
-            {
-              "side": 0,
-              "endTime": 3460,
-              "beginTime": 800,
-              "id": "0.1",
-              "text": "凉爽呀郊区，很高兴为您服务！",
-              "emotionValue": 7
-            },
-            {
-              "side": 0,
-              "endTime": 5200,
-              "beginTime": 4440,
-              "id": "0.2",
-              "text": "你好！",
-              "emotionValue": 7
-            }
-          ],
-          "asrCustomer": [
-            {
-              "side": 1,
-              "endTime": 6210,
-              "beginTime": 3530,
-              "id": "1.1",
-              "text": "唉你好想咨询一下！",
-              "emotionValue": 7
-            },
-            {
-              "side": 1,
-              "endTime": 9480,
-              "beginTime": 6240,
-              "id": "1.2",
-              "text": "啊咱们所谓啊那个全屋定制啊。",
-              "emotionValue": 7
-            }
-          ],
-          "statMark": [
-            {
-              "length": 3,
-              "index": 0,
-              "id": "0.2",
-              "keyword": "你好！",
-              "type": 0,
-              "group": "开头语"
-            }
-          ],
-          "qcTemplate": "sophia- 初始化模板",
-          "nextCdrDelayed": 0
+            ],
+            "asr": [{
+                    "length": 2,
+                    "index": 15,
+                    "id": "0.10",
+                    "keyword": "微信",
+                    "type": 0,
+                    "group": "敏感类"
+                },
+                {
+                    "length": 2,
+                    "index": 34,
+                    "id": "0.14",
+                    "keyword": "微信",
+                    "type": 0,
+                    "group": "敏感类"
+                },]
+        },
+        {
+            "id": "55ff0dca13e84d6f9246334b46517ea9-1559354401.5",
+            "mainUniqueId": "55ff0dca13e84d6f9246334b46517ea9-1559354401.5",
+            "cdrId": "1100003-55ff0dca13e84d6f9246334b46517ea9-1559354401.5",
+            "qcTemplate": "changchengkuandai- 初始化模板",
+            "qcScore": 93,
+            "qcStatus": 7,
+            "qcResult": [
+                {
+                    "score": 10,
+                    "item": "工单",
+                    "weight": 10
+                },
+                {
+                    "score": 10,
+                    "item": "沟通技巧",
+                    "weight": 10
+                },
+                {
+                    "score": 15,
+                    "item": "服务态度与意识",
+                    "weight": 15
+                },
+                {
+                    "score": 5,
+                    "item": "结束",
+                    "weight": 5
+                },
+                {
+                    "score": 15,
+                    "item": "解决方案",
+                    "weight": 15
+                },
+                {
+                    "score": 12,
+                    "item": "排查流程",
+                    "weight": 12
+                },
+                {
+                    "score": 0,
+                    "item": "问候",
+                    "weight": 7
+                },
+                {
+                    "score": 8,
+                    "item": "探询",
+                    "weight": 8
+                },
+                {
+                    "score": 8,
+                    "item": "3A",
+                    "weight": 8
+                },
+                {
+                    "score": 10,
+                    "item": "核实信息",
+                    "weight": 10
+                }
+            ],
+            "asr": [{
+                    "length": 2,
+                    "index": 15,
+                    "id": "0.10",
+                    "keyword": "微信",
+                    "type": 0,
+                    "group": "敏感类"
+                },
+                {
+                    "length": 2,
+                    "index": 34,
+                    "id": "0.14",
+                    "keyword": "微信",
+                    "type": 0,
+                    "group": "敏感类"
+                },]
         }
-      }
-    ]
-  }
 }
 ```
