@@ -1,55 +1,48 @@
 
-# 话单质检详情批量获取接口及示例
-
-## 1. 话单质检详情批量获取接口说明
-
-### 1.1 接口说明
-
-通过参数批量获取录音记录质检详情
-
-###  1.2 SDK对象
-
-ListCdrSqcDetailsRequest
-
-### 1.3 接口地址
 
 
-  POST: smartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrSqcDetails（测试环境）
 
-### 1.4 接口请求方式
+# 1.根据uniqueIdList批量获取质检详情接口及示例
+
+## 1.根据uniqueIdList批量获取质检详情接口
+
+### 1.1  接口说明
+
+通过uniqueIdList获取录音记录质检详情
+
+### 1.2  SDK对象
+
+ListCdrDetailsByUniqueIdListRequest
+
+### 1.3  接口地址
+
+
+  POST: smartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrDetailsByUniqueIdList（测试环境）
+
+### 1.4 接口请求方法
 
 POST
 
-### 1.5 请求参数
+### 1.5  请求参数
 
 | 参数名   		| 类型    | 是否必选 | 描述                          				 |
 | -------- 		| ------  | -------- | ----------------------------------------------|
-| qcDate 		| String  | 是       | 要查询哪天的日期 格式 yyyy-MM-dd    |
-| scrollId   		  | String          | 是                 | 游标标记，标记拉取的数据到多少条 （第一次请求不需要传递，之后的每次请求需要带上此游标）此游标由我们生成，并返回  scrollId 有过期时间 （目前定为1分钟）|
-| limit   		| Integer | 是       | 分页参数，标记本次查询要查询多少条		     |
-| userId | string | 否       | 用户ID,即我们内部平台的部门ID（部门是企业的下级，如果想访问企业的所有信息 部门id可以不传）	|
+| uniqueIdList 		| List<String>  | 是       | 话单的uniqueIdList集合 |
+| userId 		| String  | 否      | 用户ID,即我们内部平台的企业ID |
 
-### 1.6 返回参数展示
+### 1.6 返回参数示例
 
-```java
+ 因数据比较长，放在本文的最后，详情见 2.3 返回参数展示示例
 
-{
-    "result":result,
-    "message":"查询成功"
-}
-```
 
-因数据比较长，放在本文的最后，详情见 2.3 返回参数展示示例
 
-#### 1.6.1 CdrDetail 数据格式
-
-备注：以下是返回的字段类型，各个字段的含义及可能的取值，该反参中大部分以驼峰的形式反参，有个别字段是下划线格式，使用时请
+### 1.7 CdrDetail 数据格式
 
 | 返回值字段     	    | 类型及范围   | 说明                                                         |
 | -------------- 	    | ------------ | ------------------------------------------------------------ |
 | id             	    | string       | 唯一ID，（你们那的callId，对应慧智这边的uniqueId） |
-| scrollId          | string       | ES中的游标id(有过期时间) |
 | cdrId          	    | string       | 所属于的cdr ID                                               |
+| mainUniqueId          | string       | 主通道 ID                                               |
 | qcTemplate            | string       | 质检模板名称（包括评分和评级末班）    |
 | qcResult              | JsonArray    | 质检项目                                                 |
 | asr                   | JsonArray    | 通话内容                                                 |
@@ -62,7 +55,7 @@ POST
 
 
 
-#### 1.6.2 qcResult 数据格式
+#### 1.7.1 qcResult 数据格式
 
 | 参数名 | java类型  | 说明                                       |
 | :----- | :-------- | ------------------------------------------ |
@@ -76,7 +69,7 @@ POST
 
 
 
-#### 1.6.3 asr 数据格式
+#### 1.7.2 asr 数据格式
 
 | 参数名     | java类型 | 说明                             |
 | :--------- | :------- | -------------------------------- |
@@ -87,7 +80,7 @@ POST
 | text       | String   | 转写文本                         |
 
 
-####  1.6.4 statMark 数据格式
+#### 1.7.3  statMark 数据格式
 
 | 参数名  | java类型 | 说明                   |
 | :------ | :------- | :--------------------- |
@@ -98,7 +91,7 @@ POST
 | group   | String   | 关键组名               |
 | type    | Integer  | 客户侧或者座席侧标识   |
 
-####  1.6.5 **dpTag**  数据格式
+#### 1.7.4 **dpTag**  数据格式
 
 | 参数名       | java类型 | 说明                             |
 | :----------- | :------- | -------------------------------- |
@@ -114,16 +107,15 @@ POST
 
 
 
+## 2  慧智根据uniqueIdList批量获取质检详情
+
+### 2.1 说明
 
 
-
-## 2  话单质检详情批量获取示例
-
-
-### 2.1 SDK示例:
+### 2.2 SDK示例:
 
 ```java
-public void listCdrSqcDetails() {
+public void listCdrDetailsByUniqueIdList() {
     SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
             // 这些是必须设置的参数
         	configuration.setAccessKeyId("your accessKeyId");
@@ -133,17 +125,16 @@ public void listCdrSqcDetails() {
 
             SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
 
-            ListCdrSqcDetailsRequest listCdrSqcDetailsRequest = new                					ListCdrSqcDetailsRequest();
-    		listCdrSqcDetailsRequest.setAccountLoginName("要访问的账户名称");
-    		listCdrSqcDetailsRequest.setUserId("要访问的企业id")
-            listCdrSqcDetailsRequest.setScrollId("返回的scrollId");
-            listCdrSqcDetailsRequest.setQcDate("2019-12-20");
-            listCdrSqcDetailsRequest.setLimit(100);
+            ListCdrDetailsByUniqueIdListRequest listCdrDetailsByUniqueIdListRequest = new 			  ListCdrDetailsByUniqueIdListRequest();
+            listCdrSqcDetailsRequest.setUniqueIdList(uniqueIdList);
+    		listCdrSqcDetailsRequest.setUserId(userId);
+    		
+           
             
 
-            ListCdrSqcDetailsResponse responseModel = null;
+            ListCdrDetailsByUniqueIdListResponse responseModel = null;
             try {
-                responseModel = 					    			 			smartlinkClient.getResponseModel(listCdrSqcDetailsRequest);
+             responseModel =smartlinkClient.getResponseModel(listCdrSqcDetailsRequest);   
             } catch (ServerException e) {
             	// 服务器错误,大概率是出 bug 了
             	e.printStackTrace();
@@ -154,10 +145,9 @@ public void listCdrSqcDetails() {
     }
 ```
 
+### 2.3 如果您不用SDK的方式，也可以选择鉴权
 
-### 2.2  如果您不用SDK的方式，也可以选择鉴权
-
-####  2.2.1 签名计算方法
+#### 2.3.1 签名计算方法
 
 *签名算法*
 
@@ -207,7 +197,7 @@ POST请求与GET请求不同点：
 Signature = URLEncode(hmac-sha1(AccessKeySecret, urlParam))
 ```
 
-#### 2.2.2 JAVA 加密Demo
+#### 2.3.2 JAVA 加密Demo
 
 可以采用简单方便的引用SDK的办法
 
@@ -231,15 +221,15 @@ public class ListCdrSqcDetailsTest {
         Integer expires = 5;  //时间随意设置
         String timestamp = sdf.format(new Date()); //签名时间戳
         String signature =null; // 计算签名
-        String url = "smartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrSqcDetails"; // 需要访问的接口,
+        String url = "smartlink-sqc-openapi- 	 test.tinetcloud.com/sqc/listCdrDetailsByUniqueIdList"; // 需要访问的接口,
 
         //把每个参数做一下urlecode,并插入treemap,treemap有序的
         putParameter("AccessKeyId",accessKeyId);
         putParameter("Expires",expires);
         putParameter("Timestamp",timestamp);
 
-        //拼接参数urlParam 如（1）中 ，例如“POSTsmartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrSqcDetails?accessKeyId=.......”
-        //当请求示GET 时，需要将参数也拼接上。如（1）中，例如“GETsmartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrSqcDetails?accessKeyId=***&fileUrl=....”
+        //拼接参数urlParam 如（1）中 ，例如“POSTsmartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrDetailsByUniqueIdList?accessKeyId=.......”
+        //当请求示GET 时，需要将参数也拼接上。如（1）中，例如“GETsmartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrDetailsByUniqueIdList?accessKeyId=***&fileUrl=....”
         
         String urlParam = "POSTsmartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrSqcDetails"+"?"+geturlParam(parameters);
         //加密
@@ -329,16 +319,9 @@ public class ListCdrSqcDetailsTest {
     }
 }
 ```
-
-
-
-
-
-
+### 2.3. 反参示例
 ```java
-
-请求数据为空但无数据返回反参：
-
+请求成功但无数据返回反参：
 {
     "message": "没有该通话质检的详细信息",
     "code":200
@@ -350,20 +333,18 @@ public class ListCdrSqcDetailsTest {
         "message": "系统服务异常"
     }
 }
-
-
-
-成功返回参数：
+请求成功反参：
 {
     "result": [
         {
             "id": "6613241774313861120-1576719707.90649",
-            "scrollId": "DnF1ZXJ5VGhlbkZldGNoCQAAAAAAA2HfFndBQWZITlBjUU55Y25KSk5hMXdlYkEAAAAAAANh4BZ3QUFmSE5QY1FOeWNuSkpOYTF3ZWJBAAAAAAADYeYWd0FBZkhOUGNRTnljbkpKTmExd2ViQQAAAAAAA2HiFndBQWZITlBjUU55Y25KSk5hMXdlYkEAAAAAAANh4RZ3QUFmSE5QY1FOeWNuSkpOYTF3ZWJBAAAAAAADYecWd0FBZkhOUGNRTnljbkpKTmExd2ViQQAAAAAAA2HjFndBQWZITlBjUU55Y25KSk5hMXdlYkEAAAAAAANh5BZ3QUFmSE5QY1FOeWNuSkpOYTF3ZWJBAAAAAAADYeUWd0FBZkhOUGNRTnljbkpKTmExd2ViQQ==",
             "cdrId": "1100028-6613241774313861120-1576719707.90649",
+            "mainUniqueId": 40,
             "qcTemplate": "金融贷后催收",
             "qcScore": 40,
             "qcStatus": 2,
             "qcTime": 1576719916,
+            "qcReviewTime": 1576719916,
             "qcResult": [
                 {
                     "score": 20,
@@ -385,6 +366,16 @@ public class ListCdrSqcDetailsTest {
                     "item": "威胁恐吓类",
                     "weight": 30
                 }
+            ],
+            "statMark": [
+                 {
+                     "length": 2,
+                     "index": 3,
+                     "id": "0.3",
+                     "keyword": "稍等",
+                     "type": 0,
+                     "group": "业务查询超长"
+                 }
             ],
             "asr": [
                 {
@@ -519,5 +510,4 @@ public class ListCdrSqcDetailsTest {
         },
         "code": 200
    }
-
 ```
