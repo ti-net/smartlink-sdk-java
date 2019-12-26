@@ -66,7 +66,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     }
 
     public ListCdrSqcDetailsRequest() {
-        super("/sqc/listCdrSqcDetails", HttpMethodType.POST);
+        super("/sqc/listCdrSqcDetails", HttpMethodType.GET);
     }
 
     @Override
