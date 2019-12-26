@@ -17,17 +17,17 @@ ListCdrDetailsByUniqueIdListRequest
 ### 1.3  接口地址
 
 
-  POST: smartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrDetailsByUniqueIdList（测试环境）
+  GET: smartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrDetailsByUniqueIdList（测试环境）
 
 ### 1.4 接口请求方法
 
-POST
+GET
 
 ### 1.5  请求参数
 
 | 参数名   		| 类型    | 是否必选 | 描述                          				 |
 | -------- 		| ------  | -------- | ----------------------------------------------|
-| uniqueIdList 		| List<String>  | 是       | 话单的uniqueIdList集合 |
+| uniqueIdList 		| List<String>  | 是       | 话单的uniqueIdList集合，最大值为10条 |
 | userId 		| String  | 否      | 用户ID,即我们内部平台的企业ID |
 
 ### 1.6 返回参数示例
@@ -323,8 +323,7 @@ public class ListCdrSqcDetailsTest {
 ```java
 请求成功但无数据返回反参：
 {
-    "message": "没有该通话质检的详细信息",
-    "code":200
+    "cdrDetails": []   
 }
 异常信息：
 {
@@ -335,7 +334,7 @@ public class ListCdrSqcDetailsTest {
 }
 请求成功反参：
 {
-    "result": [
+    "cdrDetails": [
         {
             "id": "6613241774313861120-1576719707.90649",
             "cdrId": "1100028-6613241774313861120-1576719707.90649",
@@ -507,7 +506,6 @@ public class ListCdrSqcDetailsTest {
                     "name": "敏感类"
                 }
             ]
-        },
-        "code": 200
+        }
    }
 ```

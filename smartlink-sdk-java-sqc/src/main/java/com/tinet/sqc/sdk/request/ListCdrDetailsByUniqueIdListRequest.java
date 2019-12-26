@@ -42,7 +42,7 @@ public class ListCdrDetailsByUniqueIdListRequest extends BaseRequest<ListCdrDeta
     }
 
     public ListCdrDetailsByUniqueIdListRequest() {
-        super("/sqc/listCdrDetailsByUniqueIdList", HttpMethodType.POST);
+        super("/sqc/listCdrDetailsByUniqueIdList", HttpMethodType.GET);
     }
 
     @Override
