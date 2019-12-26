@@ -319,7 +319,7 @@ public class ListCdrSqcDetailsTest {
     }
 }
 ```
-### 2.3. 反参示例
+### 2.3. 返参示例
 ```java
 请求成功但无数据返回反参：
 {
