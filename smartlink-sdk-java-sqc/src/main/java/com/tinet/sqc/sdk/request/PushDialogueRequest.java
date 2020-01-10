@@ -16,46 +16,97 @@ import java.util.List;
  */
 public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
+    /**
+     * 唯一id
+     */
     private String uniqueId;
-
+    /**
+     * 账号登录名称
+     */
     private String accountLoginName;
 
+    /**
+     * 用户id 内部对应着企业id
+     */
     private String userId;
 
+    /**
+     * 访客ip归属省份
+     */
     private String customerProvince;
-
+    /**
+     * 访客ip归属城市
+     */
     private String customerCity;
-
+    /**
+     * 访客ip地址
+     */
     private String customerIp;
 
+    /**
+     * 访客设备标识
+     */
     private String browserUserAgent;
-
+    /**
+     * 客服id
+     */
     private String cno;
-
+    /**
+     * 客服登录名称
+     */
     private String agentName;
-
+    /**
+     * 队列号
+     */
     private String qno;
-
+    /**
+     * 队列名称
+     */
     private String qname;
-
+    /**
+     * 进入系统时间
+     */
     private Long startTime;
-
+    /**
+     * 转人工时间
+     */
     private Long sendChatTime;
-
+    /**
+     * 接通人工时间
+     */
     private Long chatBeginTime;
-
+    /**
+     * 人工对话结束时间
+     */
     private Long chatEndTime;
-
+    /**
+     * 人工对话结束时间
+     */
     private Long endTime;
-
+    /**
+     * 机器人会话结束时间
+     */
     private Long robotEndTime;
-
+    /**
+     * 访客退出原因
+     */
     private String endReason;
-
+    /**
+     * 满意度调查结果
+     */
     private String investigation;
+    /**
+     * 客户号码
+     */
+    private String customerNumber;
 
+    /**
+     * 座席聊天内容
+     */
     private List<ChatRecord> chatAgent;
-
+    /**
+     * 客户聊天内容
+     */
     private List<ChatRecord> chatCustomer;
 
     public String getUniqueId() {
@@ -287,6 +338,14 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         if (chatCustomer != null) {
             putBodyParameter("chatCustomer", chatCustomer);
         }
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     public PushDialogueRequest() {
