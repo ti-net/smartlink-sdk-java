@@ -6,7 +6,12 @@
 
     <groupId>com.tinet.smartlink</groupId>
     <artifactId>smartlink-sdk-java-sqc</artifactId>
+
     <version>2.2.1.3-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
