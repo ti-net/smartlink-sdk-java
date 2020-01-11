@@ -50,5 +50,9 @@ public class TicketRecord {
      * 工单节点
      */
     private String text;
+    /**
+     * 更新时间
+     */
+    private Long updateTime;
 
 }
