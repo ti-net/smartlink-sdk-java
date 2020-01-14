@@ -101,6 +101,11 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
     private String customerNumber;
 
     /**
+     * 对话特征
+     */
+    private String conversationFeature;
+
+    /**
      * 座席聊天内容
      */
     private List<ChatRecord> chatAgent;
@@ -346,6 +351,14 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
 
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
+    }
+
+    public String getConversationFeature() {
+        return conversationFeature;
+    }
+
+    public void setConversationFeature(String conversationFeature) {
+        this.conversationFeature = conversationFeature;
     }
 
     public PushDialogueRequest() {
