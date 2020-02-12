@@ -26,7 +26,7 @@ public class TestClient {
 
         configuration.setAccessKeyId("6Z45P02IB48X3TAE585U");
         configuration.setAccessKeySecret("9q30r5d2675qe1ws6d7sw32v0pl1s0w1");
-        configuration.setHost("localhost", 8084);
+        configuration.setHost("localhost", 8085);
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -118,5 +118,16 @@ public class TestClient {
         CallScriptRecommendationResponse responseModel = smartLinkClient.getResponseModel(request);
         System.out.println(responseModel.getRequestId());
         System.out.println(responseModel.getRecommendations());
+    }
+
+    @Test
+    public void cdr() throws ServerException, ClientException {
+        PushCdrRequest request = new PushCdrRequest();
+        request.setAgentName("座席名");
+        request.setUniqueId("111-23132.uniqueID");
+        request.setCno("666");
+        PushCdrResponse responseModel = smartLinkClient.getResponseModel(request);
+        System.out.println(responseModel.getRequestId());
+        System.out.println(responseModel.getMessage());
     }
 }
