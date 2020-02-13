@@ -225,6 +225,18 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private List<OriginData> originDataList;
 
+    private String accountLoginName;
+
+    public String getAccountLoginName() {
+        return accountLoginName;
+    }
+
+    public void setAccountLoginName(String accountLoginName) {
+        this.accountLoginName = accountLoginName;
+        if (accountLoginName != null) {
+            putBodyParameter("accountLoginName", accountLoginName);
+        }
+    }
 
     public List<OriginData> getOriginDataList() {
         return originDataList;

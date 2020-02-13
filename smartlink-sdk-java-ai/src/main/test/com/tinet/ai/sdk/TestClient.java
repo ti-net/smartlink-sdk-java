@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk;
 
+import com.tinet.ai.sdk.model.Record;
 import com.tinet.ai.sdk.request.*;
 import com.tinet.ai.sdk.response.*;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
@@ -9,6 +10,10 @@ import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 测试客户端
@@ -24,8 +29,8 @@ public class TestClient {
     public void init() {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
-        configuration.setAccessKeyId("6Z45P02IB48X3TAE585U");
-        configuration.setAccessKeySecret("9q30r5d2675qe1ws6d7sw32v0pl1s0w1");
+        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
         configuration.setHost("localhost", 8085);
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
@@ -122,12 +127,33 @@ public class TestClient {
 
     @Test
     public void cdr() throws ServerException, ClientException {
-        PushCdrRequest request = new PushCdrRequest();
-        request.setAgentName("座席名");
-        request.setUniqueId("111-23132.uniqueID");
-        request.setCno("666");
-        PushCdrResponse responseModel = smartLinkClient.getResponseModel(request);
-        System.out.println(responseModel.getRequestId());
-        System.out.println(responseModel.getMessage());
+        PushCdrRequest pushCdrRequest =new PushCdrRequest();
+        pushCdrRequest.setUserId("1100038");
+        String uniqueId = UUID.randomUUID().toString() + "-" + System.currentTimeMillis()/1000 + ".123";
+        pushCdrRequest.setUniqueId(uniqueId);
+        pushCdrRequest.setCdrType("cdr_ob_agent");
+        pushCdrRequest.setCallType(3);
+        pushCdrRequest.setStartTime(System.currentTimeMillis()/1000);
+        pushCdrRequest.setAnswerTime(System.currentTimeMillis()/1000);
+        pushCdrRequest.setEndTime(System.currentTimeMillis()/1000 + 3000);
+        pushCdrRequest.setBridgeTime(System.currentTimeMillis()/1000);
+        pushCdrRequest.setBridgeDuration(3000);
+        pushCdrRequest.setTotalDuration(3000);
+        pushCdrRequest.setStatus(1);
+        pushCdrRequest.setEndReason(1);
+        List<Record> list = new ArrayList<>();
+        Record agentRecord = new Record();
+        Record clientRecord = new Record();
+        agentRecord.setRecordSide("agent");
+        clientRecord.setRecordSide("client");
+        list.add(agentRecord);
+        list.add(clientRecord);
+        pushCdrRequest.setRecords(list);
+
+        pushCdrRequest.setCno("003");
+        pushCdrRequest.setAgentName("科大讯飞转写");
+        pushCdrRequest.setAsrProvider("Iflytek");
+
+        PushCdrResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
     }
 }
