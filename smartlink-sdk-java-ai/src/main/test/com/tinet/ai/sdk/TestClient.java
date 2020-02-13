@@ -148,11 +148,9 @@ public class TestClient {
         clientRecord.setRecordSide("client");
         list.add(agentRecord);
         list.add(clientRecord);
-        pushCdrRequest.setRecords(list);
 
         pushCdrRequest.setCno("003");
-        pushCdrRequest.setAgentName("科大讯飞转写");
-        pushCdrRequest.setAsrProvider("Iflytek");
+        pushCdrRequest.setAgentName("座席名称");
 
         PushCdrResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
     }

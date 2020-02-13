@@ -1,7 +1,5 @@
 package com.tinet.ai.sdk.request;
 
-import com.tinet.ai.sdk.model.OriginData;
-import com.tinet.ai.sdk.model.Record;
 import com.tinet.ai.sdk.response.PushCdrResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
@@ -205,26 +203,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private String clid;
 
-    /**
-     * 录音属性（包括录音的下载地址和分轨录音属于哪一次）
-     */
-    private List<Record> records;
-
-    /**
-     * 平台回调地址，不传值默认不回调
-     */
-    private String callbackUrl;
-
-    /**
-     * 可以自主选择转写引擎，不传值默认是天润自建引擎，
-     */
-    private String asrProvider;
-
-    /**
-     * 平台自定义字段传值list
-     */
-    private List<OriginData> originDataList;
-
     private String accountLoginName;
 
     public String getAccountLoginName() {
@@ -235,50 +213,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         this.accountLoginName = accountLoginName;
         if (accountLoginName != null) {
             putBodyParameter("accountLoginName", accountLoginName);
-        }
-    }
-
-    public List<OriginData> getOriginDataList() {
-        return originDataList;
-    }
-
-    public void setOriginDataList(List<OriginData> originDataList) {
-        this.originDataList = originDataList;
-        if (originDataList != null) {
-            putBodyParameter("originDataList", originDataList);
-        }
-    }
-
-    public List<Record> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<Record> records) {
-        this.records = records;
-        if (records != null) {
-            putBodyParameter("records", records);
-        }
-    }
-
-    public String getCallbackUrl() {
-        return callbackUrl;
-    }
-
-    public void setCallbackUrl(String callbackUrl) {
-        this.callbackUrl = callbackUrl;
-        if (callbackUrl != null) {
-            putBodyParameter("callbackUrl", callbackUrl);
-        }
-    }
-
-    public String getAsrProvider() {
-        return asrProvider;
-    }
-
-    public void setAsrProvider(String asrProvider) {
-        this.asrProvider = asrProvider;
-        if (asrProvider != null) {
-            putBodyParameter("asrProvider", asrProvider);
         }
     }
 
@@ -602,7 +536,7 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     }
 
     public PushCdrRequest() {
-        super("/tbot/cdr", HttpMethodType.POST);
+        super("/api/tbot/cdr", HttpMethodType.POST);
     }
 
     @Override
