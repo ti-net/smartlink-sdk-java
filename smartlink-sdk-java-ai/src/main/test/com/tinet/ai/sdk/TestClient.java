@@ -128,12 +128,14 @@ public class TestClient {
     @Test
     public void cdr() throws ServerException, ClientException {
         PushCdrRequest pushCdrRequest =new PushCdrRequest();
-        pushCdrRequest.setUserId("1100038");
-        String uniqueId = UUID.randomUUID().toString() + "-" + System.currentTimeMillis()/1000 + ".123";
-        pushCdrRequest.setUniqueId(uniqueId);
+        pushCdrRequest.setUserId("8000071");
+        pushCdrRequest.setUniqueId("b721e258-9814-4c23-8ddd-7b7dd4764d8a");
         pushCdrRequest.setCdrType("cdr_ob_agent");
         pushCdrRequest.setCallType(3);
+
         pushCdrRequest.setStartTime(System.currentTimeMillis()/1000);
+        pushCdrRequest.setStartTime(1580990211L);
+
         pushCdrRequest.setAnswerTime(System.currentTimeMillis()/1000);
         pushCdrRequest.setEndTime(System.currentTimeMillis()/1000 + 3000);
         pushCdrRequest.setBridgeTime(System.currentTimeMillis()/1000);
@@ -141,17 +143,11 @@ public class TestClient {
         pushCdrRequest.setTotalDuration(3000);
         pushCdrRequest.setStatus(1);
         pushCdrRequest.setEndReason(1);
-        List<Record> list = new ArrayList<>();
-        Record agentRecord = new Record();
-        Record clientRecord = new Record();
-        agentRecord.setRecordSide("agent");
-        clientRecord.setRecordSide("client");
-        list.add(agentRecord);
-        list.add(clientRecord);
 
         pushCdrRequest.setCno("003");
         pushCdrRequest.setAgentName("座席名称");
 
         PushCdrResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
+        System.out.println(responseModel.toString());
     }
 }
