@@ -35,10 +35,10 @@ public class ChatResponse {
 	 */
 	private Boolean playWait = true;
 
-//	/**
-//	 * 机器人的话是否可打断
-//	 */
-//	private Boolean playInterrupt;
+	/**
+	 * 机器人的话是否可打断
+	 */
+	private Boolean playInterrupt;
 
 	/**
 	 * 播放类型：tts、voice、url

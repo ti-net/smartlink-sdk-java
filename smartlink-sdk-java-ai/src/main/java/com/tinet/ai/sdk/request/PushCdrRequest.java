@@ -205,6 +205,38 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
 
     private String accountLoginName;
 
+    /**
+     * 总重试次数（挂断拨打电话）
+     */
+    private Integer retryCount;
+
+    /**
+     * 当前重试次数
+     */
+    private Integer curRetryCount;
+
+
+    public void setRetryCount(Integer retryCount) {
+        this.retryCount = retryCount;
+        if (retryCount != null) {
+            putBodyParameter("retryCount", retryCount);
+        }
+    }
+
+    public void setCurRetryCount(Integer curRetryCount) {
+        this.curRetryCount = curRetryCount;
+        if (curRetryCount != null) {
+            putBodyParameter("curRetryCount", curRetryCount);
+        }
+    }
+
+    public Integer getRetryCount() {
+        return retryCount;
+    }
+    public Integer getCurRetryCount() {
+        return curRetryCount;
+    }
+
     public String getAccountLoginName() {
         return accountLoginName;
     }
