@@ -2,6 +2,7 @@ package com.tinet.sqc.sdk.request;
 
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
+import com.tinet.sqc.sdk.model.PlatformEnum;
 import com.tinet.sqc.sdk.response.PushEnterpriseSettingResponse;
 
 /**
@@ -18,6 +19,10 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
      * 用户登录名，即账户
      */
     private String accountLoginName;
+    /**
+     * 平台
+     */
+    private String platform;
     /**
      * 企业Id
      */
@@ -59,10 +64,20 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
         }
     }
 
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(PlatformEnum platformEnum) {
+        this.platform = platformEnum.getValue();
+        if (platformEnum.getValue() != null) {
+            putBodyParameter("platform", platformEnum.getValue());
+        }
+    }
     public String getAccountLoginName() {
         return accountLoginName;
     }
-
+    
     public void setAccountLoginName(String accountLoginName) {
         this.accountLoginName = accountLoginName;
         if (accountLoginName != null) {
@@ -148,7 +163,7 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
     }
 
     public PushEnterpriseSettingRequest() {
-        super("/sqc/enterprise", HttpMethodType.POST, "2019-10-17");
+        super("/sqc/enterprise", HttpMethodType.POST, "2020-03-12");
     }
 
 
