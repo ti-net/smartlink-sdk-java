@@ -215,6 +215,17 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private Integer curRetryCount;
 
+    /**
+     * 外呼任务id
+     */
+    private Integer taskId;
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+        if (taskId != null) {
+            putBodyParameter("taskId", taskId);
+        }
+    }
 
     public void setRetryCount(Integer retryCount) {
         this.retryCount = retryCount;
@@ -229,7 +240,9 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
             putBodyParameter("curRetryCount", curRetryCount);
         }
     }
-
+    public Integer getTaskId() {
+        return taskId;
+    }
     public Integer getRetryCount() {
         return retryCount;
     }
