@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * CC调用TiBot的响应体封装
@@ -44,17 +45,28 @@ public class ChatResponse {
 	private Boolean playInterrupt;
 
 	/**
-	 * 播放类型：tts、voice、url、extends
+	 * 是否播放多个响应
+	 * true:时 playObjects存在
+	 * false:时 playType,playObject存在
+	 */
+	private Boolean isMultiPlay;
+
+	/**
+	 * 播放类型：tts、voice、url、tts_variable
 	 */
 	private String playType;
 
 	/**
 	 * 播放对象，针对上述播放类型，分别是：TTS文本、录音文件ID、录音文件URL地址
-	 * extends:播放多个语音
-	 * [{"playType":"tts","playObject":"你好"},{"playType":"voice","playObject":"3123123/23131"}]
-	 * [{"playType":"tts", "playObject":"您好您是","playType":"variables", "playObject":"${name}","playType":"tts","playObject":"吗？"}]
 	 */
 	private String playObject;
+
+	/**
+	 * 多个响应
+	 * [{"playType":"tts","playObject":"你好"},{"playType":"voice","playObject":"3123123/23131"}]
+	 * [{"playType":"tts", "playObject":"您好您是","playType":"tts_variable", "playObject":"${name}","playType":"tts","playObject":"吗？"}]
+	 */
+	private List<Map> playObjects;
 
 	/**
 	 * 动作指令，可能会有多个，按顺序执行，例如先挂机（END），再发送短信（SMS）。动作指令统一在播放（play）完成后执行。
