@@ -13,9 +13,14 @@ import java.util.Map;
 public class ClientSession {
 
     /**
-     * cdr 中的 uniqueId
+     * cdr 中的 uniqueId (一通会话唯一标识)
      */
     private String uniqueId;
+
+    /**
+     * 单此会话唯一标识( 同一用户多次进入机器人)
+     */
+    private String loginId;
 
     /**
      * 三户模型中的 userId，对应 CC 的 enterpriseId

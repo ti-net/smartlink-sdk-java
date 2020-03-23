@@ -18,6 +18,7 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -58,6 +59,7 @@ import java.util.concurrent.ExecutionException;
  *
  * 7. 心跳检测 <br/>
  * </pre>
+ *
  * @author houfc
  * @date 2019/03/13
  */
@@ -91,7 +93,7 @@ public class TibotWebSocketClient {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * WebSocket 
+     * WebSocket
      */
     private String url;
 
@@ -140,19 +142,27 @@ public class TibotWebSocketClient {
         try {
             session = stompClient.connect(url, httpHeaders, stompHeaders, sessionHandler).get();
         } catch (InterruptedException | ExecutionException e) {
-            logger.error("Tibot Websocket connect error! ", e);
+            logger.error("TBot Websocket connect error! ", e);
         }
     }
 
     /**
      * 进入机器人结点时，将该机器人进行订阅
+     *
      * @param clientSession ClientSession
      */
     public void login(ClientSession clientSession) {
-        logger.debug("uniqueId {} login tibot", clientSession.getUniqueId());
         StompHeaders headers = new StompHeaders();
-        headers.setDestination("/chat/response/" + clientSession.getUniqueId());
+
+        logger.debug("[TBot] login uniqueId {} loginId {} ", clientSession.getUniqueId(), clientSession.getLoginId());
+        if (!StringUtils.isEmpty(clientSession.getLoginId())){
+            headers.setDestination("/chat/response/" + clientSession.getLoginId());
+        }else{
+            headers.setDestination("/chat/response/" + clientSession.getUniqueId());
+        }
+
         headers.set("userId", String.valueOf(clientSession.getUserId()));
+        headers.set("loginId", clientSession.getLoginId());
         headers.set("uniqueId", clientSession.getUniqueId());
         headers.set("clientId", clientSession.getClientId());
         headers.set("botId", clientSession.getBotId());
@@ -167,28 +177,28 @@ public class TibotWebSocketClient {
         }
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
-            @Override
-            @NonNull
-            public Type getPayloadType(@NonNull StompHeaders headers) {
-                return ChatResponse.class;
-            }
+                    @Override
+                    @NonNull
+                    public Type getPayloadType(@NonNull StompHeaders headers) {
+                        return ChatResponse.class;
+                    }
 
-            @Override
-            public void handleFrame(@NonNull  StompHeaders headers, Object payload) {
-                if (payload instanceof ChatResponse) {
-                    ChatResponse chatResponse = (ChatResponse) payload;
-                    logger.debug("uniqueId {} ChatResponse {}, timestamp is {}",
-                            chatResponse.getUniqueId(), chatResponse, System.currentTimeMillis());
-                    callback.callback(chatResponse);
-                    List<String> actions = chatResponse.getAction();
-                    if (!CollectionUtils.isEmpty(actions)) {
-                        if (actions.contains("END")) {
+                    @Override
+                    public void handleFrame(@NonNull StompHeaders headers, Object payload) {
+                        if (payload instanceof ChatResponse) {
+                            ChatResponse chatResponse = (ChatResponse) payload;
+                            logger.debug("uniqueId {} ChatResponse {}, timestamp is {}",
+                                    chatResponse.getUniqueId(), chatResponse, System.currentTimeMillis());
+                            callback.callback(chatResponse);
+                            List<String> actions = chatResponse.getAction();
+                            if (!CollectionUtils.isEmpty(actions)) {
+                                if (actions.contains("END")) {
 //                            logout(chatResponse.getUniqueId());
+                                }
+                            }
                         }
                     }
-                }
-            }
-        });
+                });
 
         // 订阅成功时加入 clientSession 及 subscriptionMap
         clientSessionMap.put(clientSession.getUniqueId(), clientSession);
@@ -198,6 +208,7 @@ public class TibotWebSocketClient {
 
     /**
      * 通知 Tibot 用户开始说话了
+     *
      * @param uniqueId Cdr 中的 uniqueId
      */
     public void sayBegin(String uniqueId) {
@@ -207,6 +218,7 @@ public class TibotWebSocketClient {
 
     /**
      * 当退出机器人结点时，取消请订阅，当 client 收到 END action时， client 本身也会调用 logout 方法
+     *
      * @param uniqueId Cdr 中的 uniqueId
      */
     public void logout(String uniqueId) {
@@ -229,6 +241,7 @@ public class TibotWebSocketClient {
 
     /**
      * 通知 Tibot 播放结束
+     *
      * @param uniqueId Cdr 中的 uniqueId
      */
     public void playEnd(String uniqueId) {
