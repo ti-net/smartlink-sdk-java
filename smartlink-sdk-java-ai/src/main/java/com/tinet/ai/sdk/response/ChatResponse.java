@@ -25,6 +25,11 @@ public class ChatResponse {
 	private String uniqueId;
 
 	/**
+	 * 单词订阅唯一标识
+	 */
+	private String loginId;
+
+	/**
 	 * 错误码，非0代表有系统错误
 	 */
 	private Integer errorCode;

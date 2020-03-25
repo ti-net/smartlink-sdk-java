@@ -15,6 +15,12 @@ public class ChatRequest {
 	 * 会话唯一标识
 	 */
 	private String uniqueId;
+
+	/**
+	 * 单词订阅唯一标识
+	 */
+	private String loginId;
+
 	/**
 	 * 对话类型(此字段供CC的asr转写结果使用)
 	 * intermediateResult  中间结果

@@ -25,10 +25,7 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 
@@ -154,16 +151,19 @@ public class TibotWebSocketClient {
     public void login(ClientSession clientSession) {
         StompHeaders headers = new StompHeaders();
 
-        logger.debug("[TBot] login uniqueId {} loginId {} ", clientSession.getUniqueId(), clientSession.getLoginId());
-        if (!StringUtils.isEmpty(clientSession.getLoginId())){
-            headers.setDestination("/chat/response/" + clientSession.getLoginId());
-        }else{
-            headers.setDestination("/chat/response/" + clientSession.getUniqueId());
-        }
+        String loginId = clientSession.getLoginId();
+        String uniqueId = clientSession.getUniqueId();
+        loginId = Objects.isNull(loginId) ? uniqueId : loginId;
+
+        logger.debug("[TBot] login uniqueId {} loginId {}", uniqueId, loginId);
+
+        headers.setDestination("/chat/response/" + loginId);
 
         headers.set("userId", String.valueOf(clientSession.getUserId()));
-        headers.set("loginId", clientSession.getLoginId());
-        headers.set("uniqueId", clientSession.getUniqueId());
+        if (!StringUtils.isEmpty(loginId)) {
+            headers.set("loginId", loginId);
+        }
+        headers.set("uniqueId", uniqueId);
         headers.set("clientId", clientSession.getClientId());
         headers.set("botId", clientSession.getBotId());
         try {
@@ -201,52 +201,56 @@ public class TibotWebSocketClient {
                 });
 
         // 订阅成功时加入 clientSession 及 subscriptionMap
-        clientSessionMap.put(clientSession.getUniqueId(), clientSession);
-        subscriptionMap.put(clientSession.getUniqueId(), subscription);
+        clientSessionMap.put(loginId, clientSession);
+        subscriptionMap.put(loginId, subscription);
 
     }
 
     /**
-     * 通知 Tibot 用户开始说话了
+     * 通知 Tbot 用户开始说话了
      *
-     * @param uniqueId Cdr 中的 uniqueId
+     * @param loginId 本次订阅唯一标识
      */
-    public void sayBegin(String uniqueId) {
-        logger.debug("uniqueId {} sayBegin", uniqueId);
-        session.send("/app/sayBegin", uniqueId);
+    public void sayBegin(String loginId) {
+        logger.debug("[TBot] sayBegin loginId:{} ", loginId);
+        session.send("/app/sayBegin", loginId);
     }
 
     /**
      * 当退出机器人结点时，取消请订阅，当 client 收到 END action时， client 本身也会调用 logout 方法
      *
      * @param uniqueId Cdr 中的 uniqueId
+     * @param loginId  本次订阅唯一标识
      */
-    public void logout(String uniqueId) {
-        StompSession.Subscription subscription = subscriptionMap.get(uniqueId);
+    public void logout(String uniqueId, String loginId) {
+        loginId = Objects.isNull(loginId) ? uniqueId : loginId;
+
+        StompSession.Subscription subscription = subscriptionMap.get(loginId);
         if (subscription != null) {
             StompHeaders headers = new StompHeaders();
             headers.set("uniqueId", uniqueId);
+            if (!StringUtils.isEmpty(loginId)) {
+                headers.set("loginId", loginId);
+            }
             subscription.unsubscribe(headers);
-            clientSessionMap.remove(uniqueId);
-            subscriptionMap.remove(uniqueId);
+            clientSessionMap.remove(loginId);
+            subscriptionMap.remove(loginId);
         }
     }
 
-    public void chat(ChatRequest
-                             chatRequestModel) {
-        logger.debug("uniqueId {} ChatRequest {}, timestamp is {}", chatRequestModel.getUniqueId(),
-                chatRequestModel, System.currentTimeMillis());
-        session.send("/app/chat", chatRequestModel);
+    public void chat(ChatRequest chatRequest) {
+        logger.debug("[TBot] ChatRequest {}, timestamp is {}", chatRequest, System.currentTimeMillis());
+        session.send("/app/chat", chatRequest);
     }
 
     /**
      * 通知 Tibot 播放结束
      *
-     * @param uniqueId Cdr 中的 uniqueId
+     * @param loginId 本次订阅唯一标识
      */
-    public void playEnd(String uniqueId) {
-        logger.debug("uniqueId {} playEnd", uniqueId);
-        session.send("/app/playEnd", uniqueId);
+    public void playEnd(String loginId) {
+        logger.debug("[TBot] loginId {} playEnd", loginId);
+        session.send("/app/playEnd", loginId);
     }
 
     /**
