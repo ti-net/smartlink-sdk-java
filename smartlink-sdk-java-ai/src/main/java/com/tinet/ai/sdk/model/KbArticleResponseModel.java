@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 文章响应实体
@@ -80,4 +81,8 @@ public class KbArticleResponseModel {
      * 平台登录名
      */
     private String accountLoginName;
+    /**
+     * 目录路径
+     */
+    private List<String> path;
 }
