@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk.response;
 
+import com.tinet.ai.sdk.model.KbDirectoryResponseModel;
 import com.tinet.ai.sdk.model.KbRepositoryResponseModel;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 import lombok.Data;
@@ -17,7 +18,7 @@ import java.util.List;
 @Data
 public class KbDirectoriesResponse extends BaseResponse {
 
-    private List<KbRepositoryResponseModel> directories;
+    private List<KbDirectoryResponseModel> directories;
 
    
 }

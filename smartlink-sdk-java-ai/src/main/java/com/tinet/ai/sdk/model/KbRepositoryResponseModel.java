@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import java.util.Date;
  * @date 2019/8/29
  **/
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 public class KbRepositoryResponseModel {
 

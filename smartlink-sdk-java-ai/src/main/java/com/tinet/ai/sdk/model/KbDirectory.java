@@ -3,6 +3,7 @@ package com.tinet.ai.sdk.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +56,15 @@ public class KbDirectory {
      * 更新人
      */
     private String updateUser;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
     /**
      * 平台登录名
      */
