@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 文件库返回实体
@@ -81,4 +82,8 @@ public class KbFileResponseModel {
      * 平台登录名
      */
     private String accountLoginName;
+    /**
+     * 目录路径
+     */
+    private List<String> path;
 }

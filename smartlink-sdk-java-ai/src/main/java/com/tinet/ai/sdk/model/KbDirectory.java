@@ -70,6 +70,10 @@ public class KbDirectory {
      */
     private String accountLoginName;
     /**
+     * 属于哪一种类型的知识库
+     */
+    private Integer type;
+    /**
      * 知识库下的目录路径
      */
     private List<KbDirectory> subDirectories;
