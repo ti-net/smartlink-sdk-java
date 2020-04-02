@@ -1,5 +1,7 @@
 package com.tinet.ai.sdk;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.Record;
 import com.tinet.ai.sdk.request.*;
 import com.tinet.ai.sdk.response.*;
@@ -40,14 +42,15 @@ public class TestClient {
 
 
     @Test
-    public void testArticle() throws ServerException, ClientException {
+    public void testArticle() throws ServerException, ClientException, JsonProcessingException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
-        articleRequest.setEnterpriseId(String.valueOf(3000000));
-        articleRequest.setKbId(1);
+        articleRequest.setEnterpriseId(String.valueOf(8000071));
+        articleRequest.setKbId(52);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
-        System.out.println(articleResponse.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(articleResponse));
 
     }
 

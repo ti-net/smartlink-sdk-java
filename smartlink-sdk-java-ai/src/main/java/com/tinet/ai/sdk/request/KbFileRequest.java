@@ -91,7 +91,7 @@ public class KbFileRequest extends BaseRequest<KbFileResponse> {
     }
 
     public KbFileRequest() {
-        super("/api/files", HttpMethodType.GET);
+        super("/api/files", HttpMethodType.GET, "2020-04-01");
     }
 
     @Override

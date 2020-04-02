@@ -91,7 +91,7 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
     }
 
     public KbArticleRequest() {
-        super("/api/articles", HttpMethodType.GET);
+        super("/api/articles", HttpMethodType.GET, "2020-04-01");
     }
 
     @Override
