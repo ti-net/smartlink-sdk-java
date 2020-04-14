@@ -14,6 +14,7 @@
         <module>smartlink-sdk-java-sqc</module>
         <module>smartlink-sdk-java-asr</module>
         <module>smartlink-sdk-java-ai</module>
+        <module>smartlink-sdk-java-auth</module>
     </modules>
 
 </project>
