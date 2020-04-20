@@ -23,7 +23,7 @@ public class TibotRequest extends BaseRequest<TibotResponse> {
     private Integer botType;
 
     public TibotRequest() {
-        super("/robot/list", HttpMethodType.GET);
+        super("/api/tibots", HttpMethodType.GET);
     }
 
     public Integer getBotType() {

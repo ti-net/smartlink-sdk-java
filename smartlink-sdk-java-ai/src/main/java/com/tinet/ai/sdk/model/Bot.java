@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
  * 机器人配置
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Bot {
 
     private Integer id;
