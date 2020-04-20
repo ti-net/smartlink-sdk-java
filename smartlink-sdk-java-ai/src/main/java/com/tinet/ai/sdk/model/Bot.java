@@ -13,6 +13,10 @@ public class Bot {
     private Integer id;
 
     /**
+     * 平台登录名
+     */
+    private String accountLoginName;
+    /**
      * 企业id
      */
     private Integer userId;
@@ -29,12 +33,9 @@ public class Bot {
 
     /**
      * ak
-     */
-    private String accessKey;
-
-    /**
      * sk
      */
+    private String accessKey;
     private String secretKey;
 
     /**
@@ -43,38 +44,18 @@ public class Bot {
     private String accessToken;
 
     /**
-     * tibot机器人id
+     * 机器人id
+     * 第三方机器人id
+     * 机器人名称
+     * 机器人(会话)类型 0 呼叫中心(呼入) 1 呼叫中心(外呼) 2 在线客服
      */
     private String botId;
-
-    /**
-     * 第三方机器人id
-     */
     private String botThirdPartyId;
-
-    /**
-     * 平台登录名
-     */
-    private String accountLoginName;
-
-    /**
-     * 机器人名称
-     */
     private String botName;
-    private Date createTime;
-    private Date updateTime;
-    private String botKbId;
     private Integer botType;
 
-    /**
-     * 创建人
-     */
-    private String createUser;
+    private String botKbId;
 
-    /**
-     * 更新人
-     */
-    private String updateUser;
 
     /**
      * 机器人昵称
@@ -92,8 +73,23 @@ public class Bot {
     private Integer status;
 
     /**
+     * rasa 自定义 action 服务地址，其在创建机器人的时候生成
+     * 云问机器人的sysNum
+     */
+    private String actionEndpoint;
+
+    /**
      * 描述
      */
     private String description;
 
+
+    private Date createTime;
+    private Date updateTime;
+    /**
+     * 创建人
+     * 更新人
+     */
+    private String createUser;
+    private String updateUser;
 }

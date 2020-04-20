@@ -30,6 +30,16 @@ public class ChatResponse {
 	private String loginId;
 
 	/**
+	 * 机器人唯一标识
+	 */
+	private String botId;
+
+	/**
+	 * 会话标签
+	 */
+	private List<String> userTag;
+
+	/**
 	 * 错误码，非0代表有系统错误
 	 */
 	private Integer errorCode;
