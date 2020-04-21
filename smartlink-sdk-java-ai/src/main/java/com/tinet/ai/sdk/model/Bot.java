@@ -16,63 +16,53 @@ public class Bot {
 
     /**
      * 平台登录名
+     * 账户 id
+     * 企业ID，在机器人中对应的userId
      */
     private String accountLoginName;
-    /**
-     * 企业id
-     */
-    private Integer userId;
-
-    /**
-     * 供应商
-     */
-    private String provider;
-
-    /**
-     * 请求url
-     */
-    private String accessUrl;
-
-    /**
-     * ak
-     * sk
-     */
-    private String accessKey;
-    private String secretKey;
-
-    /**
-     * 令牌
-     */
-    private String accessToken;
+    private Integer accountId;
+    private Integer enterpriseId;
 
     /**
      * 机器人id
-     * 第三方机器人id
      * 机器人名称
-     * 机器人(会话)类型 0 呼叫中心(呼入) 1 呼叫中心(外呼) 2 在线客服
+     * 机器人(会话)类型 1 电话机器人 2 在线客服  3话术推荐
+     * 第三方机器人id
+     * 供应商
+     * 机器人昵称
+     * 机器人头像
+     * 描述
      */
     private String botId;
-    private String botThirdPartyId;
     private String botName;
     private Integer botType;
-
-    private String botKbId;
-
-
-    /**
-     * 机器人昵称
-     */
+    private String botThirdPartyId;
+    private String provider;
     private String nickname;
-
-    /**
-     * 头像
-     */
     private String avatar;
+    private String description;
 
     /**
-     * 状态   0禁用   1启用  2不可用(申请中)
+     * 状态；0:禁用，1:启用
      */
     private Integer status;
+    /**
+     * 机器人并发数  (默认不进行限制)
+     */
+    private Integer concurrent;
+
+    /**
+     * 访问连接
+     * ak
+     * sk
+     * 访问token
+     */
+    private String accessUrl;
+    private String accessKey;
+    private String secretKey;
+    private String accessToken;
+
+
 
     /**
      * rasa 自定义 action 服务地址，其在创建机器人的时候生成
@@ -80,10 +70,6 @@ public class Bot {
      */
     private String actionEndpoint;
 
-    /**
-     * 描述
-     */
-    private String description;
 
 
     private Date createTime;
