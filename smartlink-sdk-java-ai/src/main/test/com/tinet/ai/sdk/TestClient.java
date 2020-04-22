@@ -2,20 +2,16 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tinet.ai.sdk.model.Record;
 import com.tinet.ai.sdk.request.*;
 import com.tinet.ai.sdk.response.*;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
+import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * 测试客户端
@@ -33,7 +29,8 @@ public class TestClient {
 
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        configuration.setHost("localhost", 8085);
+        //configuration.setHost("localhost", 8085);
+        configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -114,6 +111,17 @@ public class TestClient {
 
         KbFileUrlResponse response = smartLinkClient.getResponseModel(request);
         System.out.println(response.getRequestId());
+
+    }
+    @Test
+    public void testpdfFileUrl() throws ServerException, ClientException {
+        KbPdfFileUrlRequest request = new KbPdfFileUrlRequest();
+        request.setFileKey("file/attachment/8000071/1585820518489.doc");
+        request.setFileName("数据图.doc");
+        request.setType("inline");
+
+        KbFileUrlResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response.getFileUrl());
 
     }
 
