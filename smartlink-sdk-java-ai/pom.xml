@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tinet.smartlink</groupId>
 	<artifactId>smartlink-sdk-java-ai</artifactId>
-	<version>1.0.8.4-RELEASE</version>
+	<version>1.0.8.5-RELEASE</version>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -16,6 +16,11 @@
 			<groupId>com.tinet.smartlink</groupId>
 			<artifactId>smartlink-sdk-java-core</artifactId>
 			<version>2.0.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.10.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

@@ -8,7 +8,6 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
-import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,8 +28,8 @@ public class TestClient {
 
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        //configuration.setHost("localhost", 8085);
-        configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setHost("localhost", 8085);
+        //configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -58,6 +57,15 @@ public class TestClient {
 
         KbRepositoryResponse repositoryResponse = smartLinkClient.getResponseModel(repositoryRequest);
         System.out.println(repositoryResponse.getRequestId());
+
+    }
+    @Test
+    public void testdirectory() throws ServerException, ClientException {
+        KbDirectoryRequest kbDirectoryRequest = new KbDirectoryRequest();
+        kbDirectoryRequest.setEnterpriseId(String.valueOf(8000071));
+
+        KbDirectoriesResponse responseModel = smartLinkClient.getResponseModel(kbDirectoryRequest);
+        System.out.println(responseModel.toString());
 
     }
     @Test
