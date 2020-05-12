@@ -24,16 +24,16 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private Integer limit;
 
-    private Boolean heatStatus;
+    private String order;
 
-    public Boolean getHeatStatus() {
-        return heatStatus;
+    public String getOrder() {
+        return order;
     }
 
-    public void setHeatStatus(Boolean heatStatus) {
-        this.heatStatus = heatStatus;
-        if (heatStatus != null) {
-            putQueryParameter("heatStatus", heatStatus);
+    public void setOrder(String order) {
+        this.order = order;
+        if (order != null) {
+            putQueryParameter("order", order);
         }
     }
 
