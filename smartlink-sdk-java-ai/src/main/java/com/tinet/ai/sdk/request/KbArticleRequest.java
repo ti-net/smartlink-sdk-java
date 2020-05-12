@@ -24,6 +24,19 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private Integer limit;
 
+    private Boolean heatStatus;
+
+    public Boolean getHeatStatus() {
+        return heatStatus;
+    }
+
+    public void setHeatStatus(Boolean heatStatus) {
+        this.heatStatus = heatStatus;
+        if (heatStatus != null) {
+            putQueryParameter("heatStatus", heatStatus);
+        }
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
