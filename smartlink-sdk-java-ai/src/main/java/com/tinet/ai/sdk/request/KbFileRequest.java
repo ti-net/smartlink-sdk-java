@@ -24,6 +24,19 @@ public class KbFileRequest extends BaseRequest<KbFileResponse> {
 
     private Integer limit;
 
+    private String cno;
+
+    public String getCno() {
+        return cno;
+    }
+
+    public void setCno(String cno) {
+        this.cno = cno;
+        if (cno != null) {
+            putQueryParameter("cno", cno);
+        }
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
