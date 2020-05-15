@@ -85,4 +85,19 @@ public class KbArticleResponseModel {
      * 目录路径
      */
     private List<String> path;
+
+    /**
+     * 文章点赞数量
+     */
+    private Integer agreeCount;
+
+    /**
+     * 文章点踩数量
+     */
+    private Integer disAgreeCount;
+
+    /**
+     * 0 已点赞 1 已点踩  null 未被点击
+     */
+    private String status;
 }

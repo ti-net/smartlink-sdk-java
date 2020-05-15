@@ -26,6 +26,19 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private String order;
 
+    private String cno;
+
+    public String getCno() {
+        return cno;
+    }
+
+    public void setCno(String cno) {
+        this.cno = cno;
+        if (cno != null) {
+            putQueryParameter("cno", cno);
+        }
+    }
+
     public String getOrder() {
         return order;
     }
