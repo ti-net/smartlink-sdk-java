@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,6 +15,7 @@ import java.util.List;
  **/
 @Data
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KbArticleResponseModel {
     private String id;
 
@@ -36,6 +38,27 @@ public class KbArticleResponseModel {
      * 文章内容
      */
     private String content;
+
+    /**
+     * 电话回复内容
+     */
+    private String phoneContent;
+    /**
+     * 在线回复文章内容
+     */
+    private String onlineContent;
+    /**
+     * 微信回复文章内容
+     */
+    private String wechatContent;
+    /**
+     * app回复文章内容
+     */
+    private String appContent;
+    /**
+     * 网页回复文章内容
+     */
+    private String webContent;
 
     /**
      * 目录ID

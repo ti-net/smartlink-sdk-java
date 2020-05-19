@@ -2,6 +2,8 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.ai.sdk.model.enums.ChannelEnum;
+import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
 import com.tinet.ai.sdk.response.*;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
@@ -37,16 +39,63 @@ public class TestClient {
     }
 
 
+
     @Test
     public void testArticle() throws ServerException, ClientException, JsonProcessingException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
         articleRequest.setEnterpriseId(String.valueOf(8000071));
         articleRequest.setKbId(52);
+        articleRequest.setKeyword("我-笔");
+        articleRequest.setOrder(OrderRuleEnum.HEAT);
+        articleRequest.setCno("007");
+        articleRequest.setChannelType(ChannelEnum.APP_CONTENT);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(articleResponse));
+
+    }
+
+    @Test
+    public void testArticleTitle() throws ServerException, ClientException, JsonProcessingException {
+
+        KbArticleTitleRequest request = new KbArticleTitleRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setKeyword("钢笔");
+
+        KbArticleTitleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
+    }
+
+    @Test
+    public void testAuggest() throws ServerException, ClientException, JsonProcessingException {
+
+        KbSuggestRequest request = new KbSuggestRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setKeyword("我");
+
+        KbSuggestResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
+    }
+
+    @Test
+    public void testUnfold() throws ServerException, ClientException, JsonProcessingException {
+
+        KbUnfoldRequest request = new KbUnfoldRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setId("rcdwB3IBtChfQmGYYyDZ");
+
+        KbUnfoldResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
 
     }
 
