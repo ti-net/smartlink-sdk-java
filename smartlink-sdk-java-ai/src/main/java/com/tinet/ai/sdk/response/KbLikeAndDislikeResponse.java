@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class KbAgreeResponse extends BaseResponse {
+public class KbLikeAndDislikeResponse extends BaseResponse {
 
     private String message;
 

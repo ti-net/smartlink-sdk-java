@@ -1,6 +1,6 @@
 package com.tinet.ai.sdk.request;
 
-import com.tinet.ai.sdk.response.KbAgreeResponse;
+import com.tinet.ai.sdk.response.KbLikeAndDislikeResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
@@ -8,7 +8,7 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
  * @author chenjg
  * @date 2020/5/14
  **/
-public class KbAgreeRequest extends BaseRequest<KbAgreeResponse> {
+public class KbLikeAndDislikeRequest extends BaseRequest<KbLikeAndDislikeResponse> {
 
     private String cno;
 
@@ -101,11 +101,11 @@ public class KbAgreeRequest extends BaseRequest<KbAgreeResponse> {
         }
     }
 
-    public KbAgreeRequest() {
-        super("/api/articles/updateAgreeCount", HttpMethodType.POST);
+    public KbLikeAndDislikeRequest() {
+        super("/api/articles/updateLikeAndDislikeCount", HttpMethodType.POST);
     }
     @Override
     public Class getResponseClass() {
-        return KbAgreeResponse.class;
+        return KbLikeAndDislikeResponse.class;
     }
 }

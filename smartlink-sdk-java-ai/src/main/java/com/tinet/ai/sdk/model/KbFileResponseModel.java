@@ -92,12 +92,12 @@ public class KbFileResponseModel {
     /**
      * 文件点赞数量
      */
-    private Integer agreeCount;
+    private Integer likeCount;
 
     /**
      * 文件点踩数量
      */
-    private Integer disAgreeCount;
+    private Integer dislikeCount;
 
     /**
      * 0 已点赞 1 已点踩  null 未被点击

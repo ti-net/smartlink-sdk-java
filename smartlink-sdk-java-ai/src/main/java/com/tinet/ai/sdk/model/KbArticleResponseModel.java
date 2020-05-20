@@ -112,12 +112,12 @@ public class KbArticleResponseModel {
     /**
      * 文章点赞数量
      */
-    private Integer agreeCount;
+    private Integer likeCount;
 
     /**
      * 文章点踩数量
      */
-    private Integer disAgreeCount;
+    private Integer dislikeCount;
 
     /**
      * 0 已点赞 1 已点踩  null 未被点击
