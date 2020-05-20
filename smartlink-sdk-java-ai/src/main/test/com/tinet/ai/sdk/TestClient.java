@@ -46,9 +46,9 @@ public class TestClient {
         KbArticleRequest articleRequest = new KbArticleRequest();
         articleRequest.setEnterpriseId(String.valueOf(8000071));
         articleRequest.setKbId(52);
-        articleRequest.setKeyword("我-笔");
+        articleRequest.setKeyword("我的钢笔");
         articleRequest.setOrder(OrderRuleEnum.HEAT);
-        articleRequest.setCno("007");
+        articleRequest.setCno("177103");
         articleRequest.setChannelType(ChannelEnum.APP_CONTENT);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
