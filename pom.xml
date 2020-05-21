@@ -15,6 +15,7 @@
         <module>smartlink-sdk-java-asr</module>
         <module>smartlink-sdk-java-ai</module>
         <module>smartlink-sdk-java-auth</module>
+        <module>smartlink-sdk-java-assistant</module>
     </modules>
 
 </project>
