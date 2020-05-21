@@ -38,13 +38,18 @@ public class TestClient {
 
 
     @Test
-    public void testArticle() throws ServerException, ClientException, JsonProcessingException {
+    public void testAsr() throws JsonProcessingException {
 
         PushRealTimeAsrRequest asrRequest = new PushRealTimeAsrRequest();
         asrRequest.setEnterpriseId(String.valueOf(8000071));
         asrRequest.setSide(1);
 
-        PushRealTimeAsrResponse articleResponse = smartLinkClient.getResponseModel(asrRequest);
+        PushRealTimeAsrResponse articleResponse = null;
+        try {
+            articleResponse = smartLinkClient.getResponseModel(asrRequest);
+        } catch (ServerException | ClientException e) {
+            e.printStackTrace();
+        }
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(articleResponse));
 

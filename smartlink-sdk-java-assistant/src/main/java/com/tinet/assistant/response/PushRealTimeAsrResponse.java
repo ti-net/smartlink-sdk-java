@@ -5,10 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 获取机器人头像url 响应
+ * 实时转写 响应
  *
  * @author zhaojy
- * @date 2019/10/8
+ * @date 2020/05/21
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data

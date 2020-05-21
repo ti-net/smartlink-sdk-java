@@ -9,7 +9,7 @@ import lombok.Getter;
  * 推送 实时转写 请求
  *
  * @author zhaojy
- * @date 2019/10/8
+ * @date 2020/05/21
  **/
 @Getter
 public class PushRealTimeAsrRequest extends BaseRequest<PushRealTimeAsrResponse> {
