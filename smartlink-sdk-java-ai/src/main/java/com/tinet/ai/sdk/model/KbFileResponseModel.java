@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,6 +15,7 @@ import java.util.List;
  **/
 @Data
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KbFileResponseModel {
 
     private String id;
@@ -86,4 +88,19 @@ public class KbFileResponseModel {
      * 目录路径
      */
     private List<String> path;
+
+    /**
+     * 文件点赞数量
+     */
+    private Integer likeCount;
+
+    /**
+     * 文件点踩数量
+     */
+    private Integer dislikeCount;
+
+    /**
+     * 0 已点赞 1 已点踩  null 未被点击
+     */
+    private String status;
 }
