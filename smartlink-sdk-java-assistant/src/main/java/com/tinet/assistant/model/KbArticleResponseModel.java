@@ -1,6 +1,5 @@
-package com.tinet.ai.sdk.model;
+package com.tinet.assistant.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
@@ -8,16 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 文件库返回实体
+ * 文章响应实体
  *
  * @author huwk
- * @date 2019/10/16
+ * @date 2019/9/3
  **/
 @Data
 @ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class KbFileResponseModel {
-
+public class KbArticleResponseModel {
     private String id;
 
     /**
@@ -31,19 +28,14 @@ public class KbFileResponseModel {
     private String title;
 
     /**
-     * 文件大小(K)
+     * 相似文章
      */
-    private Long fileSize;
+    private String similars;
 
     /**
-     * 文件类型
+     * 文章内容
      */
-    private String fileType;
-
-    /**
-     * 文件路径
-     */
-    private String filePath;
+    private String content;
 
     /**
      * 目录ID
@@ -56,9 +48,14 @@ public class KbFileResponseModel {
     private Integer kbId;
 
     /**
-     * 所属知识库类型，冗余kbId对应库的类型
+     * 有效起始日期
      */
-    private Integer kbType;
+    private Date validDateFrom;
+
+    /**
+     * 有效终止时间
+     */
+    private Date validDateTo;
 
     /**
      * 创建时间
@@ -88,19 +85,4 @@ public class KbFileResponseModel {
      * 目录路径
      */
     private List<String> path;
-
-    /**
-     * 文件点赞数量
-     */
-    private Integer likeCount;
-
-    /**
-     * 文件点踩数量
-     */
-    private Integer dislikeCount;
-
-    /**
-     * 0 已点赞 1 已点踩  null 未被点击
-     */
-    private String status;
 }
