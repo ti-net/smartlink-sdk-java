@@ -44,12 +44,12 @@ public class TestClient {
     public void testArticle() throws ServerException, ClientException, JsonProcessingException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
-        articleRequest.setEnterpriseId(String.valueOf(8000071));
-        articleRequest.setKbId(52);
-        articleRequest.setKeyword("我的钢笔");
-        articleRequest.setOrder(OrderRuleEnum.HEAT);
-        articleRequest.setCno("177103");
-        articleRequest.setChannelType(ChannelEnum.APP_CONTENT);
+        articleRequest.setEnterpriseId(String.valueOf(8000559));
+        articleRequest.setKbId(92);
+        //articleRequest.setKeyword("我的钢笔");
+        articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setCno("123123");
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
         ObjectMapper mapper = new ObjectMapper();
@@ -118,6 +118,20 @@ public class TestClient {
 
     }
     @Test
+    public void testlikecount() throws ServerException, ClientException {
+        KbLikeAndDislikeRequest request = new KbLikeAndDislikeRequest();
+        request.setEnterpriseId(String.valueOf(8000071));
+        request.setType(1);
+        request.setFlag("0");
+        request.setOperationType(0);
+        request.setDataId("qcd2BnIBtChfQmGYmCBg");
+        request.setCno("177103");
+
+        KbLikeAndDislikeResponse responseModel = smartLinkClient.getResponseModel(request);
+        System.out.println(responseModel.toString());
+
+    }
+    @Test
     public void testTibot() throws ServerException, ClientException {
         TibotRequest request = new TibotRequest();
         request.setUserId(String.valueOf(3000000));
@@ -148,14 +162,16 @@ public class TestClient {
     }
 
     @Test
-    public void testFile() throws ServerException, ClientException {
+    public void testFile() throws ServerException, Exception {
 
         KbFileRequest fileRequest = new KbFileRequest();
-        fileRequest.setEnterpriseId(String.valueOf(8000071));
-        fileRequest.setKbId(23);
+        fileRequest.setEnterpriseId(String.valueOf(8000559));
+        fileRequest.setKbId(83);
+        fileRequest.setCno("123123");
 
         KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
-        System.out.println(fileResponse.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(fileResponse));
 
     }
 

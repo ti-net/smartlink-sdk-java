@@ -14,7 +14,7 @@ public enum OrderRuleEnum {
      */
     NONE("none"),
     HEAT("heat"),
-    AGREE("agree");
+    LIKE("like");
 
     private String rule;
 
