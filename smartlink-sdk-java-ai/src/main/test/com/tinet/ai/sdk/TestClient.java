@@ -44,9 +44,9 @@ public class TestClient {
     public void testArticle() throws ServerException, ClientException, JsonProcessingException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
-        articleRequest.setEnterpriseId(String.valueOf(8000559));
-        articleRequest.setKbId(92);
-        //articleRequest.setKeyword("我的钢笔");
+        articleRequest.setEnterpriseId(String.valueOf(8000071));
+        articleRequest.setKbId(52);
+        articleRequest.setKeyword("wendaku");
         articleRequest.setOrder(OrderRuleEnum.NONE);
         articleRequest.setCno("123123");
         articleRequest.setChannelType(ChannelEnum.CONTENT);
@@ -80,6 +80,20 @@ public class TestClient {
         request.setKeyword("我");
 
         KbSuggestResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
+    }
+
+    @Test
+    public void testcorrection() throws ServerException, ClientException, JsonProcessingException {
+
+        KbCorrectionRequest request = new KbCorrectionRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setKeyword("wendaku");
+
+        KbCorrectionResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
 
@@ -233,5 +247,17 @@ public class TestClient {
 
         PushCdrResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
         System.out.println(responseModel.toString());
+    }
+
+    @Test
+    public void oem() throws ServerException, Exception {
+        PushOemRequest pushCdrRequest = new PushOemRequest();
+        pushCdrRequest.setAccountLoginName("aliyun");
+        pushCdrRequest.setTitleText("测试");
+        pushCdrRequest.setOemAccountId("001");
+
+        PushOemResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 }
