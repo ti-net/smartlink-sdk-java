@@ -26,7 +26,7 @@ public class DeleteOemRequest extends BaseRequest<DeleteOemResponse> {
     public void setOemAccountId(String oemAccountId) {
         this.oemAccountId = oemAccountId;
         if (oemAccountId != null) {
-            putBodyParameter("oemAccountId", oemAccountId);
+            putQueryParameter("oemAccountId", oemAccountId);
         }
     }
 
