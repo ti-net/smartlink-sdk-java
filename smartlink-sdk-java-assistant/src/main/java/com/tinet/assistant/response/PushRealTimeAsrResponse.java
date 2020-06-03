@@ -14,7 +14,6 @@ import lombok.EqualsAndHashCode;
 @Data
 public class PushRealTimeAsrResponse extends BaseResponse {
 
-    private Integer status;
     private String result;
     private String message;
 

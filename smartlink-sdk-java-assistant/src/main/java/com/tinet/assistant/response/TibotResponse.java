@@ -1,7 +1,6 @@
 package com.tinet.assistant.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tinet.assistant.model.Bot;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
