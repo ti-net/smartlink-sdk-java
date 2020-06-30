@@ -1,5 +1,6 @@
 package com.tinet.assistant.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
+@JsonIgnoreProperties(value = "true")
 public class PushRealTimeAsrResponse extends BaseResponse {
 
     private String result;
