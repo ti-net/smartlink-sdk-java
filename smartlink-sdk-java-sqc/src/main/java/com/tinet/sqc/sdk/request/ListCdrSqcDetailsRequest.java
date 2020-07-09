@@ -13,7 +13,14 @@ import com.tinet.sqc.sdk.response.ListCdrSqcDetailsResponse;
 public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsResponse> {
 
 
-    private String qcDate;
+    /**
+     * 呼叫时间 (必传)
+     */
+    private String channelTime;
+    /**
+     * 质检时间
+     */
+    private String qcTime;
 
     private String scrollId;
 
@@ -21,14 +28,25 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
 
     private String userId;
 
-    public String getQcDate() {
-        return qcDate;
+    public String getChannelTime() {
+        return channelTime;
     }
 
-    public void setQcDate(String qcDate) {
-        this.qcDate = qcDate;
-        if (qcDate != null) {
-            putBodyParameter("qcDate", qcDate);
+    public void setChannelTime(String channelTime) {
+        this.channelTime = channelTime;
+        if(channelTime != null){
+            putQueryParameter("channelTime",channelTime);
+        }
+    }
+
+    public String getQcTime() {
+        return qcTime;
+    }
+
+    public void setQcTime(String qcTime) {
+        this.qcTime = qcTime;
+        if(qcTime != null){
+            putQueryParameter("qcTime",qcTime);
         }
     }
 
@@ -39,7 +57,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setScrollId(String scrollId) {
         this.scrollId = scrollId;
         if (scrollId != null) {
-            putBodyParameter("scrollId", scrollId);
+            putQueryParameter("scrollId", scrollId);
         }
     }
 
@@ -50,7 +68,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setUserId(String userId) {
         this.userId = userId;
         if (userId != null) {
-            putBodyParameter("userId", userId);
+            putQueryParameter("userId", userId);
         }
     }
 
@@ -61,7 +79,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setLimit(Integer limit) {
         this.limit = limit;
         if (limit != null) {
-            putBodyParameter("limit", limit);
+            putQueryParameter("limit", limit);
         }
     }
 
