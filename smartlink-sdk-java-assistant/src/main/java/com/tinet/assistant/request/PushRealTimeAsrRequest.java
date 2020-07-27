@@ -13,18 +13,22 @@ import lombok.Getter;
  **/
 @Getter
 public class PushRealTimeAsrRequest extends BaseRequest<PushRealTimeAsrResponse> {
-
     private String enterpriseId;
 
     /**
-     * 秒级时间戳
+     * 唯一标识
      */
-    private String timestamp;
+    private String uniqueId;
 
     /**
-     *  md5{enterpriseId+token+timestamp)
+     * 开始时间秒级时间戳
      */
-    private String sign;
+    private Long startTime;
+
+    /**
+     * 结束时间
+     */
+    private Long endTime;
 
     /**
      *  0:座席侧 1:客户侧
@@ -49,19 +53,6 @@ public class PushRealTimeAsrRequest extends BaseRequest<PushRealTimeAsrResponse>
         }
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-        if (timestamp != null) {
-            putBodyParameter("timestamp", timestamp);
-        }
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-        if (sign != null) {
-            putBodyParameter("sign", sign);
-        }
-    }
 
     public void setSide(Integer side) {
         this.side = side;
@@ -84,9 +75,29 @@ public class PushRealTimeAsrRequest extends BaseRequest<PushRealTimeAsrResponse>
         }
     }
 
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+        if (uniqueId != null) {
+            putBodyParameter("uniqueId", uniqueId);
+        }
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+        if (startTime != null) {
+            putBodyParameter("startTime", startTime);
+        }
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+        if (endTime != null) {
+            putBodyParameter("endTime", endTime);
+        }
+    }
 
     public PushRealTimeAsrRequest() {
-        super("/api/asr", HttpMethodType.POST);
+        super("/api/asr/accept", HttpMethodType.POST);
     }
 
     @Override
