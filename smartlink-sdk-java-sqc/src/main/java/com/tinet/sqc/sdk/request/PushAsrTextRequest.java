@@ -33,6 +33,11 @@ public class PushAsrTextRequest extends BaseRequest<PushAsrTextResponse> {
      */
     private String recordSide;
 
+    /**
+     * 是否开启快速质检功能，true:开启，false：关闭
+     */
+    private Boolean fastAsr = false;
+
     public String getUniqueId() {
         return uniqueId;
     }
@@ -52,6 +57,17 @@ public class PushAsrTextRequest extends BaseRequest<PushAsrTextResponse> {
         this.userId = userId;
         if (userId != null) {
             putBodyParameter("userId", userId);
+        }
+    }
+
+    public Boolean getFastAsr() {
+        return fastAsr;
+    }
+
+    public void setFastAsr(Boolean fastAsr) {
+        this.fastAsr = fastAsr;
+        if (fastAsr != null) {
+            putBodyParameter("fastAsr", fastAsr);
         }
     }
 
