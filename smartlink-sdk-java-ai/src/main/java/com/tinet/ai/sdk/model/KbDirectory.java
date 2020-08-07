@@ -1,7 +1,7 @@
 package com.tinet.ai.sdk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.List;
  * @date 2019/8/29
  **/
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KbDirectory {
     
     private Integer id;

@@ -2,13 +2,14 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.ai.sdk.model.enums.ChannelEnum;
+import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
 import com.tinet.ai.sdk.response.*;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
-import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,13 +30,14 @@ public class TestClient {
 
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        //configuration.setHost("localhost", 8085);
-        configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setHost("localhost", 8085);
+        //configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
     }
+
 
 
     @Test
@@ -44,10 +46,70 @@ public class TestClient {
         KbArticleRequest articleRequest = new KbArticleRequest();
         articleRequest.setEnterpriseId(String.valueOf(8000071));
         articleRequest.setKbId(52);
+        articleRequest.setKeyword("wendaku");
+        articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setCno("123123");
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(articleResponse));
+
+    }
+
+    @Test
+    public void testArticleTitle() throws ServerException, ClientException, JsonProcessingException {
+
+        KbArticleTitleRequest request = new KbArticleTitleRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setKeyword("钢笔");
+
+        KbArticleTitleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
+    }
+
+    @Test
+    public void testAuggest() throws ServerException, ClientException, JsonProcessingException {
+
+        KbSuggestRequest request = new KbSuggestRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setKeyword("我");
+
+        KbSuggestResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
+    }
+
+    @Test
+    public void testcorrection() throws ServerException, ClientException, JsonProcessingException {
+
+        KbCorrectionRequest request = new KbCorrectionRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setKeyword("wendaku");
+
+        KbCorrectionResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
+    }
+
+    @Test
+    public void testUnfold() throws ServerException, ClientException, JsonProcessingException {
+
+        KbUnfoldRequest request = new KbUnfoldRequest();
+        request.setEnterpriseId("8000071");
+        request.setKbId(52);
+        request.setId("rcdwB3IBtChfQmGYYyDZ");
+
+        KbUnfoldResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
 
     }
 
@@ -58,6 +120,29 @@ public class TestClient {
 
         KbRepositoryResponse repositoryResponse = smartLinkClient.getResponseModel(repositoryRequest);
         System.out.println(repositoryResponse.getRequestId());
+
+    }
+    @Test
+    public void testdirectory() throws ServerException, ClientException {
+        KbDirectoryRequest kbDirectoryRequest = new KbDirectoryRequest();
+        kbDirectoryRequest.setEnterpriseId(String.valueOf(8000071));
+
+        KbDirectoriesResponse responseModel = smartLinkClient.getResponseModel(kbDirectoryRequest);
+        System.out.println(responseModel.toString());
+
+    }
+    @Test
+    public void testlikecount() throws ServerException, ClientException {
+        KbLikeAndDislikeRequest request = new KbLikeAndDislikeRequest();
+        request.setEnterpriseId(String.valueOf(8000071));
+        request.setType(1);
+        request.setFlag("0");
+        request.setOperationType(0);
+        request.setDataId("qcd2BnIBtChfQmGYmCBg");
+        request.setCno("177103");
+
+        KbLikeAndDislikeResponse responseModel = smartLinkClient.getResponseModel(request);
+        System.out.println(responseModel.toString());
 
     }
     @Test
@@ -91,14 +176,16 @@ public class TestClient {
     }
 
     @Test
-    public void testFile() throws ServerException, ClientException {
+    public void testFile() throws ServerException, Exception {
 
         KbFileRequest fileRequest = new KbFileRequest();
-        fileRequest.setEnterpriseId(String.valueOf(8000071));
-        fileRequest.setKbId(23);
+        fileRequest.setEnterpriseId(String.valueOf(8000559));
+        fileRequest.setKbId(83);
+        fileRequest.setCno("123123");
 
         KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
-        System.out.println(fileResponse.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(fileResponse));
 
     }
 
@@ -160,5 +247,17 @@ public class TestClient {
 
         PushCdrResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
         System.out.println(responseModel.toString());
+    }
+
+    @Test
+    public void oem() throws ServerException, Exception {
+        PushOemRequest pushCdrRequest = new PushOemRequest();
+        pushCdrRequest.setAccountLoginName("aliyun");
+        pushCdrRequest.setTitleText("测试");
+        pushCdrRequest.setOemAccountId("001");
+
+        PushOemResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 }

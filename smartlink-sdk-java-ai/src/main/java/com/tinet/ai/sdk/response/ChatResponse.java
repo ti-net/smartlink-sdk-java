@@ -92,6 +92,12 @@ public class ChatResponse {
 	 * 机器人响应文本
 	 */
 	private String playText;
+
+	/**
+	 * 标准问  (命中的问题)
+	 */
+	private String standardQuestion;
+
 	/**
 	 * 响应意图
 	 */

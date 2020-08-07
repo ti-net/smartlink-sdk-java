@@ -1,5 +1,7 @@
 package com.tinet.ai.sdk.request;
 
+import com.tinet.ai.sdk.model.enums.ChannelEnum;
+import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.response.KbArticleResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
@@ -12,17 +14,36 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
  **/
 public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
+    private String cno;
+
     private String enterpriseId;
 
     private Integer kbId;
 
     private Integer directoryId;
 
+    private String channelType;
+
     private String keyword;
+
+    private Boolean pinyinStatus;
+
+    private String order;
 
     private Integer offset;
 
     private Integer limit;
+
+    public String getCno() {
+        return cno;
+    }
+
+    public void setCno(String cno) {
+        this.cno = cno;
+        if (cno != null) {
+            putQueryParameter("cno", cno);
+        }
+    }
 
     public String getEnterpriseId() {
         return enterpriseId;
@@ -57,6 +78,17 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
         }
     }
 
+    public String getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(ChannelEnum channelEnum) {
+        this.channelType = channelEnum.getValue();
+        if (channelType != null) {
+            putQueryParameter("channelType", channelType);
+        }
+    }
+
     public String getKeyword() {
         return keyword;
     }
@@ -65,6 +97,28 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
         this.keyword = keyword;
         if (keyword != null) {
             putQueryParameter("keyword", keyword);
+        }
+    }
+
+    public Boolean getPinyinStatus() {
+        return pinyinStatus;
+    }
+
+    public void setPinyinStatus(Boolean pinyinStatus) {
+        this.pinyinStatus = pinyinStatus;
+        if (pinyinStatus != null) {
+            putQueryParameter("pinyinStatus", pinyinStatus);
+        }
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderRuleEnum orderRuleEnum) {
+        this.order = orderRuleEnum.getRule();
+        if (order != null) {
+            putQueryParameter("order", order);
         }
     }
 
@@ -91,7 +145,7 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
     }
 
     public KbArticleRequest() {
-        super("/api/articles", HttpMethodType.GET, "2020-04-01");
+        super("/api/articles", HttpMethodType.GET, "2020-05-21");
     }
 
     @Override
