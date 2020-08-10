@@ -10,6 +10,7 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
+import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -30,8 +31,8 @@ public class TestClient {
 
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        configuration.setHost("localhost", 8085);
-        //configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//        configuration.setHost("localhost", 8085);
+        configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -257,6 +258,19 @@ public class TestClient {
         pushCdrRequest.setOemAccountId("001");
 
         PushOemResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+
+    @Test
+    public void intelligentAssociation() throws ServerException, Exception {
+        IntelligentAssociationRequest intelligentAssociationRequest = new IntelligentAssociationRequest();
+        intelligentAssociationRequest.setEnterpriseId("8000071");
+        intelligentAssociationRequest.setBotId("798000");
+        intelligentAssociationRequest.setText("jira");
+
+        IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
     }
