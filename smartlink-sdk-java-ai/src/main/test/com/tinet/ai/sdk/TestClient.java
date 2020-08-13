@@ -31,7 +31,7 @@ public class TestClient {
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
         configuration.setHost("localhost", 8085);
-        //configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        // configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -182,6 +182,7 @@ public class TestClient {
         fileRequest.setEnterpriseId(String.valueOf(8000559));
         fileRequest.setKbId(83);
         fileRequest.setCno("123123");
+        fileRequest.setKeyword("测试");
 
         KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
         ObjectMapper mapper = new ObjectMapper();
