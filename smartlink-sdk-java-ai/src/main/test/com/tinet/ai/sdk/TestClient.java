@@ -10,6 +10,7 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
+import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -258,6 +259,19 @@ public class TestClient {
         pushCdrRequest.setOemAccountId("001");
 
         PushOemResponse responseModel = smartLinkClient.getResponseModel(pushCdrRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+
+    @Test
+    public void intelligentAssociation() throws ServerException, Exception {
+        IntelligentAssociationRequest intelligentAssociationRequest = new IntelligentAssociationRequest();
+        intelligentAssociationRequest.setEnterpriseId("8000071");
+        intelligentAssociationRequest.setBotId("798000");
+        intelligentAssociationRequest.setText("jira");
+
+        IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
     }
