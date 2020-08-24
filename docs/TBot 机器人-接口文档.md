@@ -19,7 +19,7 @@ maven 依赖 smartlink-sdk-java-ai
 
 ## SDK示例:
 
-```java
+```
 public void pushCdr() {
     SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
     // 这些是必须设置的参数
@@ -133,7 +133,7 @@ POST
 
 调用失败400
 
-```json
+```
 失败的请求会已异常的形式抛出:
 com.tinet.smartlink.commons.sdk.core.exceptions.ServerException: uniqueId不符合格式要求
 .........
