@@ -1,7 +1,6 @@
 package com.tinet.sqc.sdk.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.tinet.smartlink.sdk.core.response.ErrorResponse;
 import com.tinet.smartlink.sdk.core.response.PagedResponse;
 import com.tinet.sqc.sdk.model.CustomerPortrait;
 import lombok.Data;
@@ -27,8 +26,4 @@ public class CustomerPortraitResponse extends PagedResponse {
      * 分页结果
      */
     private List<CustomerPortrait> data;
-    /**
-     * 异常信息
-     */
-    private ErrorResponse error;
 }
