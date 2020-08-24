@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Class for:
  * <p>
- * 客户画像外放接口，todo need test 参数待补全
+ * 客户画像外放接口，
  *
  * @author yinzk
  * @date 2020/8/24
