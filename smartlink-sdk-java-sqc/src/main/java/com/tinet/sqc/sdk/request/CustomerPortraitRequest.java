@@ -3,6 +3,7 @@ package com.tinet.sqc.sdk.request;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 import com.tinet.sqc.sdk.response.CustomerPortraitResponse;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -50,15 +51,15 @@ public class CustomerPortraitRequest extends BaseRequest<CustomerPortraitRespons
 
     public void setCustomerNumber(Set<String> customerNumber) {
         this.customerNumber = customerNumber;
-        if (customerNumber != null) {
-            putQueryParameter("customerNumber", customerNumber);
+        if (!CollectionUtils.isEmpty(customerNumber)) {
+            putQueryParameter("customerNumber", customerNumber.toString().substring(1, customerNumber.toString().length() - 1));
         }
     }
 
     public void setPortraits(List<String> portraits) {
         this.portraits = portraits;
-        if (portraits != null) {
-            putQueryParameter("portraits", portraits);
+        if (!CollectionUtils.isEmpty(portraits)) {
+            putQueryParameter("portraits", portraits.toString().substring(1, portraits.toString().length() - 1));
         }
     }
 
