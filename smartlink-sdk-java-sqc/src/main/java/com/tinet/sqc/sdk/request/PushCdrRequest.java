@@ -44,6 +44,15 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private Integer callType;
 
     /**
+     * 录音来源类型、默认是类型 1
+     * 1：平台自计费话单录音。（一般这种情况转写后不需要推送bigboss计费）
+     * 2：质检平台第三方用户（90开头的企业）
+     * 3：客户通过接口对接质检，（例如vnc的一些企业）
+     * 4：页面上传录平台第三方客户话单音做质检的话单
+     */
+    private Integer cdrSource;
+
+    /**
      * 座席电话号码
      */
     private String agentNumber;
@@ -224,6 +233,16 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private List<OriginData> originDataList;
 
+    public Integer getCdrSource() {
+        return cdrSource;
+    }
+
+    public void setCdrSource(Integer cdrSource) {
+        this.cdrSource = cdrSource;
+        if (cdrSource != null) {
+            putBodyParameter("cdrSource", cdrSource);
+        }
+    }
 
     public List<OriginData> getOriginDataList() {
         return originDataList;

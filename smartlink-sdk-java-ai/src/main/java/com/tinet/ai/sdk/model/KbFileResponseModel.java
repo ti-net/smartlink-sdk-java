@@ -46,6 +46,11 @@ public class KbFileResponseModel {
     private String filePath;
 
     /**
+     * 搜索出的文档片段
+     */
+    private List<String> contentList;
+
+    /**
      * 目录ID
      */
     private Integer directoryId;
