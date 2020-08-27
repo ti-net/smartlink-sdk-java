@@ -30,6 +30,11 @@ public class ChatResponse {
 	private String loginId;
 
 	/**
+	 * 单句话id
+	 */
+	private String sentenceId;
+
+	/**
 	 * 机器人唯一标识
 	 */
 	private String botId;
