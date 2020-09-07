@@ -3,6 +3,7 @@ package com.tinet.sqc.sdk.request;
 
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
+import com.tinet.sqc.sdk.model.OriginData;
 import com.tinet.sqc.sdk.model.TicketRecord;
 import com.tinet.sqc.sdk.response.PushTicketListResponse;
 
@@ -43,6 +44,23 @@ public class PushTicketListRequest extends BaseRequest<PushTicketListResponse> {
      * 工单节点内容
      */
     private List<TicketRecord> ticketRecord;
+
+    /**
+     * 自定义字段传值list
+     */
+    private List<OriginData> originDataList;
+
+
+    public List<OriginData> getOriginDataList() {
+        return originDataList;
+    }
+
+    public void setOriginDataList(List<OriginData> originDataList) {
+        this.originDataList = originDataList;
+        if (originDataList != null) {
+            putBodyParameter("originDataList", originDataList);
+        }
+    }
 
     public String getUserId() {
         return userId;
