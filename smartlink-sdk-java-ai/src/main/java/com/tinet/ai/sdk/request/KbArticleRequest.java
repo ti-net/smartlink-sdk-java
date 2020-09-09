@@ -34,6 +34,19 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private Integer limit;
 
+    private String[] highlight;
+
+    public String[] getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(String[] highlight) {
+        this.highlight = highlight;
+        if (highlight != null) {
+            putQueryParameter("highlight", highlight);
+        }
+    }
+
     public String getCno() {
         return cno;
     }
