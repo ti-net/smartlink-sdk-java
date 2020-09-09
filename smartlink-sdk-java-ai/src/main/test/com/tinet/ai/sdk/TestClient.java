@@ -32,8 +32,8 @@ public class TestClient {
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
         configuration.setHost("localhost", 8085);
-        // configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
-        configuration.setConnectionRequestTimeout(100000);
+         configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
@@ -272,6 +272,29 @@ public class TestClient {
         intelligentAssociationRequest.setText("jira");
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+
+    @Test
+    public void callScriptLikeRequest() throws ServerException, Exception {
+        CallScriptLikeRequest callScriptLikeRequest = new CallScriptLikeRequest();
+        callScriptLikeRequest.setId(1);
+        callScriptLikeRequest.setLike(true);
+
+        CallScriptLikeResponse responseModel = smartLinkClient.getResponseModel(callScriptLikeRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void OptimalCallScriptRequest() throws ServerException, Exception {
+        OptimalCallScriptRequest callScriptLikeRequest = new OptimalCallScriptRequest();
+        callScriptLikeRequest.setEnterpriseId("123456");
+        callScriptLikeRequest.setQuery("true");
+
+        OptimalCallScriptResponse responseModel = smartLinkClient.getResponseModel(callScriptLikeRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
     }
