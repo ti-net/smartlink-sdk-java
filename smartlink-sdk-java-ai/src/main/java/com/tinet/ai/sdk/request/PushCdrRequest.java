@@ -220,6 +220,22 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private Integer taskId;
 
+    /**
+     * 机器人通话时长
+     */
+    private Integer robotDuration;
+
+    public Integer getRobotDuration() {
+        return robotDuration;
+    }
+
+    public void setRobotDuration(Integer robotDuration) {
+        this.robotDuration = robotDuration;
+        if (robotDuration != null) {
+            putBodyParameter("robotDuration", robotDuration);
+        }
+    }
+
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
         if (taskId != null) {
@@ -261,9 +277,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
-    public String getUniqueId() {
-        return uniqueId;
-    }
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
@@ -272,9 +285,7 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
-    public String getUserId() {
-        return userId;
-    }
+
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -283,9 +294,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
-    public String getCdrType() {
-        return cdrType;
-    }
 
     public void setCdrType(String cdrType) {
         this.cdrType = cdrType;
@@ -296,6 +304,15 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
 
     public Integer getCallType() {
         return callType;
+    }
+    public String getUserId() {
+        return userId;
+    }
+    public String getUniqueId() {
+        return uniqueId;
+    }
+    public String getCdrType() {
+        return cdrType;
     }
 
     public void setCallType(Integer callType) {

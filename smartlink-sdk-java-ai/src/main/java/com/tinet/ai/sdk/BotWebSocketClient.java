@@ -2,6 +2,7 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.ai.sdk.handler.AfterConnectHandler;
 import com.tinet.ai.sdk.handler.ChatResponseCallback;
 import com.tinet.ai.sdk.handler.TibotSessionHandler;
 import com.tinet.ai.sdk.request.ChatRequest;
@@ -17,7 +18,6 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -60,9 +60,9 @@ import java.util.concurrent.ExecutionException;
  * @author houfc
  * @date 2019/03/13
  */
-public class TibotWebSocketClient {
+public class BotWebSocketClient {
 
-    private static Logger logger = LoggerFactory.getLogger(TibotWebSocketClient.class);
+    private static Logger logger = LoggerFactory.getLogger(BotWebSocketClient.class);
 
     private WebSocketStompClient stompClient = new WebSocketStompClient(new StandardWebSocketClient());
 
@@ -96,11 +96,15 @@ public class TibotWebSocketClient {
 
     private ChatResponseCallback callback;
 
-    public TibotWebSocketClient(@NonNull TibotWebSocketClientConfiguration configuration, ChatResponseCallback callback) {
+    private AfterConnectHandler afterConnect;
+
+    public BotWebSocketClient(@NonNull TibotWebSocketClientConfiguration configuration,
+                              ChatResponseCallback callback, AfterConnectHandler afterConnect) {
         this.configuration = configuration;
         this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         this.url = "ws://" + configuration.getHost() + "/tibot";
         this.callback = callback;
+        this.afterConnect = afterConnect;
         connect();
     }
 
@@ -109,7 +113,7 @@ public class TibotWebSocketClient {
      */
     public void connect() {
 
-        logger.info("connect to tibot server");
+        logger.info("[TBot]connect to tbot server");
 
         WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
 
@@ -138,6 +142,14 @@ public class TibotWebSocketClient {
 
         try {
             session = stompClient.connect(url, httpHeaders, stompHeaders, sessionHandler).get();
+            if (clientSessionMap.size() > 0) {
+                // 重连
+                if (afterConnect!=null){
+                    logger.info("TBot reConnected, handler old session... ");
+                    afterConnect.handlerClientSessionAfterConnect(clientSessionMap);
+                }
+                clientSessionMap.clear();
+            }
         } catch (InterruptedException | ExecutionException e) {
             logger.error("TBot Websocket connect error! ", e);
         }
@@ -191,11 +203,11 @@ public class TibotWebSocketClient {
                                     chatResponse.getUniqueId(), chatResponse, System.currentTimeMillis());
                             callback.callback(chatResponse);
                             List<String> actions = chatResponse.getAction();
-                            if (!CollectionUtils.isEmpty(actions)) {
-                                if (actions.contains("END")) {
-//                            logout(chatResponse.getUniqueId());
-                                }
-                            }
+//                            if (!CollectionUtils.isEmpty(actions)) {
+//                                if (actions.contains("END")) {
+//                                  logout(chatResponse.getUniqueId());
+//                                }
+//                            }
                         }
                     }
                 });

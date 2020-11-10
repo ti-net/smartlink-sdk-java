@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 
 /**
- * TibotWebSocketClient 配置
+ * BotWebSocketClient 配置
  * 
  * @author houfc
  * @date 2019/3/14
