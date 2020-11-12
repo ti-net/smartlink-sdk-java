@@ -142,13 +142,20 @@ public class BotWebSocketClient {
 
         try {
             session = stompClient.connect(url, httpHeaders, stompHeaders, sessionHandler).get();
-            if (clientSessionMap.size() > 0) {
-                // 重连
-                if (afterConnect!=null){
-                    logger.info("TBot reConnected, handler old session... ");
+            if (!clientSessionMap.isEmpty()) {
+                // 重连成功
+                if (afterConnect != null) {
+                    // 用户自己处理session
+                    logger.info("[TBot] reConnected, handler old session... ");
                     afterConnect.handlerClientSessionAfterConnect(clientSessionMap);
+                    clientSessionMap.clear();
+                } else {
+                    // 客户端自动进行重新订阅
+                    for (Map.Entry<String, ClientSession> sessionEntry : clientSessionMap.entrySet()) {
+                        logger.info("[TBot] reConnected, login, current loginId :{}", sessionEntry.getKey());
+                        this.login(sessionEntry.getValue());
+                    }
                 }
-                clientSessionMap.clear();
             }
         } catch (InterruptedException | ExecutionException e) {
             logger.error("TBot Websocket connect error! ", e);
