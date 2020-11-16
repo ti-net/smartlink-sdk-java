@@ -107,4 +107,9 @@ public class ChatResponse {
 	 * 响应意图
 	 */
 	private String responseIntent;
+
+	/**
+	 * 扩展字段
+	 */
+	private Map<String, Object> ext;
 }

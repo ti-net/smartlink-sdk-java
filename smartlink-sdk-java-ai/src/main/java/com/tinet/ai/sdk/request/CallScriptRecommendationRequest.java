@@ -34,50 +34,45 @@ public class CallScriptRecommendationRequest extends BaseRequest<CallScriptRecom
     private Float score;
 
     public CallScriptRecommendationRequest() {
-        super("/api/recommendations", HttpMethodType.GET);
+        super("/api/recommendations", HttpMethodType.POST);
     }
 
     public String getBotId() {
         return botId;
     }
-
-    public void setBotId(String botId) {
-        this.botId = botId;
-        if (botId != null) {
-            putQueryParameter("botId", botId);
-        }
-    }
-
     public String getQuery() {
         return query;
     }
-
-    public void setQuery(String query) {
-        this.query = query;
-        if (query != null) {
-            putQueryParameter("query", query);
-        }
-    }
-
     public Integer getTop() {
         return top;
     }
-
-    public void setTop(Integer top) {
-        this.top = top;
-        if (top != null) {
-            putQueryParameter("top", top);
-        }
-    }
-
     public Float getScore() {
         return score;
     }
 
+
+    public void setBotId(String botId) {
+        this.botId = botId;
+        if (botId != null) {
+            putBodyParameter("botId", botId);
+        }
+    }
+    public void setQuery(String query) {
+        this.query = query;
+        if (query != null) {
+            putBodyParameter("query", query);
+        }
+    }
+    public void setTop(Integer top) {
+        this.top = top;
+        if (top != null) {
+            putBodyParameter("top", top);
+        }
+    }
     public void setScore(Float score) {
         this.score = score;
         if (score != null) {
-            putQueryParameter("score", score);
+            putBodyParameter("score", score);
         }
     }
 
