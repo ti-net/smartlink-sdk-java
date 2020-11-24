@@ -2,6 +2,7 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.ai.sdk.model.Bot;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
@@ -173,6 +174,19 @@ public class TestClient {
 
         BotAvatarUrlResponse response = smartLinkClient.getResponseModel(request);
         System.out.println(response.getRequestId());
+
+    }
+
+
+    @Test
+    public void testBot() throws ServerException, ClientException {
+        BotRequest request = new BotRequest();
+        request.setBotId("116067");
+        request.setEnterpriseId("8000376");
+
+        BotResponse responseModel = smartLinkClient.getResponseModel(request);
+        Bot bot = responseModel.getBot();
+        System.out.println(bot);
 
     }
 
