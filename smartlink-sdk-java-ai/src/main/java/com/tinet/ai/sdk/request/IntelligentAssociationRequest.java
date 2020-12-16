@@ -33,7 +33,7 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
     private String text;
 
     public IntelligentAssociationRequest() {
-        super("/api/intelligentAssociation", HttpMethodType.GET);
+        super("/api/intelligentAssociation", HttpMethodType.POST);
     }
 
     public String getBotId() {
@@ -43,7 +43,7 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
     public void setBotId(String botId) {
         this.botId = botId;
         if (botId != null) {
-            putQueryParameter("botId", botId);
+            putBodyParameter("botId", botId);
         }
     }
 
@@ -54,7 +54,7 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
         if (enterpriseId != null) {
-            putQueryParameter("enterpriseId", enterpriseId);
+            putBodyParameter("enterpriseId", enterpriseId);
         }
     }
 
@@ -65,7 +65,7 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
     public void setText(String text) {
         this.text = text;
         if (text != null) {
-            putQueryParameter("text", text);
+            putBodyParameter("text", text);
         }
     }
 
@@ -77,7 +77,7 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
     public void setTop(Integer top) {
         this.top = top;
         if (top != null) {
-            putQueryParameter("top", top);
+            putBodyParameter("top", top);
         }
     }
 

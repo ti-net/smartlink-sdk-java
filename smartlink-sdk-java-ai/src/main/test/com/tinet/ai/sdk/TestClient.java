@@ -2,6 +2,7 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.ai.sdk.model.Bot;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
@@ -32,8 +33,8 @@ public class TestClient {
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
         configuration.setHost("localhost", 8085);
-        // configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
-        configuration.setConnectionRequestTimeout(100000);
+         configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
@@ -176,6 +177,19 @@ public class TestClient {
 
     }
 
+
+    @Test
+    public void testBot() throws ServerException, ClientException {
+        BotRequest request = new BotRequest();
+        request.setBotId("116067");
+        request.setEnterpriseId("8000376");
+
+        BotResponse responseModel = smartLinkClient.getResponseModel(request);
+        Bot bot = responseModel.getBot();
+        System.out.println(bot);
+
+    }
+
     @Test
     public void testFile() throws ServerException, Exception {
 
@@ -272,6 +286,29 @@ public class TestClient {
         intelligentAssociationRequest.setText("jira");
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+
+    @Test
+    public void callScriptLikeRequest() throws ServerException, Exception {
+        CallScriptLikeRequest callScriptLikeRequest = new CallScriptLikeRequest();
+        callScriptLikeRequest.setId(1);
+        callScriptLikeRequest.setLike(true);
+
+        CallScriptLikeResponse responseModel = smartLinkClient.getResponseModel(callScriptLikeRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void OptimalCallScriptRequest() throws ServerException, Exception {
+        OptimalCallScriptRequest callScriptLikeRequest = new OptimalCallScriptRequest();
+        callScriptLikeRequest.setEnterpriseId("123456");
+        callScriptLikeRequest.setQuery("true");
+
+        OptimalCallScriptResponse responseModel = smartLinkClient.getResponseModel(callScriptLikeRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
     }

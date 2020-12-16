@@ -1,21 +1,20 @@
 package com.tinet.sqc.sdk.request;
 
-
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 import com.tinet.sqc.sdk.model.ChatRecord;
 import com.tinet.sqc.sdk.model.OriginData;
-import com.tinet.sqc.sdk.response.PushDialogueResponse;
+import com.tinet.sqc.sdk.response.PushShunfengDialogueResponse;
 
 import java.util.List;
 
 /**
- * 在线质检推送请求实体
+ * 顺丰专项记录质检推送请求实体
  *
- * @author liuhy
- * @date 2019/8/13 9:50
+ * @author chenjg
+ * @date 2020/09/02
  */
-public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
+public class PushShunfengDialogueRequest extends BaseRequest<PushShunfengDialogueResponse> {
 
     /**
      * 唯一id
@@ -379,12 +378,12 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         this.conversationFeature = conversationFeature;
     }
 
-    public PushDialogueRequest() {
-        super("/sqc/pushDialogue", HttpMethodType.POST);
+    public PushShunfengDialogueRequest() {
+        super("/sqc/pushShunfengDialogue", HttpMethodType.POST);
     }
 
     @Override
-    public Class<PushDialogueResponse> getResponseClass() {
-        return PushDialogueResponse.class;
+    public Class<PushShunfengDialogueResponse> getResponseClass() {
+        return PushShunfengDialogueResponse.class;
     }
 }

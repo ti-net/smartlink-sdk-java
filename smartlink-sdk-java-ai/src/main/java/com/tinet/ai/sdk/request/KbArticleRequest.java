@@ -34,6 +34,19 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private Integer limit;
 
+    private String[] highlight;
+
+    public String[] getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(String[] highlight) {
+        this.highlight = highlight;
+        if (highlight != null) {
+            putQueryParameter("highlight", highlight);
+        }
+    }
+
     public String getCno() {
         return cno;
     }
@@ -145,7 +158,7 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
     }
 
     public KbArticleRequest() {
-        super("/api/articles", HttpMethodType.GET, "2020-05-21");
+        super("/api/articles", HttpMethodType.GET, "2020-09-01");
     }
 
     @Override

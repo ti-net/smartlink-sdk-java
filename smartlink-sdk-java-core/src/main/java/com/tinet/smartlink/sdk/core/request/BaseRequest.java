@@ -44,8 +44,7 @@ public abstract class BaseRequest<T extends BaseResponse> {
     private Integer socketTimeout;
 
     /**
-     *
-     * @param uri 请求的 URI
+     * @param uri        请求的 URI
      * @param httpMethod http 请求方法
      */
     protected BaseRequest(String uri, HttpMethodType httpMethod) {
@@ -57,9 +56,10 @@ public abstract class BaseRequest<T extends BaseResponse> {
      * <pre>
      *     GetMapping(value = "/check", params = "Version=2019-06-10")
      * </pre>
-     * @param uri 请求的 URI
+     *
+     * @param uri        请求的 URI
      * @param httpMethod http 请求方法
-     * @param version 该请求所使用的版本号，建议以上线日期为准备，例如: 2019-06-10
+     * @param version    该请求所使用的版本号，建议以上线日期为准备，例如: 2019-06-10
      */
     protected BaseRequest(String uri, HttpMethodType httpMethod, String version) {
         this.httpMethod = httpMethod;
@@ -119,6 +119,10 @@ public abstract class BaseRequest<T extends BaseResponse> {
         }
     }
 
+    protected void removeQueryParameter(String key) {
+        queryParameters.remove(key);
+    }
+
     public Integer getConnectTimeout() {
         return connectTimeout;
     }
@@ -144,7 +148,6 @@ public abstract class BaseRequest<T extends BaseResponse> {
     }
 
     /**
-     *
      * @return 一组请求中对应的 Response ,需要实现 BaseResponse
      */
     @JsonIgnore
@@ -152,7 +155,7 @@ public abstract class BaseRequest<T extends BaseResponse> {
 
     protected void putBodyParameter(String key, Object value) {
         if (key == null || value == null) {
-            return ;
+            return;
         }
         bodyParameters.put(key, String.valueOf(value));
     }

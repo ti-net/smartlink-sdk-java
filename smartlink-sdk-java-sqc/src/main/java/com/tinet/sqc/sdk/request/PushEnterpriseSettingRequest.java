@@ -20,6 +20,10 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
      */
     private String accountLoginName;
     /**
+     * 账户名称
+     */
+    private String accountName;
+    /**
      * 平台
      */
     private String platform;
@@ -74,15 +78,28 @@ public class PushEnterpriseSettingRequest extends BaseRequest<PushEnterpriseSett
             putBodyParameter("platform", platformEnum.getValue());
         }
     }
+
     public String getAccountLoginName() {
         return accountLoginName;
     }
-    
+
     public void setAccountLoginName(String accountLoginName) {
         this.accountLoginName = accountLoginName;
         if (accountLoginName != null) {
             putBodyParameter("accountLoginName", accountLoginName);
         }
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 
     public String getEnterpriseId() {
