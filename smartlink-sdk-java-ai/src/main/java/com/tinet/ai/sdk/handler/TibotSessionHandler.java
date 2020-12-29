@@ -38,6 +38,7 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         logger.info("connect TBot server successful  ~(￣▽￣)~");
+        BotWebSocketClient.unConnectCount.set(0);
     }
 
     @Override

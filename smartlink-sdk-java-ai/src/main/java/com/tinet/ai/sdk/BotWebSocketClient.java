@@ -103,12 +103,12 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 连接失败计数器
      */
-    private AtomicInteger unConnectCount = new AtomicInteger(0);
+    public static AtomicInteger unConnectCount = new AtomicInteger(0);
 
     /**
      * 最大失败次数
      */
-    private static final int MAX_FAILED_NUM = 6;
+    private static final int MAX_FAILED_NUM = 3;
 
     public BotWebSocketClient(@NonNull TibotWebSocketClientConfiguration configuration,
                               ChatResponseCallback callback, AfterConnectHandler afterConnect) {
@@ -118,6 +118,8 @@ public class BotWebSocketClient implements DisposableBean {
         this.callback = callback;
         this.afterConnect = afterConnect;
         connect();
+        // 心跳检测
+        startHeartbeat();
     }
 
     /**
@@ -139,10 +141,7 @@ public class BotWebSocketClient implements DisposableBean {
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
                     new StompHeaders(), sessionHandler).get();
 
-            unConnectCount.set(0);
-
-            // 心跳检测
-            startHeartbeat();
+            subscribePong();
 
             if (!clientSessionMap.isEmpty()) {
                 // 重连成功
@@ -162,6 +161,31 @@ public class BotWebSocketClient implements DisposableBean {
         } catch (InterruptedException | ExecutionException e) {
             logger.error("[TBot] Websocket connect error! ", e);
         }
+    }
+
+    private void subscribePong() {
+        StompHeaders headers = new StompHeaders();
+        headers.setDestination("/chat/pong/" + CLIENT_UUID);
+        session.subscribe(headers,
+                new StompFrameHandler() {
+                    @Override
+                    @NonNull
+                    public Type getPayloadType(@NonNull StompHeaders headers) {
+                        return Pong.class;
+                    }
+
+                    @Override
+                    public void handleFrame(@NonNull StompHeaders headers, Object pong) {
+                        if (pong instanceof Pong) {
+                            int pingCount = unConnectCount.decrementAndGet();
+                            if (pingCount == -1) {
+                                unConnectCount.set(0);
+                            }
+                            logger.info("[TBot] received pong {}, pingCount:{}", ((Pong) pong).getRequestId(), pingCount);
+                        }
+                    }
+                }
+        );
     }
 
     /**
@@ -246,41 +270,14 @@ public class BotWebSocketClient implements DisposableBean {
 
     private ThreadFactory namedFactory = new CustomizableThreadFactory("TBot-pool-");
     private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1, namedFactory);
-    /**
-     * 心跳任务关闭
-     */
-    private ScheduledFuture<?> scheduledFuture;
+
     /**
      * 启动心跳检测
      */
+    private static final String CLIENT_UUID = UUID.randomUUID().toString();
+
     private void startHeartbeat() {
-
-        StompHeaders headers = new StompHeaders();
-        headers.setDestination("/topic/pong");
-
-        if (session == null || !session.isConnected()) {
-            connect();
-        }
-
-        session.subscribe(headers,
-                new StompFrameHandler() {
-                    @Override
-                    @NonNull
-                    public Type getPayloadType(@NonNull StompHeaders headers) {
-                        return Pong.class;
-                    }
-
-                    @Override
-                    public void handleFrame(@NonNull StompHeaders headers, Object pong) {
-                        if (pong instanceof Pong) {
-                            int pingCount = unConnectCount.decrementAndGet();
-                            logger.info("[TBot] received pong {}, pingCount:{}", ((Pong) pong).getRequestId(), pingCount);
-                        }
-                    }
-                }
-        );
-        this.scheduledFuture =
-                scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(), 0, 15, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(), 10, 15, TimeUnit.SECONDS);
     }
 
     /**
@@ -289,15 +286,13 @@ public class BotWebSocketClient implements DisposableBean {
     class HeartBeatTask implements Runnable {
         @Override
         public void run() {
+            int pingCount = unConnectCount.incrementAndGet();
             try {
-                session.send("/app/ping", UUID.randomUUID().toString());
-                int pingCount = unConnectCount.incrementAndGet();
                 judgeReConnect(pingCount);
-                logger.debug("[TBot] ping currentPingCount:{}", pingCount);
+                session.send("/app/ping", CLIENT_UUID);
+                logger.info("[TBot] ping currentPingCount:{}", pingCount);
             } catch (Exception e) {
-                int pingCount = unConnectCount.incrementAndGet();
-                judgeReConnect(pingCount);
-                logger.error("[TBot] send ping exception pingCount:{}", pingCount);
+                logger.error("[TBot] send ping exception pingCount:{}", pingCount, e);
             }
         }
 
@@ -307,15 +302,15 @@ public class BotWebSocketClient implements DisposableBean {
          * @param pingCount 没收到pong的次数
          */
         private void judgeReConnect(int pingCount) {
-            if (pingCount % MAX_FAILED_NUM == 0) {
-                logger.warn("[TBot] reConnect... timestamp: {} currentPingCount:{}", System.currentTimeMillis(), pingCount);
-                session.disconnect();
-                scheduledFuture.cancel(true);
-                connect();
+            if (pingCount > 0 && pingCount % MAX_FAILED_NUM == 0) {
+                logger.warn("[TBot] reConnect... currentPingCount:{} session.isConnected():{}", pingCount);
+                if (session != null && !session.isConnected()) {
+                    connect();
+                }
+                unConnectCount.set(0);
             }
         }
     }
-
 
     /**
      * 通知 Tbot 用户开始说话了
