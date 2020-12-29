@@ -7,17 +7,19 @@ import com.tinet.ai.sdk.handler.ChatResponseCallback;
 import com.tinet.ai.sdk.handler.TibotSessionHandler;
 import com.tinet.ai.sdk.request.ChatRequest;
 import com.tinet.ai.sdk.response.ChatResponse;
+import com.tinet.ai.sdk.response.Pong;
 import com.tinet.smartlink.sdk.core.auth.SignatureComposer;
 import com.tinet.smartlink.sdk.core.auth.Signer;
 import com.tinet.smartlink.sdk.core.utils.RequestConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -26,8 +28,8 @@ import org.springframework.web.socket.messaging.WebSocketStompClient;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <pre>
@@ -60,7 +62,7 @@ import java.util.concurrent.ExecutionException;
  * @author houfc
  * @date 2019/03/13
  */
-public class BotWebSocketClient {
+public class BotWebSocketClient implements DisposableBean {
 
     private static Logger logger = LoggerFactory.getLogger(BotWebSocketClient.class);
 
@@ -98,6 +100,16 @@ public class BotWebSocketClient {
 
     private AfterConnectHandler afterConnect;
 
+    /**
+     * 连接失败计数器
+     */
+    private AtomicInteger unConnectCount = new AtomicInteger(0);
+
+    /**
+     * 最大失败次数
+     */
+    private static final int MAX_FAILED_NUM = 6;
+
     public BotWebSocketClient(@NonNull TibotWebSocketClientConfiguration configuration,
                               ChatResponseCallback callback, AfterConnectHandler afterConnect) {
         this.configuration = configuration;
@@ -113,35 +125,25 @@ public class BotWebSocketClient {
      */
     public void connect() {
 
-        logger.info("[TBot]connect to tbot server");
-
-        WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
-
-        // 与鉴权相关的信息
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put(RequestConstant.ACCESS_KEY_ID, configuration.getAccessKeyId());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        queryParams.put(RequestConstant.TIMESTAMP, sdf.format(new Date()));
-        queryParams.put(RequestConstant.EXPIRES, String.valueOf(configuration.getExpires()));
-
-        String stringToSign = composer.getStringToSign("GET",
-                configuration.getHost(), "/tibot", queryParams);
-        String signature = signer.signString(stringToSign, configuration.getAccessKeySecret());
-
-        httpHeaders.setAll(queryParams);
-        httpHeaders.set(RequestConstant.SIGNATURE, signature);
-
-        StompHeaders stompHeaders = new StompHeaders();
+        logger.info("[TBot]connect to server ...");
 
         TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
 
         // 定义并设置用于心跳检测的调度器
-        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.initialize();
-        stompClient.setTaskScheduler(taskScheduler);
+//        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+//        taskScheduler.initialize();
+//        stompClient.setTaskScheduler(taskScheduler);
 
         try {
-            session = stompClient.connect(url, httpHeaders, stompHeaders, sessionHandler).get();
+
+            session = stompClient.connect(url, getWebSocketHttpHeaders(),
+                    new StompHeaders(), sessionHandler).get();
+
+            unConnectCount.set(0);
+
+            // 心跳检测
+            startHeartbeat();
+
             if (!clientSessionMap.isEmpty()) {
                 // 重连成功
                 if (afterConnect != null) {
@@ -158,8 +160,31 @@ public class BotWebSocketClient {
                 }
             }
         } catch (InterruptedException | ExecutionException e) {
-            logger.error("TBot Websocket connect error! ", e);
+            logger.error("[TBot] Websocket connect error! ", e);
         }
+    }
+
+    /**
+     * 生成ws 请求头
+     *
+     * @return header
+     */
+    private WebSocketHttpHeaders getWebSocketHttpHeaders() {
+        WebSocketHttpHeaders httpHeaders = new WebSocketHttpHeaders();
+
+        // 与鉴权相关的信息
+        Map<String, String> queryParams = new HashMap<>(8);
+        queryParams.put(RequestConstant.ACCESS_KEY_ID, configuration.getAccessKeyId());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        queryParams.put(RequestConstant.TIMESTAMP, sdf.format(new Date()));
+        queryParams.put(RequestConstant.EXPIRES, String.valueOf(configuration.getExpires()));
+
+        String stringToSign = composer.getStringToSign("GET", configuration.getHost(), "/tibot", queryParams);
+        String signature = signer.signString(stringToSign, configuration.getAccessKeySecret());
+
+        httpHeaders.setAll(queryParams);
+        httpHeaders.set(RequestConstant.SIGNATURE, signature);
+        return httpHeaders;
     }
 
     /**
@@ -209,12 +234,6 @@ public class BotWebSocketClient {
                             logger.debug("uniqueId {} ChatResponse {}, timestamp is {}",
                                     chatResponse.getUniqueId(), chatResponse, System.currentTimeMillis());
                             callback.callback(chatResponse);
-                            List<String> actions = chatResponse.getAction();
-//                            if (!CollectionUtils.isEmpty(actions)) {
-//                                if (actions.contains("END")) {
-//                                  logout(chatResponse.getUniqueId());
-//                                }
-//                            }
                         }
                     }
                 });
@@ -224,6 +243,79 @@ public class BotWebSocketClient {
         subscriptionMap.put(loginId, subscription);
 
     }
+
+    private ThreadFactory namedFactory = new CustomizableThreadFactory("TBot-pool-");
+    private ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1, namedFactory);
+    /**
+     * 心跳任务关闭
+     */
+    private ScheduledFuture<?> scheduledFuture;
+    /**
+     * 启动心跳检测
+     */
+    private void startHeartbeat() {
+
+        StompHeaders headers = new StompHeaders();
+        headers.setDestination("/topic/pong");
+
+        if (session == null || !session.isConnected()) {
+            connect();
+        }
+
+        session.subscribe(headers,
+                new StompFrameHandler() {
+                    @Override
+                    @NonNull
+                    public Type getPayloadType(@NonNull StompHeaders headers) {
+                        return Pong.class;
+                    }
+
+                    @Override
+                    public void handleFrame(@NonNull StompHeaders headers, Object pong) {
+                        if (pong instanceof Pong) {
+                            int pingCount = unConnectCount.decrementAndGet();
+                            logger.info("[TBot] received pong {}, pingCount:{}", ((Pong) pong).getRequestId(), pingCount);
+                        }
+                    }
+                }
+        );
+        this.scheduledFuture =
+                scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(), 0, 15, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 自定义心跳任务
+     */
+    class HeartBeatTask implements Runnable {
+        @Override
+        public void run() {
+            try {
+                session.send("/app/ping", UUID.randomUUID().toString());
+                int pingCount = unConnectCount.incrementAndGet();
+                judgeReConnect(pingCount);
+                logger.debug("[TBot] ping currentPingCount:{}", pingCount);
+            } catch (Exception e) {
+                int pingCount = unConnectCount.incrementAndGet();
+                judgeReConnect(pingCount);
+                logger.error("[TBot] send ping exception pingCount:{}", pingCount);
+            }
+        }
+
+        /**
+         * 判断是否重连
+         *
+         * @param pingCount 没收到pong的次数
+         */
+        private void judgeReConnect(int pingCount) {
+            if (pingCount % MAX_FAILED_NUM == 0) {
+                logger.warn("[TBot] reConnect... timestamp: {} currentPingCount:{}", System.currentTimeMillis(), pingCount);
+                session.disconnect();
+                scheduledFuture.cancel(true);
+                connect();
+            }
+        }
+    }
+
 
     /**
      * 通知 Tbot 用户开始说话了
@@ -289,5 +381,12 @@ public class BotWebSocketClient {
 
     public int activeSessionCount() {
         return clientSessionMap.size();
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        clientSessionMap.clear();
+        subscriptionMap.clear();
+        scheduledExecutorService.shutdown();
     }
 }
