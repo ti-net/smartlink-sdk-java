@@ -177,11 +177,8 @@ public class BotWebSocketClient implements DisposableBean {
                     @Override
                     public void handleFrame(@NonNull StompHeaders headers, Object pong) {
                         if (pong instanceof Pong) {
-                            int pingCount = unConnectCount.decrementAndGet();
-                            if (pingCount == -1) {
-                                unConnectCount.set(0);
-                            }
-                            logger.info("[TBot] received pong {}, pingCount:{}", ((Pong) pong).getRequestId(), pingCount);
+                            unConnectCount.set(0);
+                            logger.info("[TBot] received pong  HOST_UUID:{}", ((Pong) pong).getRequestId());
                         }
                     }
                 }
@@ -289,8 +286,12 @@ public class BotWebSocketClient implements DisposableBean {
             int pingCount = unConnectCount.incrementAndGet();
             try {
                 judgeReConnect(pingCount);
-                session.send("/app/ping", CLIENT_UUID);
-                logger.info("[TBot] ping currentPingCount:{}", pingCount);
+                if (session != null) {
+                    session.send("/app/ping", CLIENT_UUID);
+                    logger.debug("[TBot] ping currentPingCount:{}", pingCount);
+                } else {
+                    logger.error("[TBot] connected failed:{}", pingCount);
+                }
             } catch (Exception e) {
                 logger.error("[TBot] send ping exception pingCount:{}", pingCount, e);
             }
@@ -303,11 +304,10 @@ public class BotWebSocketClient implements DisposableBean {
          */
         private void judgeReConnect(int pingCount) {
             if (pingCount > 0 && pingCount % MAX_FAILED_NUM == 0) {
-                logger.warn("[TBot] reConnect... currentPingCount:{} session.isConnected():{}", pingCount);
+                logger.warn("[TBot] reConnect... currentPingCount:{}", pingCount);
                 if (session != null && !session.isConnected()) {
                     connect();
                 }
-                unConnectCount.set(0);
             }
         }
     }
