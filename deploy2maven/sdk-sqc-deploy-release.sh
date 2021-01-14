@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-cd ../smartlink-sdk-java-ai
+cd ../smartlink-sdk-java-sqc
 
 #推送CTICloud私仓
 mvn deploy -DaltDeploymentRepository=local::default::http://10.36.3.101:8081/nexus/content/repositories/releases/ -DskipTests

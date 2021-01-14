@@ -146,10 +146,15 @@ public class SmartlinkClient {
             //多线程下多个线程同时调用getHttpClient容易导致重复创建httpClient对象的问题,所以加上了同步锁
             synchronized (this) {
                 if (httpClient == null) {
-                    httpClient = httpClientBuilder
-                            .useSystemProperties() // 使用 system properties，解决用户使用 system properties 代理不生效问题
-                            .setKeepAliveStrategy(new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
-                            .build();
+                    httpClientBuilder.setKeepAliveStrategy(
+                            new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()));
+                    if (configuration.getProxy() != null) {
+                        // httpclient 设置代理 ，如果使用system property 会报错：
+                        // org.apache.http.ProtocolException: The server failed to respond with a valid HTTP response
+                        // https://cloud.tencent.com/developer/ask/35004
+                        httpClientBuilder.setProxy(configuration.getProxy());
+                    }
+                    httpClientBuilder.build();
                 }
             }
         }
