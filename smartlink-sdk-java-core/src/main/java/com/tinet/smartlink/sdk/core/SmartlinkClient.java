@@ -147,6 +147,7 @@ public class SmartlinkClient {
             synchronized (this) {
                 if (httpClient == null) {
                     httpClient = httpClientBuilder
+                            .useSystemProperties() // 使用 system properties，解决用户使用 system properties 代理不生效问题
                             .setKeepAliveStrategy(new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
                             .build();
                 }
