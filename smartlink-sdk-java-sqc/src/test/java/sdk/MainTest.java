@@ -35,14 +35,15 @@ public class MainTest {
 
         // configuration.set...  设置其他参数(超时时间....)
 
-        String endtime = "2020-04-30 23:59:59";
-        String starttime = "2020-04-23 00:00:00";
+        String endTime = "2020-04-30 23:59:59";
+        String startTime = "2020-04-23 00:00:00";
         List<String> uniqueIdList = new ArrayList<>();
+        configuration.setProxy(new HttpHost(""));
         SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
         ListCdrsByConditionsRequest listCdrsRequest = new ListCdrsByConditionsRequest();
         listCdrsRequest.setUniqueIdList(uniqueIdList);
-        listCdrsRequest.setStartChannelTime(starttime);
-        listCdrsRequest.setEndChannelTime(endtime);
+        listCdrsRequest.setStartChannelTime(startTime);
+        listCdrsRequest.setEndChannelTime(endTime);
         ListCdrsByConditionsResponse responseModel = smartlinkClient.getResponseModel(listCdrsRequest);
         System.out.println(responseModel);
     }
