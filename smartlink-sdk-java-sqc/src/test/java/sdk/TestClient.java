@@ -94,8 +94,8 @@ public class TestClient {
         EnableBiFunctionRequest request = new EnableBiFunctionRequest();
         request.setEnterpriseId("7600114");
         request.setStatus(1);
-        EnableBiFunctionResponse responseModel = authClient.getResponseModel(request);
-        System.out.println(responseModel.toString());
+        //EnableBiFunctionResponse responseModel = authClient.getResponseModel(request);
+        //System.out.println(responseModel.toString());
     }
 
     @Test

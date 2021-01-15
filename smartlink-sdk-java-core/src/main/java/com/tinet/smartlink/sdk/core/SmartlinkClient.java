@@ -154,7 +154,7 @@ public class SmartlinkClient {
                         // https://cloud.tencent.com/developer/ask/35004
                         httpClientBuilder.setProxy(configuration.getProxy());
                     }
-                    httpClientBuilder.build();
+                    httpClient = httpClientBuilder.build();
                 }
             }
         }
