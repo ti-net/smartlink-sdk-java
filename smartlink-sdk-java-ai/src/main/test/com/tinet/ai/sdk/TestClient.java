@@ -46,12 +46,12 @@ public class TestClient {
     public void testArticle() throws ServerException, ClientException, JsonProcessingException {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
-        articleRequest.setEnterpriseId(String.valueOf(8000071));
-        articleRequest.setKbId(52);
-        articleRequest.setKeyword("wendaku");
+        articleRequest.setEnterpriseId(String.valueOf(8000559));
+        articleRequest.setKbId(782);
+        articleRequest.setKeyword("人工");
         articleRequest.setOrder(OrderRuleEnum.NONE);
-        articleRequest.setCno("123123");
-        articleRequest.setChannelType(ChannelEnum.CONTENT);
+//        articleRequest.setCno("123123");
+//        articleRequest.setChannelType(ChannelEnum.CONTENT);
 
         KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
         ObjectMapper mapper = new ObjectMapper();

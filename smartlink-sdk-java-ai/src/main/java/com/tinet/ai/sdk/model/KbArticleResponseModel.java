@@ -123,4 +123,41 @@ public class KbArticleResponseModel {
      * 0 已点赞 1 已点踩  null 未被点击
      */
     private String status;
+
+    /**
+     * 问答库 多个答案
+     */
+    private List<Answer> answers;
+
+    /**
+     * 机器人ID
+     */
+    private String botId;
+    /**
+     * 机器人配置-标签
+     */
+    private String[] botTag;
+
+    /**
+     * 机器人配置-标签
+     */
+    private String[] botAction;
+
+    @Data
+    @ToString
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Answer {
+        private String answer;
+
+        private String[] recommendQuestion;
+
+        private String startTime;
+        private String endTime;
+
+        /**
+         * 转人工 0不选中 1选中
+         */
+        private Integer transfer;
+
+    }
 }
