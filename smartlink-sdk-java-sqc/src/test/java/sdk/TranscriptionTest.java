@@ -22,50 +22,65 @@ import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class TranscriptionTest {
 
-    private final Map<String, String> parameters = new TreeMap<>();
+
+
+    @Test
+    public void get() {
+        TranscriptionTest transcriptionTest = new TranscriptionTest();
+        transcriptionTest.sign(0,10);
+        //transcriptionTest.sign(90,10);
+    }
+    /**
+     * 发送post请求，加密算法(get注释里会展示)
+     */
+
+    public void sign(int offset, int limit) {
+        final Map<String, String> parameters = new TreeMap<>();
 
 //    @Autowired
 //    private CloseableHttpClient http``````````Client;
 
-    CloseableHttpClient httpClient = HttpClients.createDefault();
-
-    /**
-     * 发送post请求，加密算法(get注释里会展示)
-     */
-    @Test
-    public void sign() {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        String accessKeyId="397548UC977E9KMP33D7";
-        String accessKeySecret = "w5j99jfyqm5e2x8p786ra48qu839j3zj";
+        String accessKeyId="**";
+        String accessKeySecret = "**";
         Integer expires = 5;  //时间随意设置
         String timestamp = sdf.format(new Date()); //签名时间戳
         String signature =null; // 计算签名
-        String url = "smartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrsByConditions"; // 需要访问的接口,
+        String url = "smartlink-sqc-openapi.tinetcloud.com/sqc/listCdrsByConditions"; // 需要访问的接口,\
+        //String url = "localhost:8083/sqc/listCdrsByConditions";
+        Long time = 360 * 1000L;
 
         //把每个参数做一下urlecode,并插入treemap,treemap有序的
-        putParameter("AccessKeyId",accessKeyId);
-        putParameter("Expires",expires);
-        putParameter("Timestamp",timestamp);
-        putParameter("startChannelTime", "2020-07-31 02:00:00");
-        putParameter("endChannelTime", "2020-10-30 01:00:00");
-        putParameter("offset", 0);
-        putParameter("limit",1);
+        putParameter("AccessKeyId",accessKeyId, parameters);
+        putParameter("Expires",expires, parameters);
+        putParameter("Timestamp",timestamp, parameters);
+
+        List<String> uniqueIdList = new ArrayList<>();
+        uniqueIdList.add("3abd96489f9c2e367890b2416a4cc333-1601483078.3078");
+        //uniqueIdList.add("110YY-1587873248.1");
+        putParameter("uniqueIdList", uniqueIdList, parameters);
+
+        putParameter("startChannelTime", "2020-10-01 00:00:00", parameters);
+        putParameter("endChannelTime", "2020-10-12 00:00:00", parameters);
+        putParameter("offset", offset, parameters);
+        putParameter("limit",limit, parameters);
+        putParameter("recordFileUrlExpiration", time, parameters);
 
         //拼接参数urlParam 如（1）中 ，例如“POSTsmartlink-sqc-openapi-test.tinetcloud.com/sqc/cdr?accessKeyId=.......”
         //当请求示GET 时，需要将参数也拼接上。如（1）中，例如“GETsmartlink-sqc-openapi-test.tinetcloud.com/sqc/cdr?accessKeyId=***&fileUrl=....”
 
-        String urlParam = "GETsmartlink-sqc-openapi-test.tinetcloud.com/sqc/listCdrsByConditions"+"?"+ getUrlParam(parameters);
+        String urlParam = "GETsmartlink-sqc-openapi.tinetcloud.com/sqc/listCdrsByConditions"+"?"+ getUrlParam(parameters);
+        //String urlParam = "GETlocalhost:8083/sqc/listCdrsByConditions"+"?"+ getUrlParam(parameters);
         //加密
         signature =hmac(accessKeySecret, urlParam);
         //将计算签名做URLEncoder
-        putParameter("Signature",signature);
+        putParameter("Signature",signature, parameters);
         //拼接post最终的请求地址
         String postUrl = "http://"+url +"?" + getUrlParam(parameters);
 
@@ -139,7 +154,7 @@ public class TranscriptionTest {
      * @param key
      * @param value
      */
-    private void putParameter(String key,Object value) {
+    private void putParameter(String key,Object value, Map<String, String> parameters) {
         try {
             String encodedKey = URLEncoder.encode(key, "UTF-8");
             String encodedValue = URLEncoder.encode(String.valueOf(value), "UTF-8");
