@@ -38,6 +38,22 @@ public class PushAsrTextRequest extends BaseRequest<PushAsrTextResponse> {
      */
     private Boolean fastAsr = false;
 
+    /**
+     * 转写状态
+     */
+    private String asrStatus;
+
+    public String getAsrStatus() {
+        return asrStatus;
+    }
+
+    public void setAsrStatus(String asrStatus) {
+        this.asrStatus = asrStatus;
+        if (asrStatus != null) {
+            putBodyParameter("asrStatus", asrStatus);
+        }
+    }
+
     public String getUniqueId() {
         return uniqueId;
     }
