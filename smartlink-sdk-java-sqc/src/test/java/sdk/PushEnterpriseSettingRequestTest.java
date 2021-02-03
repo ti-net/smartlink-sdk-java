@@ -37,6 +37,17 @@ public class PushEnterpriseSettingRequestTest {
     public void requestTest() throws ServerException, ClientException {
         PushEnterpriseSettingRequest request = new PushEnterpriseSettingRequest();
         request.setAccountLoginName("sad");
+        request.setEnterpriseName("def");
+        request.setEnterpriseId(String.valueOf(7000));
+        request.setHiddenType(0);
+        request.setStatus(new String[]{"sqc"});
+        request.setActive(1);
+        request.setToken("dcsgfdbgfb");
+        request.setRecordUrl("http://");
+        request.setPlatform("cticloud");
+
+
+
         PushEnterpriseSettingResponse response = client.getResponseModel(request);
         System.out.println(response);
     }
