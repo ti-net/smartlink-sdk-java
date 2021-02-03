@@ -186,6 +186,7 @@ public class SmartlinkClient {
                     BasicHttpClientConnectionManager connectionManager =
                             new BasicHttpClientConnectionManager(socketFactoryRegistry);
                     httpClientBuilder.setSSLSocketFactory(sslsf);
+                    httpClientBuilder.setConnectionManager(connectionManager);
 
                     httpClient = httpClientBuilder.build();
                 }

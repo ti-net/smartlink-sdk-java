@@ -24,7 +24,8 @@ public class PushEnterpriseSettingRequestTest {
 
         configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        HttpHost host = new HttpHost("smartlink-sqc-openapi.tinetcloud.com");
+        //HttpHost host = new HttpHost("smartlink-sqc-openapi.tinetcloud.com");
+        HttpHost host = new HttpHost("smartlink-openapi.chinayzyx.com", 443, "https");
         configuration.setHost(host);
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
