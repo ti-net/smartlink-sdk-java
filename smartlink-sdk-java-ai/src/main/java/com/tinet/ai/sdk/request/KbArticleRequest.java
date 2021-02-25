@@ -36,6 +36,19 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
 
     private String[] highlight;
 
+    private Integer repositoryType;
+
+    public Integer getRepositoryType() {
+        return repositoryType;
+    }
+
+    public void setRepositoryType(Integer repositoryType) {
+        this.repositoryType = repositoryType;
+        if (repositoryType != null) {
+            putQueryParameter("type", repositoryType);
+        }
+    }
+
     public String[] getHighlight() {
         return highlight;
     }
@@ -158,7 +171,7 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
     }
 
     public KbArticleRequest() {
-        super("/api/articles", HttpMethodType.GET, "2020-09-01");
+        super("/api/articles", HttpMethodType.GET, "2021-02-25");
     }
 
     @Override
