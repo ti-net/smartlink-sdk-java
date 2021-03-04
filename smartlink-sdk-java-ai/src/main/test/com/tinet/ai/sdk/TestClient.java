@@ -30,10 +30,16 @@ public class TestClient {
     public void init() {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
-        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+        //测试环境
+        //configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+        //configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+        //         configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+
+        //本地环境
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
         configuration.setHost("localhost", 8085);
-         configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -47,9 +53,18 @@ public class TestClient {
 
         KbArticleRequest articleRequest = new KbArticleRequest();
         articleRequest.setEnterpriseId(String.valueOf(8000559));
-        articleRequest.setKbId(782);
-        articleRequest.setKeyword("人工");
+        // articleRequest.setKbId(782);
+        // articleRequest.setKeyword("人工");
+        //articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setRepositoryType(0);
+        articleRequest.setKbId(771);
+        articleRequest.setDirectoryId(589);
+        articleRequest.setKeyword("dede");
+        //articleRequest.setKbId(424);
+        articleRequest.setOffset(0);
+        articleRequest.setLimit(40);
         articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
 //        articleRequest.setCno("123123");
 //        articleRequest.setChannelType(ChannelEnum.CONTENT);
 
@@ -125,9 +140,10 @@ public class TestClient {
 
     }
     @Test
-    public void testdirectory() throws ServerException, ClientException {
+    public void testDirectory() throws ServerException, ClientException {
         KbDirectoryRequest kbDirectoryRequest = new KbDirectoryRequest();
-        kbDirectoryRequest.setEnterpriseId(String.valueOf(8000071));
+        kbDirectoryRequest.setEnterpriseId(String.valueOf(8000559));
+        kbDirectoryRequest.setRepositoryType(1);
 
         KbDirectoriesResponse responseModel = smartLinkClient.getResponseModel(kbDirectoryRequest);
         System.out.println(responseModel.toString());
@@ -195,9 +211,11 @@ public class TestClient {
 
         KbFileRequest fileRequest = new KbFileRequest();
         fileRequest.setEnterpriseId(String.valueOf(8000559));
-        fileRequest.setKbId(83);
+        //fileRequest.setKbId(83);
         fileRequest.setCno("123123");
-        fileRequest.setKeyword("测试");
+        fileRequest.setRepositoryType(2);
+        fileRequest.setKbId(83);
+        //fileRequest.setKeyword("测试");
 
         KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
         ObjectMapper mapper = new ObjectMapper();

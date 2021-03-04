@@ -34,6 +34,19 @@ public class KbFileRequest extends BaseRequest<KbFileResponse> {
 
     private String cno;
 
+    private Integer repositoryType;
+
+    public Integer getRepositoryType() {
+        return repositoryType;
+    }
+
+    public void setRepositoryType(Integer repositoryType) {
+        this.repositoryType = repositoryType;
+        if (repositoryType != null) {
+            putQueryParameter("type", repositoryType);
+        }
+    }
+
     public String getCno() {
         return cno;
     }
@@ -145,7 +158,7 @@ public class KbFileRequest extends BaseRequest<KbFileResponse> {
     }
 
     public KbFileRequest() {
-        super("/api/files", HttpMethodType.GET, "2020-05-21");
+        super("/api/files", HttpMethodType.GET, "2021-02-25");
     }
 
     @Override
