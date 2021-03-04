@@ -56,11 +56,15 @@ public class TestClient {
         // articleRequest.setKbId(782);
         // articleRequest.setKeyword("人工");
         //articleRequest.setOrder(OrderRuleEnum.NONE);
-        articleRequest.setRepositoryType(1);
+        articleRequest.setRepositoryType(0);
+        articleRequest.setKbId(771);
+        articleRequest.setDirectoryId(589);
+        articleRequest.setKeyword("dede");
         //articleRequest.setKbId(424);
         articleRequest.setOffset(0);
         articleRequest.setLimit(40);
-
+        articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
 //        articleRequest.setCno("123123");
 //        articleRequest.setChannelType(ChannelEnum.CONTENT);
 
@@ -210,7 +214,7 @@ public class TestClient {
         //fileRequest.setKbId(83);
         fileRequest.setCno("123123");
         fileRequest.setRepositoryType(2);
-        fileRequest.setKbId(228);
+        fileRequest.setKbId(83);
         //fileRequest.setKeyword("测试");
 
         KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
