@@ -1,5 +1,6 @@
 package com.tinet.smartlink.sdk.core;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.smartlink.sdk.core.auth.Signer;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
@@ -96,6 +97,7 @@ public class SmartlinkClient {
         config(this.configuration);
         httpClient = getHttpClient();
         httpHost = new HttpHost(configuration.getHost());
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public <T extends BaseResponse> HttpResponse execute(BaseRequest<T> request)

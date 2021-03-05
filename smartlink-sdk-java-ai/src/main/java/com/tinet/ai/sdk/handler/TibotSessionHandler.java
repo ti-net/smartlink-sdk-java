@@ -49,25 +49,9 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
     public void handleTransportError(StompSession session, Throwable exception) {
 
         if (exception instanceof ConnectionLostException) {
-            logger.error("handleTransportError, lost connection for TBot server, sleep 3s and retry connect", exception);
-            connectRetry(3000);
+            logger.error("handleTransportError, lost connection for TBot server", exception);
         } else if (exception instanceof ConnectException) {
-            logger.error("handleTransportError, can't connect TBot server, sleep 5s and retry connect", exception);
-            connectRetry(5000);
-        }
-    }
-
-    /**
-     * sleep 指定毫秒后重新连接
-     *
-     * @param sleepMillis sleep 毫秒数
-     */
-    private void connectRetry(long sleepMillis) {
-        try {
-            Thread.sleep(sleepMillis);
-            tbotWebSocketClient.connect();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("handleTransportError, can't connect TBot server", exception);
         }
     }
 }
