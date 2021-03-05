@@ -18,16 +18,29 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
+import javax.net.ssl.SSLContext;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * <p>示例代码</p><br>
@@ -146,9 +159,36 @@ public class SmartlinkClient {
             //多线程下多个线程同时调用getHttpClient容易导致重复创建httpClient对象的问题,所以加上了同步锁
             synchronized (this) {
                 if (httpClient == null) {
-                    httpClient = httpClientBuilder
-                            .setKeepAliveStrategy(new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()))
-                            .build();
+                    httpClientBuilder.setKeepAliveStrategy(
+                            new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()));
+                    if (configuration.getProxy() != null) {
+                        // httpclient 设置代理 ，如果使用system property 会报错：
+                        // org.apache.http.ProtocolException: The server failed to respond with a valid HTTP response
+                        // https://cloud.tencent.com/developer/ask/35004
+                        httpClientBuilder.setProxy(configuration.getProxy());
+                    }
+                    TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
+                    SSLContext sslContext = null;
+                    try {
+                        sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+                    } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+                        e.printStackTrace();
+                    }
+                    SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
+                            NoopHostnameVerifier.INSTANCE);
+
+                    Registry<ConnectionSocketFactory> socketFactoryRegistry =
+                            RegistryBuilder.<ConnectionSocketFactory> create()
+                                    .register("https", sslsf)
+                                    .register("http", new PlainConnectionSocketFactory())
+                                    .build();
+
+                    BasicHttpClientConnectionManager connectionManager =
+                            new BasicHttpClientConnectionManager(socketFactoryRegistry);
+                    httpClientBuilder.setSSLSocketFactory(sslsf);
+                    httpClientBuilder.setConnectionManager(connectionManager);
+
+                    httpClient = httpClientBuilder.build();
                 }
             }
         }
@@ -210,7 +250,15 @@ public class SmartlinkClient {
     }
 
     private <T extends BaseResponse> T readResponse(HttpResponse response, Class<T> clazz) throws IOException {
-        return objectMapper.readValue(response.getEntity().getContent(), clazz);
+        InputStream inputStream = response.getEntity().getContent();
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            result.write(buffer, 0 , length);
+        }
+        String str = result.toString();
+        return objectMapper.readValue(str, clazz);
 
     }
 

@@ -18,6 +18,8 @@ public class SmartlinkClientConfiguration {
 
     private HttpHost host;
 
+    private HttpHost proxy;
+
     private String accessKeyId = null;
 
     private String accessKeySecret = null;
@@ -131,5 +133,13 @@ public class SmartlinkClientConfiguration {
 
     public void setHost(String host, int port) {
         this.host = new HttpHost(host, port);
+    }
+
+    public HttpHost getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(HttpHost proxy) {
+        this.proxy = proxy;
     }
 }
