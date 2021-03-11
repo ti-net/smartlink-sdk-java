@@ -260,6 +260,7 @@ public class SmartlinkClient {
             result.write(buffer, 0 , length);
         }
         String str = result.toString();
+        EntityUtils.consume(response.getEntity());
         return objectMapper.readValue(str, clazz);
 
     }

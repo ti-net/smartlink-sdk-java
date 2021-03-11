@@ -8,7 +8,6 @@ import com.tinet.ai.sdk.handler.TibotSessionHandler;
 import com.tinet.ai.sdk.request.ChatRequest;
 import com.tinet.ai.sdk.response.ChatResponse;
 import com.tinet.ai.sdk.response.Pong;
-import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.auth.SignatureComposer;
 import com.tinet.smartlink.sdk.core.auth.Signer;
 import com.tinet.smartlink.sdk.core.utils.RequestConstant;
@@ -109,8 +108,6 @@ public class BotWebSocketClient implements DisposableBean {
      */
     private static final int MAX_FAILED_NUM = 3;
 
-    private AIHttpClient httpClient;
-
     /**
      * 心跳检测
      */
@@ -136,7 +133,6 @@ public class BotWebSocketClient implements DisposableBean {
         TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
         StompSession session = sessionMap.get(loginId);
         try {
-
             if (session != null) {
                 return session;
             }
@@ -218,7 +214,7 @@ public class BotWebSocketClient implements DisposableBean {
      *
      * @param clientSession ClientSession
      */
-    public void login(ClientSession clientSession) {
+    public boolean login(ClientSession clientSession) {
         StompHeaders headers = new StompHeaders();
 
         String loginId = clientSession.getLoginId();
@@ -242,12 +238,12 @@ public class BotWebSocketClient implements DisposableBean {
             logger.error("[TBot] loginId {} parse params json error, params is: {}", loginId, clientSession.getParams(), e);
         }
 
-        StompSession session = sessionMap.get(loginId);
-        if (session == null || !session.isConnected()) {
-            session = connect(loginId);
-            // 心跳检测
-            startHeartbeat(loginId);
+        StompSession session = connect(loginId);;
+        if (session == null) {
+            return false;
         }
+        // 心跳检测
+        startHeartbeat(loginId);
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
                     @Override
@@ -262,6 +258,12 @@ public class BotWebSocketClient implements DisposableBean {
                             ChatResponse chatResponse = (ChatResponse) payload;
                             logger.debug("[TBot] uniqueId {} ChatResponse {}, timestamp is {}",
                                     chatResponse.getUniqueId(), chatResponse, System.currentTimeMillis());
+                            List<String> actionList = chatResponse.getAction();
+                            if (actionList != null && actionList.size() > 0) {
+                                if (actionList.contains("END")) {
+                                    logout(chatResponse.getUniqueId(), chatResponse.getLoginId());
+                                }
+                            }
                             callback.callback(chatResponse);
                         }
                     }
@@ -270,7 +272,7 @@ public class BotWebSocketClient implements DisposableBean {
         // 订阅成功时加入 clientSession 及 subscriptionMap
         clientSessionMap.put(loginId, clientSession);
         subscriptionMap.put(loginId, subscription);
-
+        return true;
     }
 
 
@@ -339,6 +341,8 @@ public class BotWebSocketClient implements DisposableBean {
 
     /**
      * 当退出机器人结点时，取消请订阅，当 client 收到 END action时， client 本身也会调用 logout 方法
+     * 1. 取消订阅
+     * 2. 断开连接
      *
      * @param uniqueId Cdr 中的 uniqueId
      * @param loginId  本次订阅唯一标识

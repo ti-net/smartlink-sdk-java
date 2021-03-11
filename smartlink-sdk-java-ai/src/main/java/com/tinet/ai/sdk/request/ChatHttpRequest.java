@@ -128,7 +128,7 @@ public class ChatHttpRequest extends BaseRequest<SuccessResponse> {
 
     @Override
     public Class getResponseClass() {
-        return null;
+        return SuccessResponse.class;
     }
 
 
