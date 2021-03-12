@@ -5,11 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.handler.AfterConnectHandler;
 import com.tinet.ai.sdk.handler.ChatResponseCallback;
 import com.tinet.ai.sdk.handler.TibotSessionHandler;
+import com.tinet.ai.sdk.request.ChatHttpRequest;
 import com.tinet.ai.sdk.request.ChatRequest;
+import com.tinet.ai.sdk.request.LogoutHttpRequest;
 import com.tinet.ai.sdk.response.ChatResponse;
 import com.tinet.ai.sdk.response.Pong;
+import com.tinet.ai.sdk.response.SuccessResponse;
+import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.auth.SignatureComposer;
 import com.tinet.smartlink.sdk.core.auth.Signer;
+import com.tinet.smartlink.sdk.core.exceptions.ClientException;
+import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import com.tinet.smartlink.sdk.core.utils.RequestConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,6 +114,8 @@ public class BotWebSocketClient implements DisposableBean {
      */
     private static final int MAX_FAILED_NUM = 3;
 
+    private AIHttpClient httpClient;
+
     /**
      * 心跳检测
      */
@@ -121,6 +129,15 @@ public class BotWebSocketClient implements DisposableBean {
         this.url = "ws://" + configuration.getHost() + "/tibot";
         this.callback = callback;
         this.afterConnect = afterConnect;
+        this.httpClient = initHttpClient(configuration);
+    }
+
+    private AIHttpClient initHttpClient(TibotWebSocketClientConfiguration configuration) {
+        SmartlinkClientConfiguration httpConfiguration = new SmartlinkClientConfiguration();
+        httpConfiguration.setAccessKeyId(configuration.getAccessKeyId());
+        httpConfiguration.setAccessKeySecret(configuration.getAccessKeySecret());
+        httpConfiguration.setHost(configuration.getHost());
+        return new AIHttpClient(httpConfiguration);
     }
 
     /**
@@ -339,6 +356,16 @@ public class BotWebSocketClient implements DisposableBean {
         }
     }
 
+    public void logoutWithHttp(String loginId) {
+        LogoutHttpRequest logout = new LogoutHttpRequest();
+        logout.setLoginId(loginId);
+        try {
+            httpClient.getResponseModel(logout);
+        } catch (ServerException | ClientException e) {
+            logger.error("[TBot] logoutWithHttp loginId {} error:", loginId, e);
+        }
+    }
+
     /**
      * 当退出机器人结点时，取消请订阅，当 client 收到 END action时， client 本身也会调用 logout 方法
      * 1. 取消订阅
@@ -364,11 +391,30 @@ public class BotWebSocketClient implements DisposableBean {
         }
     }
 
+    public void chatWithHttp(ChatRequest chatRequest) {
+        ChatHttpRequest httpRequest = new ChatHttpRequest();
+        httpRequest.setIntent(chatRequest.getIntent());
+        httpRequest.setLoginId(chatRequest.getLoginId());
+        httpRequest.setUniqueId(chatRequest.getUniqueId());
+        httpRequest.setQuery(chatRequest.getQuery());
+        httpRequest.setPlayStatus(chatRequest.getPlayStatus());
+        httpRequest.setSentenceId(chatRequest.getSentenceId());
+        httpRequest.setType(chatRequest.getType());
+
+        try {
+            httpClient.getResponseModel(httpRequest);
+        } catch (ServerException | ClientException e) {
+            logger.error("[TBot] chatWithHttp loginId {} error:", httpRequest.getLoginId(), e);
+        }
+    }
+
     public void chat(ChatRequest chatRequest) {
         logger.debug("[TBot] ChatRequest {}, timestamp is {}", chatRequest, System.currentTimeMillis());
         StompSession session = sessionMap.get(chatRequest.getLoginId());
         if (session != null) {
             session.send("/app/chat", chatRequest);
+        } else  {
+            logger.warn("[TBot] ChatRequest {}, sdk don`t have loginId: {}", chatRequest, chatRequest.getLoginId());
         }
     }
 
