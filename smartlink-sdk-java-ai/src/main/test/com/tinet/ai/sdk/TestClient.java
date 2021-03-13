@@ -330,4 +330,17 @@ public class TestClient {
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
     }
+
+    @Test
+    public void tibotFileUrlRequest() throws ServerException, Exception {
+        TibotFileUrlRequest tibotFileUrlRequest = new TibotFileUrlRequest();
+        tibotFileUrlRequest.setFileKey("123456");
+        tibotFileUrlRequest.setFileName("afssf.jpg");
+        tibotFileUrlRequest.setProvider("emotibot");
+        tibotFileUrlRequest.setType("inline");
+
+        TibotFileUrlResponse responseModel = smartLinkClient.getResponseModel(tibotFileUrlRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
 }
