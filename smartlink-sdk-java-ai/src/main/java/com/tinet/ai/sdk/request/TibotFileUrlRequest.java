@@ -32,6 +32,16 @@ public class TibotFileUrlRequest extends BaseRequest<TibotFileUrlResponse> {
      */
     private String provider;
 
+    /**
+     * 图片宽度
+     */
+    private Integer width;
+
+    /**
+     * 图片高度
+     */
+    private Integer height;
+
     public String getFileKey() {
         return fileKey;
     }
@@ -73,6 +83,28 @@ public class TibotFileUrlRequest extends BaseRequest<TibotFileUrlResponse> {
         this.provider = provider;
         if (provider != null) {
             putQueryParameter("provider", provider);
+        }
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+        if (width != null) {
+            putQueryParameter("width", width);
+        }
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+        if (height != null) {
+            putQueryParameter("height", height);
         }
     }
 

@@ -33,7 +33,7 @@ public class TestClient {
         //测试环境
         //configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         //configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        //         configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
         configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
@@ -334,10 +334,12 @@ public class TestClient {
     @Test
     public void tibotFileUrlRequest() throws ServerException, Exception {
         TibotFileUrlRequest tibotFileUrlRequest = new TibotFileUrlRequest();
-        tibotFileUrlRequest.setFileKey("123456");
-        tibotFileUrlRequest.setFileName("afssf.jpg");
+        tibotFileUrlRequest.setFileKey("530aea5dc1764fa2a9d66b7bc6fe5c16%7C0909f07196de57a1c10aefad745a73efEpUGflCYUasmile.jpg");
+        tibotFileUrlRequest.setFileName("smile.jpg");
         tibotFileUrlRequest.setProvider("emotibot");
         tibotFileUrlRequest.setType("inline");
+//        tibotFileUrlRequest.setWidth(100000);
+        tibotFileUrlRequest.setHeight(100);
 
         TibotFileUrlResponse responseModel = smartLinkClient.getResponseModel(tibotFileUrlRequest);
         ObjectMapper mapper = new ObjectMapper();
