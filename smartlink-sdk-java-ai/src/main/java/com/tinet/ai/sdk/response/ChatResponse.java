@@ -99,6 +99,11 @@ public class ChatResponse {
 	private String playText;
 
 	/**
+	 * 机器人提供商标识
+	 */
+	private String provider;
+
+	/**
 	 * 标准问  (命中的问题)
 	 */
 	private String standardQuestion;
