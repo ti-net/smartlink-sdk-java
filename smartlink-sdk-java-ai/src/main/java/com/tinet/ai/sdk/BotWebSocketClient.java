@@ -147,13 +147,13 @@ public class BotWebSocketClient implements DisposableBean {
 
         logger.info("[TBot]connect to server ...");
 
-        TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
         StompSession session = sessionMap.get(loginId);
         try {
             if (session != null) {
                 return session;
             }
 
+            TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
                     new StompHeaders(), sessionHandler).get();
             sessionMap.put(loginId, session);
@@ -255,7 +255,7 @@ public class BotWebSocketClient implements DisposableBean {
             logger.error("[TBot] loginId {} parse params json error, params is: {}", loginId, clientSession.getParams(), e);
         }
 
-        StompSession session = connect(loginId);;
+        StompSession session = connect(loginId);
         if (session == null) {
             return false;
         }
