@@ -7,7 +7,6 @@ import com.tinet.ai.sdk.handler.ChatResponseCallback;
 import com.tinet.ai.sdk.handler.TibotSessionHandler;
 import com.tinet.ai.sdk.request.ChatRequest;
 import com.tinet.ai.sdk.response.ChatResponse;
-import com.tinet.ai.sdk.response.Pong;
 import com.tinet.smartlink.sdk.core.auth.SignatureComposer;
 import com.tinet.smartlink.sdk.core.auth.Signer;
 import com.tinet.smartlink.sdk.core.utils.RequestConstant;
@@ -141,49 +140,12 @@ public class BotWebSocketClient implements DisposableBean {
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
                     new StompHeaders(), sessionHandler).get();
 
-            subscribePong();
-
-            if (!clientSessionMap.isEmpty()) {
-                // 重连成功
-                if (afterConnect != null) {
-                    // 用户自己处理session
-                    logger.info("[TBot] reConnected, handler old session... ");
-                    afterConnect.handlerClientSessionAfterConnect(clientSessionMap);
-                    clientSessionMap.clear();
-                } else {
-                    // 客户端自动进行重新订阅
-                    for (Map.Entry<String, ClientSession> sessionEntry : clientSessionMap.entrySet()) {
-                        logger.info("[TBot] reConnected, login, current loginId :{}", sessionEntry.getKey());
-                        this.login(sessionEntry.getValue());
-                    }
-                }
-            }
         } catch (InterruptedException | ExecutionException e) {
             logger.error("[TBot] Websocket connect error! ", e);
         }
     }
 
-    private void subscribePong() {
-        StompHeaders headers = new StompHeaders();
-        headers.setDestination("/chat/pong/" + CLIENT_UUID);
-        session.subscribe(headers,
-                new StompFrameHandler() {
-                    @Override
-                    @NonNull
-                    public Type getPayloadType(@NonNull StompHeaders headers) {
-                        return Pong.class;
-                    }
 
-                    @Override
-                    public void handleFrame(@NonNull StompHeaders headers, Object pong) {
-                        if (pong instanceof Pong) {
-                            unConnectCount.set(0);
-                            logger.info("[TBot] received pong  HOST_UUID:{}", ((Pong) pong).getRequestId());
-                        }
-                    }
-                }
-        );
-    }
 
     /**
      * 生成ws 请求头
@@ -237,9 +199,9 @@ public class BotWebSocketClient implements DisposableBean {
             e.printStackTrace();
         }
 
-        if (session == null || !session.isConnected()) {
+        /*if (session == null || !session.isConnected()) {
             connect();
-        }
+        }*/
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
                     @Override
@@ -271,7 +233,7 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 启动心跳检测
      */
-    private static final String CLIENT_UUID = UUID.randomUUID().toString();
+    public static final String CLIENT_UUID = UUID.randomUUID().toString();
 
     private void startHeartbeat() {
         scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(), 10, 15, TimeUnit.SECONDS);
@@ -373,6 +335,18 @@ public class BotWebSocketClient implements DisposableBean {
 
     public int activeSessionCount() {
         return clientSessionMap.size();
+    }
+
+    public StompSession getSession() {
+        return session;
+    }
+
+    public Map<String, ClientSession> getClientSessionMap() {
+        return clientSessionMap;
+    }
+
+    public AfterConnectHandler getAfterConnect() {
+        return afterConnect;
     }
 
     @Override
