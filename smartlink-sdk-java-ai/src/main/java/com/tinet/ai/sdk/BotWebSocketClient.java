@@ -368,10 +368,7 @@ public class BotWebSocketClient implements DisposableBean {
     }
 
     public boolean isConnected() {
-        if (session == null || !session.isConnected()) {
-            return false;
-        }
-        return true;
+        return session != null && session.isConnected();
     }
 
     public int activeSessionCount() {
