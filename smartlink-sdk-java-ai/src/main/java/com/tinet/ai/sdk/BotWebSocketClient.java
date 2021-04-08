@@ -81,6 +81,11 @@ public class BotWebSocketClient implements DisposableBean {
     private final Map<String, StompSession> sessionMap = new ConcurrentHashMap<>();
 
     /**
+     * 维护ws sessionId与loginId的关系
+     */
+    private final Map<String,String> loginId2SessionId = new ConcurrentHashMap<>();
+
+    /**
      * 每个 uniqueId 对应的订阅 uniqueId -> subscription
      */
     private final Map<String, StompSession.Subscription> subscriptionMap = new ConcurrentHashMap<>();
@@ -105,7 +110,7 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 连接失败计数器
      */
-    public static AtomicInteger unConnectCount = new AtomicInteger(0);
+    // public static AtomicInteger unConnectCount = new AtomicInteger(0);
 
     /**
      * 最大失败次数
@@ -141,7 +146,7 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 建立与 Tibot WebSocket 连接，
      */
-    private StompSession connect(String loginId) {
+    public StompSession connect(String loginId) {
 
         logger.info("[TBot]connect to server ...");
 
@@ -152,15 +157,45 @@ public class BotWebSocketClient implements DisposableBean {
             }
 
             TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
+            StompHeaders headers = new StompHeaders();
+            headers.set("loginId", loginId);
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
-                    new StompHeaders(), sessionHandler).get();
+                    headers, sessionHandler).get();
             sessionMap.put(loginId, session);
+            loginId2SessionId.put(loginId, session.getSessionId());
         } catch (InterruptedException | ExecutionException e) {
             logger.error("[TBot] Websocket connect error! ", e);
         }
         return session;
     }
 
+    /**
+     * 重新建立与 Tibot WebSocket 连接，
+     */
+    public void reconnect(String loginId) {
+        try {
+            logger.info("[TBot] reconnect to server ...");
+            // 移除老的 session
+            sessionMap.remove(loginId);
+
+            TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
+            StompHeaders headers = new StompHeaders();
+            headers.set("loginId", loginId);
+            StompSession session = stompClient.connect(url, getWebSocketHttpHeaders(),
+                    headers, sessionHandler).get();
+            sessionMap.put(loginId, session);
+            loginId2SessionId.put(loginId, session.getSessionId());
+
+            // 重新登录，重置心跳和消息订阅
+            // 清理定时任务
+            ClientSession clientSession = clientSessionMap.get(loginId);
+            clientSession.getScheduledExecutorService().shutdown();
+
+
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error("[TBot] Websocket reconnect error! ", e);
+        }
+    }
 
     /**
      * 生成ws 请求头
@@ -214,12 +249,13 @@ public class BotWebSocketClient implements DisposableBean {
             logger.error("[TBot] loginId {} parse params json error, params is: {}", loginId, clientSession.getParams(), e);
         }
 
-        StompSession session = connect(loginId);
+        StompSession session = sessionMap.get(loginId);
         if (session == null) {
+            logger.error("[tbot] websocket创建连接失败");
             return false;
         }
         // 心跳检测
-        startHeartbeat(loginId);
+        startHeartbeat(loginId, clientSession.getScheduledExecutorService(), clientSession.getUnConnectCount());
 
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
@@ -253,14 +289,8 @@ public class BotWebSocketClient implements DisposableBean {
     }
 
 
-
-    /**
-     * 启动心跳检测
-     */
-    public static final String CLIENT_UUID = UUID.randomUUID().toString();
-
-    private void startHeartbeat(String loginId) {
-        scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(loginId), 10, 15, TimeUnit.SECONDS);
+    private void startHeartbeat(String loginId, ScheduledExecutorService task, AtomicInteger count) {
+        task.scheduleWithFixedDelay(new HeartBeatTask(loginId, count),10, 15, TimeUnit.SECONDS);
     }
 
     /**
@@ -268,12 +298,15 @@ public class BotWebSocketClient implements DisposableBean {
      */
     class HeartBeatTask implements Runnable {
         private final String loginId;
-        public HeartBeatTask(String loginId) {
+        private final AtomicInteger count;
+
+        public HeartBeatTask(String loginId, AtomicInteger count) {
             this.loginId = loginId;
+            this.count = count;
         }
         @Override
         public void run() {
-            int pingCount = unConnectCount.incrementAndGet();
+            int pingCount = count.incrementAndGet();
             try {
                 StompSession session = sessionMap.get(loginId);
                 judgeReConnect(session, pingCount, loginId);
@@ -297,7 +330,7 @@ public class BotWebSocketClient implements DisposableBean {
             if (pingCount > 0 && pingCount % MAX_FAILED_NUM == 0) {
                 logger.warn("[TBot] reConnect... currentPingCount:{}", pingCount);
                 if (session != null && !session.isConnected()) {
-                    connect(loginId);
+                    reconnect(loginId);
                 }
             }
         }
@@ -411,6 +444,10 @@ public class BotWebSocketClient implements DisposableBean {
 
     public Map<String, StompSession> getSessionMap() {
         return sessionMap;
+    }
+
+    public Map<String, String> getLoginId2SessionId() {
+        return loginId2SessionId;
     }
 
     public Map<String, ClientSession> getClientSessionMap() {

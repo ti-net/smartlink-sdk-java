@@ -1,8 +1,13 @@
 package com.tinet.ai.sdk;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 注册时使用的信息
@@ -41,5 +46,12 @@ public class ClientSession {
      * 请求参数
      */
     private Map<String, String> params;
+
+    @JsonIgnore
+    private ScheduledExecutorService scheduledExecutorService
+            = new ScheduledThreadPoolExecutor(1, new CustomizableThreadFactory("TBot-pool-"));
+
+    @JsonIgnore
+    public AtomicInteger unConnectCount = new AtomicInteger(0);
 
 }
