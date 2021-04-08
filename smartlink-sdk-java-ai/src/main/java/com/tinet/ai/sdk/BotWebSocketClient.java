@@ -9,8 +9,6 @@ import com.tinet.ai.sdk.request.ChatHttpRequest;
 import com.tinet.ai.sdk.request.ChatRequest;
 import com.tinet.ai.sdk.request.LogoutHttpRequest;
 import com.tinet.ai.sdk.response.ChatResponse;
-import com.tinet.ai.sdk.response.Pong;
-import com.tinet.ai.sdk.response.SuccessResponse;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.auth.SignatureComposer;
 import com.tinet.smartlink.sdk.core.auth.Signer;
@@ -157,51 +155,12 @@ public class BotWebSocketClient implements DisposableBean {
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
                     new StompHeaders(), sessionHandler).get();
             sessionMap.put(loginId, session);
-
-            subscribePong(session);
-
-            if (!clientSessionMap.isEmpty()) {
-                // 重连成功
-                if (afterConnect != null) {
-                    // 用户自己处理session
-                    logger.info("[TBot] reConnected, handler old session... ");
-                    afterConnect.handlerClientSessionAfterConnect(clientSessionMap);
-                    clientSessionMap.clear();
-                } else {
-                    // 客户端自动进行重新订阅
-                    for (Map.Entry<String, ClientSession> sessionEntry : clientSessionMap.entrySet()) {
-                        logger.info("[TBot] reConnected, login, current loginId :{}", sessionEntry.getKey());
-                        this.login(sessionEntry.getValue());
-                    }
-                }
-            }
         } catch (InterruptedException | ExecutionException e) {
             logger.error("[TBot] Websocket connect error! ", e);
         }
         return session;
     }
 
-    private void subscribePong(StompSession session) {
-        StompHeaders headers = new StompHeaders();
-        headers.setDestination("/chat/pong/" + CLIENT_UUID);
-        session.subscribe(headers,
-                new StompFrameHandler() {
-                    @Override
-                    @NonNull
-                    public Type getPayloadType(@NonNull StompHeaders headers) {
-                        return Pong.class;
-                    }
-
-                    @Override
-                    public void handleFrame(@NonNull StompHeaders headers, Object pong) {
-                        if (pong instanceof Pong) {
-                            unConnectCount.set(0);
-                            logger.info("[TBot] received pong  HOST_UUID:{}", ((Pong) pong).getRequestId());
-                        }
-                    }
-                }
-        );
-    }
 
     /**
      * 生成ws 请求头
@@ -261,6 +220,7 @@ public class BotWebSocketClient implements DisposableBean {
         }
         // 心跳检测
         startHeartbeat(loginId);
+
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
                     @Override
@@ -297,7 +257,7 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 启动心跳检测
      */
-    private static final String CLIENT_UUID = UUID.randomUUID().toString();
+    public static final String CLIENT_UUID = UUID.randomUUID().toString();
 
     private void startHeartbeat(String loginId) {
         scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(loginId), 10, 15, TimeUnit.SECONDS);
@@ -318,7 +278,7 @@ public class BotWebSocketClient implements DisposableBean {
                 StompSession session = sessionMap.get(loginId);
                 judgeReConnect(session, pingCount, loginId);
                 if (session != null) {
-                    session.send("/app/ping", CLIENT_UUID);
+                    session.send("/app/ping", loginId);
                     logger.debug("[TBot] ping currentPingCount:{}", pingCount);
                 } else {
                     logger.error("[TBot] connected failed:{}", pingCount);
@@ -435,6 +395,7 @@ public class BotWebSocketClient implements DisposableBean {
      * 退出IVR机器人节点时，关闭与TiBot的WebSocket连接
      * @param loginId 唯一标识
      */
+
     public void disconnect(String loginId) {
         logger.info("disconnect tibot server, uniqueId is {}", loginId);
         StompSession session = sessionMap.get(loginId);
@@ -446,6 +407,18 @@ public class BotWebSocketClient implements DisposableBean {
 
     public int activeSessionCount() {
         return clientSessionMap.size();
+    }
+
+    public Map<String, StompSession> getSessionMap() {
+        return sessionMap;
+    }
+
+    public Map<String, ClientSession> getClientSessionMap() {
+        return clientSessionMap;
+    }
+
+    public AfterConnectHandler getAfterConnect() {
+        return afterConnect;
     }
 
     @Override

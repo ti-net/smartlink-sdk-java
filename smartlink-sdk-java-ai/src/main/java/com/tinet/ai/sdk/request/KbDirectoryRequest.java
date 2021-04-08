@@ -17,6 +17,19 @@ public class KbDirectoryRequest extends BaseRequest<KbDirectoriesResponse> {
 
     private String keyword;
 
+    private Integer repositoryType;
+
+    public Integer getRepositoryType() {
+        return repositoryType;
+    }
+
+    public void setRepositoryType(Integer repositoryType) {
+        this.repositoryType = repositoryType;
+        if (repositoryType != null) {
+            putQueryParameter("type", repositoryType);
+        }
+    }
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
