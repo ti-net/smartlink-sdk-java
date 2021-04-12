@@ -24,6 +24,7 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -80,10 +81,11 @@ public class BotWebSocketClient implements DisposableBean {
      */
     private final Map<String, StompSession> sessionMap = new ConcurrentHashMap<>();
 
+
     /**
-     * 维护ws sessionId与loginId的关系
+     * 管理定时任务
      */
-    private final Map<String,String> loginId2SessionId = new ConcurrentHashMap<>();
+    private Map<String, ScheduledFuture<?>> scheduledFutureMap = new ConcurrentHashMap<>();
 
     /**
      * 每个 uniqueId 对应的订阅 uniqueId -> subscription
@@ -129,6 +131,10 @@ public class BotWebSocketClient implements DisposableBean {
                               ChatResponseCallback callback, AfterConnectHandler afterConnect) {
         this.configuration = configuration;
         this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+        scheduler.initialize();
+        this.stompClient.setDefaultHeartbeat(new long[]{10000,10000});
+        this.stompClient.setTaskScheduler(scheduler);
         this.url = "ws://" + configuration.getHost() + "/tibot";
         this.callback = callback;
         this.afterConnect = afterConnect;
@@ -146,28 +152,23 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 建立与 Tibot WebSocket 连接，
      */
-    public StompSession connect(String loginId) {
+    public StompSession connect(String loginId, StompHeaders loginHeader) {
 
         logger.info("[TBot]connect to server ...");
-
-        StompSession session = sessionMap.get(loginId);
         try {
-            if (session != null) {
-                return session;
-            }
-
-            TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
+            TibotSessionHandler sessionHandler = new TibotSessionHandler(this, loginId, loginHeader);
             StompHeaders headers = new StompHeaders();
-            headers.set("loginId", loginId);
-            session = stompClient.connect(url, getWebSocketHttpHeaders(),
-                    headers, sessionHandler).get();
+            StompSession session = stompClient.connect(url, getWebSocketHttpHeaders(), headers, sessionHandler).get();
+
+            // 存储会话信息
             sessionMap.put(loginId, session);
-            loginId2SessionId.put(loginId, session.getSessionId());
+            return session;
         } catch (InterruptedException | ExecutionException e) {
             logger.error("[TBot] Websocket connect error! ", e);
         }
-        return session;
+        return null;
     }
+
 
     /**
      * 重新建立与 Tibot WebSocket 连接，
@@ -178,19 +179,11 @@ public class BotWebSocketClient implements DisposableBean {
             // 移除老的 session
             sessionMap.remove(loginId);
 
-            TibotSessionHandler sessionHandler = new TibotSessionHandler(this);
+            TibotSessionHandler sessionHandler = new TibotSessionHandler(this, loginId,
+                    null, true);
             StompHeaders headers = new StompHeaders();
-            headers.set("loginId", loginId);
-            StompSession session = stompClient.connect(url, getWebSocketHttpHeaders(),
-                    headers, sessionHandler).get();
+            StompSession session = stompClient.connect(url, getWebSocketHttpHeaders(), headers, sessionHandler).get();
             sessionMap.put(loginId, session);
-            loginId2SessionId.put(loginId, session.getSessionId());
-
-            // 重新登录，重置心跳和消息订阅
-            // 清理定时任务
-            ClientSession clientSession = clientSessionMap.get(loginId);
-            clientSession.getScheduledExecutorService().shutdown();
-
 
         } catch (InterruptedException | ExecutionException e) {
             logger.error("[TBot] Websocket reconnect error! ", e);
@@ -225,7 +218,17 @@ public class BotWebSocketClient implements DisposableBean {
      *
      * @param clientSession ClientSession
      */
-    public boolean login(ClientSession clientSession) {
+    public void login(ClientSession clientSession) {
+        login(clientSession, false);
+    }
+
+    /**
+     * 是否从断线重连进入
+     *
+     * @param clientSession
+     * @param retry
+     */
+    public void login(ClientSession clientSession, boolean retry) {
         StompHeaders headers = new StompHeaders();
 
         String loginId = clientSession.getLoginId();
@@ -249,14 +252,43 @@ public class BotWebSocketClient implements DisposableBean {
             logger.error("[TBot] loginId {} parse params json error, params is: {}", loginId, clientSession.getParams(), e);
         }
 
-        StompSession session = sessionMap.get(loginId);
+        // 注册session逻辑
+        StompSession session = register(loginId, headers, retry);
+
         if (session == null) {
             logger.error("[tbot] websocket创建连接失败");
-            return false;
+            return;
         }
-        // 心跳检测
-        startHeartbeat(loginId, clientSession.getScheduledExecutorService(), clientSession.getUnConnectCount());
 
+        // 订阅成功时加入 clientSession
+        clientSessionMap.put(loginId, clientSession);
+    }
+
+    /**
+     * 现在创建连接和订阅的操作要在一块做了
+     */
+    private StompSession register(String loginId, StompHeaders headers, boolean retry) {
+        // 判断当前是否会话存在
+        StompSession session = sessionMap.get(loginId);
+        if (session != null && session.isConnected()) {
+            if (retry) {
+                // TODO 是否考虑断线重连后要取消下订阅？
+                subscribe(session, loginId, headers);
+            }
+            return session;
+        }
+
+        // 清理缓存
+        sessionMap.remove(loginId);
+        subscriptionMap.remove(loginId);
+        // 创建会话
+        StompSession newSession = connect(loginId, headers);
+        // 处理客户端原有数据
+        // processClientSession(loginId, newSession);
+        return newSession;
+    }
+
+    public StompSession.Subscription subscribe(StompSession session, String loginId, StompHeaders headers) {
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
                     @Override
@@ -267,6 +299,7 @@ public class BotWebSocketClient implements DisposableBean {
 
                     @Override
                     public void handleFrame(@NonNull StompHeaders headers, Object payload) {
+                        logger.info("header {} payload {}", headers, payload);
                         if (payload instanceof ChatResponse) {
                             ChatResponse chatResponse = (ChatResponse) payload;
                             logger.debug("[TBot] uniqueId {} ChatResponse {}, timestamp is {}",
@@ -281,16 +314,23 @@ public class BotWebSocketClient implements DisposableBean {
                         }
                     }
                 });
-
-        // 订阅成功时加入 clientSession 及 subscriptionMap
-        clientSessionMap.put(loginId, clientSession);
+        // 加入到订阅缓存中
         subscriptionMap.put(loginId, subscription);
-        return true;
+        return subscription;
     }
 
-
-    private void startHeartbeat(String loginId, ScheduledExecutorService task, AtomicInteger count) {
-        task.scheduleWithFixedDelay(new HeartBeatTask(loginId, count),10, 15, TimeUnit.SECONDS);
+    /**
+     * 开启心跳检测，采用15-40s之间随机数，防止同时执行心跳
+     *
+     * @param loginId
+     * @param count
+     */
+    public void startHeartbeat(String loginId, AtomicInteger count) {
+        Random random = new Random();
+        int rand = random.nextInt(25) + 15;
+        ScheduledFuture<?> future = scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(loginId, count),
+                10, rand, TimeUnit.SECONDS);
+        scheduledFutureMap.put(loginId, future);
     }
 
     /**
@@ -380,10 +420,21 @@ public class BotWebSocketClient implements DisposableBean {
             subscription.unsubscribe(headers);
             clientSessionMap.remove(loginId);
             subscriptionMap.remove(loginId);
+            // 停止原先的心跳
+            ScheduledFuture<?> future;
+            if ((future = scheduledFutureMap.get(loginId)) != null) {
+                future.cancel(true);
+            }
+            scheduledFutureMap.remove(loginId);
             disconnect(loginId);
         }
     }
 
+    /**
+     * 在线http会话方法
+     *
+     * @param chatRequest
+     */
     public void chatWithHttp(ChatRequest chatRequest) {
         ChatHttpRequest httpRequest = new ChatHttpRequest();
         httpRequest.setIntent(chatRequest.getIntent());
@@ -401,13 +452,19 @@ public class BotWebSocketClient implements DisposableBean {
         }
     }
 
+    /**
+     * websocket会话方法
+     *
+     * @param chatRequest
+     */
     public void chat(ChatRequest chatRequest) {
         logger.debug("[TBot] ChatRequest {}, timestamp is {}", chatRequest, System.currentTimeMillis());
-        StompSession session = sessionMap.get(chatRequest.getLoginId());
+        String loginId = Objects.isNull(chatRequest.getLoginId()) ? chatRequest.getUniqueId() : chatRequest.getLoginId();
+        StompSession session = sessionMap.get(loginId);
         if (session != null) {
             session.send("/app/chat", chatRequest);
-        } else  {
-            logger.warn("[TBot] ChatRequest {}, sdk don`t have loginId: {}", chatRequest, chatRequest.getLoginId());
+        } else {
+            logger.warn("[TBot] ChatRequest {}, sdk don`t have loginId: {}", chatRequest, loginId);
         }
     }
 
@@ -446,16 +503,12 @@ public class BotWebSocketClient implements DisposableBean {
         return sessionMap;
     }
 
-    public Map<String, String> getLoginId2SessionId() {
-        return loginId2SessionId;
-    }
-
     public Map<String, ClientSession> getClientSessionMap() {
         return clientSessionMap;
     }
 
-    public AfterConnectHandler getAfterConnect() {
-        return afterConnect;
+    public Map<String, ScheduledFuture<?>> getScheduledFutureMap() {
+        return scheduledFutureMap;
     }
 
     @Override
@@ -463,6 +516,7 @@ public class BotWebSocketClient implements DisposableBean {
     public void destroy() throws Exception {
         clientSessionMap.clear();
         subscriptionMap.clear();
+        scheduledFutureMap.clear();
         scheduledExecutorService.shutdown();
     }
 }

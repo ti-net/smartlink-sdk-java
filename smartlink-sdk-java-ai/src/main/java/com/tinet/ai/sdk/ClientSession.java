@@ -48,10 +48,6 @@ public class ClientSession {
     private Map<String, String> params;
 
     @JsonIgnore
-    private ScheduledExecutorService scheduledExecutorService
-            = new ScheduledThreadPoolExecutor(1, new CustomizableThreadFactory("TBot-pool-"));
-
-    @JsonIgnore
     public AtomicInteger unConnectCount = new AtomicInteger(0);
 
 }

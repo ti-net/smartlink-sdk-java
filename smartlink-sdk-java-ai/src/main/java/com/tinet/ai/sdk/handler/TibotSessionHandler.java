@@ -8,13 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.messaging.simp.stomp.*;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Type;
 import java.net.ConnectException;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * 订阅接收服务端通过WebSocket发送的信息，转交给  {@code TibotEventHandler} 处理，各平台处理
@@ -27,11 +25,36 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
     private Logger logger = LoggerFactory.getLogger(TibotSessionHandler.class);
 
     private BotWebSocketClient tbotWebSocketClient;
+    /**
+     * 登录ID
+     */
+    private String loginId;
+    /**
+     * 登录头
+     */
+    private StompHeaders loginHeaders;
+
+    /**
+     * 判断是否是断线重连，如果是的话，需要处理客户端的遗留数据。
+     */
+    private boolean retry = false;
 
     public TibotSessionHandler(BotWebSocketClient tibotWebSocketClient) {
-        this.tbotWebSocketClient = tibotWebSocketClient;
+        this(tibotWebSocketClient,null);
     }
-
+    public TibotSessionHandler(BotWebSocketClient tibotWebSocketClient, String loginId) {
+        this(tibotWebSocketClient, loginId, null);
+    }
+    public TibotSessionHandler(BotWebSocketClient tibotWebSocketClient, String loginId, StompHeaders loginHeaders) {
+        this(tibotWebSocketClient, loginId, loginHeaders, false);
+    }
+    public TibotSessionHandler(BotWebSocketClient tibotWebSocketClient, String loginId,
+                               StompHeaders loginHeaders, boolean retry) {
+        this.tbotWebSocketClient = tibotWebSocketClient;
+        this.loginId = loginId;
+        this.loginHeaders = loginHeaders;
+        this.retry = retry;
+    }
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         logger.info("handleFrame: " + payload);
@@ -45,31 +68,34 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
      */
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        logger.info("connect TBot server successful  ~(￣▽￣)~");
+        logger.info("connect TBot server successful  ~(￣▽￣)~ session {} header {}", session, connectedHeaders);
 
-        String loginId = getKeyByValue(session.getSessionId(), tbotWebSocketClient.getLoginId2SessionId());
-        if (Objects.isNull(loginId)) {
-            logger.info("[connect TBot server ] 当前的会话的连接为空");
-            return;
+        // 停止原先的心跳
+        ScheduledFuture<?> future;
+        if ((future = tbotWebSocketClient.getScheduledFutureMap().get(loginId)) != null) {
+            future.cancel(true);
         }
-        subscribePong(session, loginId);
 
-        Map<String, ClientSession> clientSessionMap = tbotWebSocketClient.getClientSessionMap();
-        if (!clientSessionMap.isEmpty()) {
-            // 重连成功
-            AfterConnectHandler afterConnect;
-            if ((afterConnect = tbotWebSocketClient.getAfterConnect()) != null) {
-                // 用户自己处理session
-                logger.info("[TBot] reConnected, handler old session... ");
-                afterConnect.handlerClientSessionAfterConnect(clientSessionMap);
-                clientSessionMap.clear();
-            } else {
+        // 处理重连客户端数据
+        if (retry) {
+            ClientSession clientSession = tbotWebSocketClient.getClientSessionMap().get(loginId);
+            if (Objects.nonNull(clientSession)) {
                 // 客户端自动进行重新订阅
                 logger.info("[TBot] reConnected, login, current loginId :{}", loginId);
-                tbotWebSocketClient.login(clientSessionMap.get(loginId));
-
+                tbotWebSocketClient.login(clientSession, true);
             }
+            // 开启新的心跳
+            tbotWebSocketClient.startHeartbeat(loginId,
+                    tbotWebSocketClient.getClientSessionMap().get(loginId).getUnConnectCount());
+        } else {
+            // 连接成功后登录
+            tbotWebSocketClient.subscribe(session, loginId, loginHeaders);
+            // 心跳检测
+            tbotWebSocketClient.startHeartbeat(loginId,
+                    tbotWebSocketClient.getClientSessionMap().get(loginId).getUnConnectCount());
         }
+
+        subscribePong(session, loginId);
     }
 
     private void subscribePong(StompSession session, String loginId) {
@@ -96,43 +122,33 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
         );
     }
 
-    /**
-     * 通过value获取map<String,String>中的key
-     *
-     * @param value
-     * @param map
-     * @return
-     */
-    public String getKeyByValue(String value, Map<String, String> map) {
-
-        String key = null;
-        if (Objects.isNull(value)) {
-            return null;
-        }
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                key = entry.getKey();
-                break;
-            }
-        }
-        return key;
-    }
-
     @Override
     public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload, Throwable exception) {
-        logger.error("handleException", exception);
+        logger.error("handleException: session: {}, command: {}, header: {}, payload: {} exception: {}",
+                session, command, headers, payload, exception);
     }
 
     @Override
     public void handleTransportError(StompSession session, Throwable exception) {
-
-        String loginId = getKeyByValue(session.getSessionId(), tbotWebSocketClient.getLoginId2SessionId());
         if (exception instanceof ConnectionLostException) {
             logger.error("handleTransportError, lost connection for TBot server loginId " + loginId, exception);
-            tbotWebSocketClient.reconnect(loginId);
+            connectRetry(loginId);
         } else if (exception instanceof ConnectException) {
             logger.error("handleTransportError, can't connect TBot server " + loginId, exception);
+            connectRetry(loginId);
+        }
+    }
+
+    /**
+     * sleep 指定毫秒后重新连接
+     *
+     */
+    private void connectRetry(String loginId) {
+        try {
+            Thread.sleep(3000);
             tbotWebSocketClient.reconnect(loginId);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
