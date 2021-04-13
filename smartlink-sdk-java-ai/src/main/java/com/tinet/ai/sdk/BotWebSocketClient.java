@@ -24,7 +24,6 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -131,10 +130,6 @@ public class BotWebSocketClient implements DisposableBean {
                               ChatResponseCallback callback, AfterConnectHandler afterConnect) {
         this.configuration = configuration;
         this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.initialize();
-        this.stompClient.setDefaultHeartbeat(new long[]{10000,10000});
-        this.stompClient.setTaskScheduler(scheduler);
         this.url = "ws://" + configuration.getHost() + "/tibot";
         this.callback = callback;
         this.afterConnect = afterConnect;
@@ -252,6 +247,9 @@ public class BotWebSocketClient implements DisposableBean {
             logger.error("[TBot] loginId {} parse params json error, params is: {}", loginId, clientSession.getParams(), e);
         }
 
+        // 订阅成功时加入 clientSession
+        clientSessionMap.put(loginId, clientSession);
+
         // 注册session逻辑
         StompSession session = register(loginId, headers, retry);
 
@@ -259,9 +257,6 @@ public class BotWebSocketClient implements DisposableBean {
             logger.error("[tbot] websocket创建连接失败");
             return;
         }
-
-        // 订阅成功时加入 clientSession
-        clientSessionMap.put(loginId, clientSession);
     }
 
     /**
@@ -326,6 +321,13 @@ public class BotWebSocketClient implements DisposableBean {
      * @param count
      */
     public void startHeartbeat(String loginId, AtomicInteger count) {
+
+        // 停止原先的心跳
+        ScheduledFuture<?> oldFuture;
+        if ((oldFuture = scheduledFutureMap.get(loginId)) != null) {
+            oldFuture.cancel(true);
+        }
+
         Random random = new Random();
         int rand = random.nextInt(25) + 15;
         ScheduledFuture<?> future = scheduledExecutorService.scheduleWithFixedDelay(new HeartBeatTask(loginId, count),
@@ -505,10 +507,6 @@ public class BotWebSocketClient implements DisposableBean {
 
     public Map<String, ClientSession> getClientSessionMap() {
         return clientSessionMap;
-    }
-
-    public Map<String, ScheduledFuture<?>> getScheduledFutureMap() {
-        return scheduledFutureMap;
     }
 
     @Override

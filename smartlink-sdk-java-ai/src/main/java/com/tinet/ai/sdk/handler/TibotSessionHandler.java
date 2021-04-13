@@ -12,7 +12,6 @@ import org.springframework.messaging.simp.stomp.*;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.util.Objects;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * 订阅接收服务端通过WebSocket发送的信息，转交给  {@code TibotEventHandler} 处理，各平台处理
@@ -69,12 +68,6 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         logger.info("connect TBot server successful  ~(￣▽￣)~ session {} header {}", session, connectedHeaders);
-
-        // 停止原先的心跳
-        ScheduledFuture<?> future;
-        if ((future = tbotWebSocketClient.getScheduledFutureMap().get(loginId)) != null) {
-            future.cancel(true);
-        }
 
         // 处理重连客户端数据
         if (retry) {
