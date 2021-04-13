@@ -116,7 +116,7 @@ public class BotWebSocketClientTest {
         client.chatWithHttp(chatRequest);
         Thread.sleep(800);
 
-        client.logoutWithHttp(loginId);
+        client.logoutWithHttp("", loginId);
         Thread.sleep(800);
     }
 

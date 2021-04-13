@@ -398,7 +398,8 @@ public class BotWebSocketClient implements DisposableBean {
      *
      * @param loginId
      */
-    public void logoutWithHttp(String loginId) {
+    public void logoutWithHttp(String uniqueId, String loginId) {
+        loginId = Objects.isNull(loginId) ? uniqueId : loginId;
         LogoutHttpRequest logout = new LogoutHttpRequest();
         logout.setLoginId(loginId);
         try {
