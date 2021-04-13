@@ -220,8 +220,8 @@ public class BotWebSocketClient implements DisposableBean {
     /**
      * 是否从断线重连进入
      *
-     * @param clientSession
-     * @param retry
+     * @param clientSession 客户端会话
+     * @param retry         是否是尝试登陆状态
      */
     public void login(ClientSession clientSession, boolean retry) {
         StompHeaders headers = new StompHeaders();
@@ -301,7 +301,8 @@ public class BotWebSocketClient implements DisposableBean {
                                     chatResponse.getUniqueId(), chatResponse, System.currentTimeMillis());
                             List<String> actionList = chatResponse.getAction();
                             if (actionList != null && actionList.size() > 0) {
-                                if (actionList.contains("END")) {
+                                // 考虑到一种场景，当logout调用的节点没有创建websocket连接时，使用服务端主动发起登出
+                                if (actionList.contains("LOGOUT_END")) {
                                     logout(chatResponse.getUniqueId(), chatResponse.getLoginId());
                                 }
                             }
@@ -346,6 +347,7 @@ public class BotWebSocketClient implements DisposableBean {
             this.loginId = loginId;
             this.count = count;
         }
+
         @Override
         public void run() {
             int pingCount = count.incrementAndGet();
@@ -391,6 +393,11 @@ public class BotWebSocketClient implements DisposableBean {
         }
     }
 
+    /**
+     * http登出方法，用于在线机器人
+     *
+     * @param loginId
+     */
     public void logoutWithHttp(String loginId) {
         LogoutHttpRequest logout = new LogoutHttpRequest();
         logout.setLoginId(loginId);
@@ -485,6 +492,7 @@ public class BotWebSocketClient implements DisposableBean {
 
     /**
      * 退出IVR机器人节点时，关闭与TiBot的WebSocket连接
+     *
      * @param loginId 唯一标识
      */
 
