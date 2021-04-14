@@ -304,6 +304,8 @@ public class BotWebSocketClient implements DisposableBean {
                                 // 考虑到一种场景，当logout调用的节点没有创建websocket连接时，使用服务端主动发起登出
                                 if (actionList.contains("LOGOUT_END")) {
                                     logout(chatResponse.getUniqueId(), chatResponse.getLoginId());
+                                    logger.info("[Tbot] LOGOUT_END 触发SDK客户端自动关闭，无需平台关闭");
+                                    return;
                                 }
                             }
                             callback.callback(chatResponse);

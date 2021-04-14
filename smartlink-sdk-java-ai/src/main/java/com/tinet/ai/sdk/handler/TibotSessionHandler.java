@@ -77,17 +77,13 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
                 logger.info("[TBot] reConnected, login, current loginId :{}", loginId);
                 tbotWebSocketClient.login(clientSession, true);
             }
-            // 开启新的心跳
-            tbotWebSocketClient.startHeartbeat(loginId,
-                    tbotWebSocketClient.getClientSessionMap().get(loginId).getUnConnectCount());
         } else {
             // 连接成功后登录
             tbotWebSocketClient.subscribe(session, loginId, loginHeaders);
-            // 心跳检测
-            tbotWebSocketClient.startHeartbeat(loginId,
-                    tbotWebSocketClient.getClientSessionMap().get(loginId).getUnConnectCount());
         }
-
+        // 心跳检测
+        tbotWebSocketClient.startHeartbeat(loginId,
+                tbotWebSocketClient.getClientSessionMap().get(loginId).getUnConnectCount());
         subscribePong(session, loginId);
     }
 
