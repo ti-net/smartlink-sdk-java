@@ -31,19 +31,30 @@ public class TestClient {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
         //测试环境
-        //configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        //configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+        configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
-        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        /*configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost("localhost", 8085);
+        configuration.setHost("localhost", 8085);*/
 
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    // cticloud 测试使用
+    @Test
+    public void testTibotss() throws Exception{
+        TibotRequest tibotRequest = new TibotRequest();
+        tibotRequest.setUserId("8000001");
+        tibotRequest.setBotType(2);
+
+        TibotResponse articleResponse = smartLinkClient.getResponseModel(tibotRequest);
+        System.out.println(articleResponse);
     }
 
 
