@@ -117,4 +117,9 @@ public class ChatResponse {
 	 * 扩展字段
 	 */
 	private Map<String, Object> ext;
+
+	/**
+	 * 机器人标签
+	 */
+	private List<Map<String, String>> botTag;
 }
