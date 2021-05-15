@@ -2,6 +2,7 @@ package com.tinet.ai.sdk;
 
 import com.tinet.ai.sdk.handler.BotSessionHandler;
 import com.tinet.ai.sdk.handler.ChatResponseCallback;
+import com.tinet.ai.sdk.model.enums.PlatformEnum;
 import com.tinet.ai.sdk.request.ChatRequest;
 import com.tinet.ai.sdk.response.ChatResponse;
 import com.tinet.smartlink.sdk.core.auth.SignatureComposer;
@@ -90,9 +91,12 @@ public class NewBotWebSocketClient implements DisposableBean {
     /**
      * 平台标识，默认为客户端服务器名称
      */
-    private String platform;
+    private PlatformEnum platform;
 
-    private static final String HOST_NAME = getClientHostName();
+    /**
+     * 平台客户端主机名称
+     */
+    private final String HOST_NAME = getClientHostName();
 
     /**
      * 客户端唯一标识
@@ -105,7 +109,7 @@ public class NewBotWebSocketClient implements DisposableBean {
     }
 
     public NewBotWebSocketClient(@NonNull TibotWebSocketClientConfiguration configuration,
-                                 ChatResponseCallback callback, String platform) {
+                                 ChatResponseCallback callback, PlatformEnum platform) {
         this.configuration = configuration;
         this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         this.url = "ws://" + configuration.getHost() + "/tibot";
@@ -133,11 +137,15 @@ public class NewBotWebSocketClient implements DisposableBean {
      *
      * @return
      */
-    private static String getClientHostName() {
+    private String getClientHostName() {
         // 获取客户端服务器名称
         String hostName = "unknown-host-";
         try {
-            hostName = InetAddress.getLocalHost().getHostName() + "-";
+            if (platform != null) {
+                hostName = platform.getValue() + "-";
+            } else {
+                hostName = InetAddress.getLocalHost().getHostName() + "-";
+            }
         } catch (UnknownHostException e) {
             logger.error("获取客户端主机名称异常", e);
         }
