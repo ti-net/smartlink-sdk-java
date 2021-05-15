@@ -125,6 +125,7 @@ public class NewBotWebSocketClient implements DisposableBean {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         taskScheduler.initialize();
         stompClient.setTaskScheduler(taskScheduler);
+        stompClient.setDefaultHeartbeat(new long[]{10000, 10000});
     }
 
     /**
@@ -188,6 +189,8 @@ public class NewBotWebSocketClient implements DisposableBean {
      * @param headers
      */
     public void subscribe(StompHeaders headers) {
+        logger.info("[TBot] subscribe to server, platformClientId {} clientHostName {} ... ",
+                PLATFORM_CLIENT_UUID, HOST_NAME);
         this.subscription = session.subscribe(headers, new StompFrameHandler() {
             @Override
             @NonNull
