@@ -45,4 +45,10 @@ public class ChatRequest {
 	 */
 	private String intent;
 
+	/**
+	 * 平台客户端服务器唯一标识，作为订阅路径
+	 * 一旦采用新版本的SDK后，此参数不为空，老版本为null。
+	 */
+	private String platformClientId;
+
 }

@@ -96,7 +96,7 @@ public class NewBotWebSocketClient implements DisposableBean {
     /**
      * 平台客户端主机名称
      */
-    private final String HOST_NAME = getClientHostName();
+    private String clientHostName;
 
     /**
      * 客户端唯一标识
@@ -117,6 +117,8 @@ public class NewBotWebSocketClient implements DisposableBean {
         this.platform = platform;
         // 配置定时任务
         configTaskScheduler();
+        // 配置主机名称
+        this.clientHostName = getClientHostName();
         // 创建连接
         connect();
     }
@@ -198,7 +200,7 @@ public class NewBotWebSocketClient implements DisposableBean {
      */
     public void subscribe(StompHeaders headers) {
         logger.info("[TBot] subscribe to server, platformClientId {} clientHostName {} ... ",
-                PLATFORM_CLIENT_UUID, HOST_NAME);
+                PLATFORM_CLIENT_UUID, clientHostName);
         this.subscription = session.subscribe(headers, new StompFrameHandler() {
             @Override
             @NonNull
@@ -254,7 +256,7 @@ public class NewBotWebSocketClient implements DisposableBean {
 
         // 登录时标识客户端服务器的唯一标识和名称
         clientSession.setPlatformClientId(PLATFORM_CLIENT_UUID);
-        clientSession.setClientHostName(HOST_NAME);
+        clientSession.setClientHostName(clientHostName);
 
         logger.debug("[TBot] login uniqueId {}, loginId {}, platformClientId {}, clientHostName {}",
                 uniqueId, loginId, clientSession.getPlatformClientId(),clientSession.getClientHostName());
@@ -288,6 +290,7 @@ public class NewBotWebSocketClient implements DisposableBean {
 
     public void chat(ChatRequest chatRequest) {
         logger.debug("[TBot] ChatRequest {}, timestamp is {}", chatRequest, System.currentTimeMillis());
+        chatRequest.setPlatformClientId(PLATFORM_CLIENT_UUID);
         session.send("/app/chat", chatRequest);
     }
 
