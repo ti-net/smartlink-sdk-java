@@ -33,13 +33,11 @@ import java.util.concurrent.ExecutionException;
  * <pre>
  * CC call center <br/>
  *
- * 1. SDK 在启动时通过调用 client.connect() 建立与 TiBot 的 WebSocket 连接 <br/>
+ * 1. SDK 在启动时通过调用 client.connect() 建立与 TiBot 的 WebSocket 连接,并创建订阅topic /chat/response/{platformClientId} <br/>
  *
- * 2. 进入机器人节点时（有一个机器人通话），调用 client.login() 订阅topic /chat/response/{uniqueId}，
- *  并传递botId、clientId、userId、params等参数，SDK中维护一个Map结构：uniqueId -> ClientSession <br/>
+ * 2. 进入机器人节点时（有一个机器人通话），调用 client.login()，并传递botId、clientId、userId、params等参数，<br/>
  *
- * 3. TiBot通过SessionSubscribeEvent获取uniqueId、botId、clientId、userId、params等，
- *  构建UserSession，并用map结构存储uniqueId和UserSession的对应关系
+ * 3. TiBot通过/app/login获取uniqueId、botId、clientId、userId、params等，构建UserSession，将会话信息存储在服务端。
  *
  *  当客户开说话时（ASR 开始进行识别时）调用 client.sayBegin() 通知 Tibot 用户开始说话了， <br/>
  *
@@ -48,11 +46,6 @@ import java.util.concurrent.ExecutionException;
  *  当录音播放完后，调用 client.playEnd() 通知 Tibot <br/>
  *
  * 4. 退出机器人节点时，调用 client.logout() 取消订阅topic，TiBot删除UserSession的对应关系，SDK中删除ClientSession <br/>
- *
- * 5. 当断线时，
- *     方案1：TiBot通过SessionDisconnectEvent获取sessionId，并获取对应的订阅列表，然后将这些订阅关联的UserSession删除
- *     方案2：根据UnsubscribeEnvent，删除关联的UserSession删除
- * 6. 当断线重连时，CC从SDK获取所有的ClientSession，重新订阅
  *
  * 7. 心跳检测 <br/>
  * </pre>
@@ -258,7 +251,7 @@ public class NewBotWebSocketClient implements DisposableBean {
         clientSession.setPlatformClientId(PLATFORM_CLIENT_UUID);
         clientSession.setClientHostName(clientHostName);
 
-        logger.debug("[TBot] login uniqueId {}, loginId {}, platformClientId {}, clientHostName {}",
+        logger.info("[TBot] login uniqueId {}, loginId {}, platformClientId {}, clientHostName {}",
                 uniqueId, loginId, clientSession.getPlatformClientId(),clientSession.getClientHostName());
         // 登录会话，通过
         session.send("/app/login", clientSession);
