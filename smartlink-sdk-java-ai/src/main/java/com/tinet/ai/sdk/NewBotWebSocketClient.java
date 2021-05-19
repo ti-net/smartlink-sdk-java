@@ -108,12 +108,31 @@ public class NewBotWebSocketClient implements DisposableBean {
         this.url = "ws://" + configuration.getHost() + "/tibot";
         this.callback = callback;
         this.platform = platform;
-        // 配置定时任务
-        configTaskScheduler();
         // 配置主机名称
         this.clientHostName = getClientHostName();
+        // 配置定时任务
+        configTaskScheduler();
         // 创建连接
         connect();
+    }
+
+    /**
+     * 守护线程
+     */
+    private void daemon() {
+        // 定时检测连接状态，断线时重连
+        new Thread(() -> {
+            while (true) {
+                try {
+                    if (!isConnected()) {
+                        connect(true);
+                    }
+                    Thread.sleep(10000);
+                } catch (Exception e) {
+                    logger.error("tbot websocket re-connect error!", e);
+                }
+            }
+        }, "Thread-tbot-Websocket-Connect-Deamon").start();
     }
 
     /**
