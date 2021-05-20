@@ -8,9 +8,20 @@ package com.tinet.ai.sdk.model.enums;
  **/
 public enum PlatformEnum {
     /**
-     * CLINK2平台
+     * CLINK2平台(默认北京)
      */
-    CLINK2("clink2"),
+    CLINK2("clink2_bj"),
+
+    /**
+     * CLINK2上海平台
+     */
+    CLINK2_SH("clink2_sh"),
+
+    /**
+     * CLINK2 AWS平台
+     */
+    CLINK2_AWS("clink2_aws"),
+
     /**
      * CTICLOUD平台
      */

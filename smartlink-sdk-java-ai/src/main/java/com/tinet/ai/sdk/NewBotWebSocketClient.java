@@ -92,6 +92,11 @@ public class NewBotWebSocketClient implements DisposableBean {
     private String clientHostName;
 
     /**
+     * 客户端POD名称
+     */
+    private String podName;
+
+    /**
      * 客户端唯一标识
      */
     public static final String PLATFORM_CLIENT_UUID = "client-" + UUID.randomUUID().toString();
@@ -110,6 +115,7 @@ public class NewBotWebSocketClient implements DisposableBean {
         this.platform = platform;
         // 配置主机名称
         this.clientHostName = getClientHostName();
+        this.podName = getPodName();
         // 配置定时任务
         configTaskScheduler();
         // 创建连接
@@ -170,6 +176,21 @@ public class NewBotWebSocketClient implements DisposableBean {
     }
 
     /**
+     * 获取座席端POD名称
+     *
+     * @return
+     */
+    private String getPodName() {
+        String podName = "unknown-pod-name";
+        try {
+            podName = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            logger.error("获取客户端主机名称异常", e);
+        }
+        return podName;
+    }
+
+    /**
      * 建立与 Tibot WebSocket 连接，
      */
     public void connect() {
@@ -193,6 +214,8 @@ public class NewBotWebSocketClient implements DisposableBean {
         }
         subHeaders = new StompHeaders();
         subHeaders.setDestination("/chat/response/" + PLATFORM_CLIENT_UUID);
+        subHeaders.set("clientHostName", clientHostName);
+        subHeaders.set("podName", podName);
 
         BotSessionHandler sessionHandler = new BotSessionHandler(this);
 
