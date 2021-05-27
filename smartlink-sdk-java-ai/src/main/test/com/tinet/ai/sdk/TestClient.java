@@ -15,6 +15,10 @@ import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 测试客户端
@@ -46,7 +50,18 @@ public class TestClient {
         smartLinkClient = new SmartlinkClient(configuration);
     }
 
+    // 座席知识库权限
+    @Test
+    public void testAuth() throws Exception{
+        KbDirectoryRequest kbDirectoryRequest = new KbDirectoryRequest();
+        kbDirectoryRequest.setEnterpriseId("8000585");
+        kbDirectoryRequest.setQnos(null);
+        kbDirectoryRequest.setRepositoryType(0);
 
+        KbDirectoriesResponse responseModel = smartLinkClient.getResponseModel(kbDirectoryRequest);
+        System.out.println(responseModel.toString());
+        System.out.println(responseModel.getDirectories());
+    }
 
     @Test
     public void testArticle() throws ServerException, ClientException, JsonProcessingException {
