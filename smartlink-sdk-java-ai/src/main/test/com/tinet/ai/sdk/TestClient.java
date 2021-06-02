@@ -50,6 +50,55 @@ public class TestClient {
         smartLinkClient = new SmartlinkClient(configuration);
     }
 
+    // 知识库文件内容权限控制
+    @Test
+    public void testFileAuthContent() throws Exception{
+        KbFileRequest fileRequest = new KbFileRequest();
+
+        fileRequest.setEnterpriseId("8000559");
+        fileRequest.setRepositoryType(2);
+        fileRequest.setLimit(10);
+        fileRequest.setOffset(0);
+        fileRequest.setChannelType(ChannelEnum.CONTENT);
+        fileRequest.setOrder(OrderRuleEnum.NONE);
+        fileRequest.setKeyword("价格多少");
+        List<String> qnos = new ArrayList<>();
+        qnos.add("0001");
+        fileRequest.setQnos(qnos);
+
+        KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(fileResponse));
+    }
+
+    // 知识库文章内容权限控制
+    @Test
+    public void testArticleAuthContent() throws Exception{
+        KbArticleRequest articleRequest = new KbArticleRequest();
+        articleRequest.setEnterpriseId(String.valueOf(8000559));
+        // articleRequest.setKbId(782);
+        // articleRequest.setKeyword("人工");
+        //articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setRepositoryType(0);
+        //articleRequest.setKbId(771);
+        //articleRequest.setDirectoryId(589);
+        articleRequest.setKeyword("价格多少");
+        //articleRequest.setKbId(424);
+        articleRequest.setOffset(0);
+        articleRequest.setLimit(40);
+        articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
+        List<String> qnos = new ArrayList<>();
+        qnos.add("9999");
+        articleRequest.setQnos(qnos);
+//        articleRequest.setCno("123123");
+//        articleRequest.setChannelType(ChannelEnum.CONTENT);
+
+        KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(articleResponse));
+    }
+
     // 座席知识库权限
     @Test
     public void testAuth() throws Exception{
@@ -314,9 +363,21 @@ public class TestClient {
     @Test
     public void intelligentAssociation() throws ServerException, Exception {
         IntelligentAssociationRequest intelligentAssociationRequest = new IntelligentAssociationRequest();
-        intelligentAssociationRequest.setEnterpriseId("8000071");
+        /*intelligentAssociationRequest.setEnterpriseId("8000071");
         intelligentAssociationRequest.setBotId("798000");
-        intelligentAssociationRequest.setText("jira");
+        intelligentAssociationRequest.setText("jira");*/
+
+        // 竹间
+        intelligentAssociationRequest.setEnterpriseId("8000585");
+        intelligentAssociationRequest.setBotId("924588");
+        intelligentAssociationRequest.setText("测试");
+        //intelligentAssociationRequest.setTop(5);
+
+        // 芒果
+        /*intelligentAssociationRequest.setEnterpriseId("8000559");
+        intelligentAssociationRequest.setBotId("791319");
+        intelligentAssociationRequest.setText("真实性");*/
+        // intelligentAssociationRequest.setTop(5);
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();
