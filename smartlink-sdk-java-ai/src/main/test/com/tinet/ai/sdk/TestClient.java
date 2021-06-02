@@ -363,9 +363,21 @@ public class TestClient {
     @Test
     public void intelligentAssociation() throws ServerException, Exception {
         IntelligentAssociationRequest intelligentAssociationRequest = new IntelligentAssociationRequest();
-        intelligentAssociationRequest.setEnterpriseId("8000071");
+        /*intelligentAssociationRequest.setEnterpriseId("8000071");
         intelligentAssociationRequest.setBotId("798000");
-        intelligentAssociationRequest.setText("jira");
+        intelligentAssociationRequest.setText("jira");*/
+
+        // 竹间
+        intelligentAssociationRequest.setEnterpriseId("8000585");
+        intelligentAssociationRequest.setBotId("924588");
+        intelligentAssociationRequest.setText("测试");
+        //intelligentAssociationRequest.setTop(5);
+
+        // 芒果
+        /*intelligentAssociationRequest.setEnterpriseId("8000559");
+        intelligentAssociationRequest.setBotId("791319");
+        intelligentAssociationRequest.setText("真实性");*/
+        // intelligentAssociationRequest.setTop(5);
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();
