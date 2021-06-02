@@ -117,4 +117,63 @@ public class ChatResponse {
 	 * 扩展字段
 	 */
 	private Map<String, Object> ext;
+
+	/**
+	 * 会话模块:
+	 *
+	 * 1. faq：标准问题匹配
+	 * 2. task_engine：多轮-任务流引擎
+	 * 3. function：内部技能
+	 * 4. remote_skill：云技能
+	 * 5. domain_kg：知识图谱
+	 * 6. kg：通用知识库
+	 * 7. chat：闲聊
+	 * 8. backfill：未知回复
+	 * 9. keyword: 关键字模块
+	 * 10. tde_task_engine: 多轮填槽引擎
+	 * 11. to_human: 转人工
+	 * 12. custom_skill: 定制技能
+	 * 13. chat_story: 聊天小故事
+	 * 14. emotion: 情绪
+	 */
+	private String module;
+
+	/**
+	 * 出话来源，主要为了标记转人工的类型:
+	 *
+	 * 1. backfill: 机器人连续无结果转人工
+	 * 2. faq-repeat-question: 连续命中同一标准问转人工
+	 * 3. faq-label: 场景标准问HUMAN标签转人工
+	 * 4. emoiton: 负面情绪转人工
+	 * 5. human-intent: 系统转人工、意图转人工
+	 * 6. keyword: 关键词转人工
+	 * 7. intent: 意图引擎转人工、意图转人工
+	 */
+	private String source;
+
+	/**
+	 * 问题标签
+	 */
+	private List<String> faqQuestionTags;
+
+	/**
+	 * 答案标签
+	 */
+	private List<String> faqAnswerTags;
+
+	/**
+	 * faq分类即目录
+	 */
+	private List<String> faqCategory;
+
+	/**
+	 * 匹配的真正问题
+	 */
+	private String faqMatchQuestion;
+
+	/**
+	 * faq关联ID
+	 */
+	private String faqRelatedUID;
+
 }
