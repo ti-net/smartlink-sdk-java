@@ -97,6 +97,11 @@ public class NewBotWebSocketClient implements DisposableBean {
     private String podName;
 
     /**
+     * 机器人Session调用处理
+     */
+    private BotSessionHandler sessionHandler;
+
+    /**
      * 客户端唯一标识
      */
     public static final String PLATFORM_CLIENT_UUID = "client-" + UUID.randomUUID().toString();
@@ -116,10 +121,11 @@ public class NewBotWebSocketClient implements DisposableBean {
         // 配置主机名称
         this.clientHostName = getClientHostName();
         this.podName = getPodName();
+        this.sessionHandler = new BotSessionHandler(this);
         // 配置定时任务
         configTaskScheduler();
         // 创建连接
-        connect();
+        daemon();
     }
 
     /**
@@ -218,9 +224,6 @@ public class NewBotWebSocketClient implements DisposableBean {
         subHeaders.setDestination("/chat/response/" + PLATFORM_CLIENT_UUID);
         subHeaders.set("clientHostName", clientHostName);
         subHeaders.set("podName", podName);
-
-        BotSessionHandler sessionHandler = new BotSessionHandler(this);
-
         try {
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
                     new StompHeaders(), sessionHandler).get();
