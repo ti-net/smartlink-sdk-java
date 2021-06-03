@@ -176,4 +176,9 @@ public class ChatResponse {
 	 */
 	private String faqRelatedUID;
 
+	/**
+	 * 响应ID，对应竹间的一次对话ID: uniqueId
+	 */
+	private String responseId;
+
 }
