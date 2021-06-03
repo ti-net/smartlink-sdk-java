@@ -6,6 +6,8 @@ import com.tinet.ai.sdk.response.KbFileResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
+import java.util.List;
+
 /**
  * 知识库文件列表请求
  *
@@ -35,6 +37,19 @@ public class KbFileRequest extends BaseRequest<KbFileResponse> {
     private String cno;
 
     private Integer repositoryType;
+
+    private List<String> qnos;
+
+    public List<String> getQnos() {
+        return qnos;
+    }
+
+    public void setQnos(List<String> qnos) {
+        this.qnos = qnos;
+        if (qnos != null) {
+            putQueryParameter("qnos", qnos);
+        }
+    }
 
     public Integer getRepositoryType() {
         return repositoryType;
@@ -158,7 +173,7 @@ public class KbFileRequest extends BaseRequest<KbFileResponse> {
     }
 
     public KbFileRequest() {
-        super("/api/files", HttpMethodType.GET, "2021-02-25");
+        super("/api/files", HttpMethodType.GET, "2021-05-27");
     }
 
     @Override
