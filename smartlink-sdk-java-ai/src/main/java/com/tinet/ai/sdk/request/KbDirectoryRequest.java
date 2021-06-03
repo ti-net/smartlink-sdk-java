@@ -5,6 +5,8 @@ import com.tinet.ai.sdk.response.KbRepositoryResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
+import java.util.List;
+
 /**
  * 知识库目录列表请求
  *
@@ -18,6 +20,19 @@ public class KbDirectoryRequest extends BaseRequest<KbDirectoriesResponse> {
     private String keyword;
 
     private Integer repositoryType;
+
+    private List<String> qnos;
+
+    public List<String> getQnos() {
+        return qnos;
+    }
+
+    public void setQnos(List<String> qnos) {
+        this.qnos = qnos;
+        if (qnos != null) {
+            putQueryParameter("qnos", qnos);
+        }
+    }
 
     public Integer getRepositoryType() {
         return repositoryType;
