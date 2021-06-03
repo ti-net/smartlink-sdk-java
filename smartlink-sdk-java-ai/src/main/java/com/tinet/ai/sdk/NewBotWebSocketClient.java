@@ -126,14 +126,16 @@ public class NewBotWebSocketClient implements DisposableBean {
      * 守护线程
      */
     private void daemon() {
+        // 首次创建连接
+        connect();
         // 定时检测连接状态，断线时重连
         new Thread(() -> {
             while (true) {
                 try {
+                    Thread.sleep(15000);
                     if (!isConnected()) {
                         connect(true);
                     }
-                    Thread.sleep(10000);
                 } catch (Exception e) {
                     logger.error("tbot websocket re-connect error!", e);
                 }
@@ -233,7 +235,7 @@ public class NewBotWebSocketClient implements DisposableBean {
      *
      * @param headers
      */
-    public void subscribe(StompHeaders headers) {
+    public void subscribe(StompSession session, StompHeaders headers) {
         logger.info("[TBot] subscribe to server, platformClientId {} clientHostName {} ... ",
                 PLATFORM_CLIENT_UUID, clientHostName);
         this.subscription = session.subscribe(headers, new StompFrameHandler() {

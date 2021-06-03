@@ -39,7 +39,7 @@ public class BotSessionHandler extends StompSessionHandlerAdapter {
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         logger.info("connect TBot server successful  ~(￣▽￣)~");
 
-        botWebSocketClient.subscribe(botWebSocketClient.getSubHeaders());
+        botWebSocketClient.subscribe(session, botWebSocketClient.getSubHeaders());
     }
 
     @Override
@@ -57,8 +57,8 @@ public class BotSessionHandler extends StompSessionHandlerAdapter {
             logger.error("handleConnectException, can't connect TBot server, sleep 5s and retry connect", exception);
             connectRetry(5000);
         } else {
-            connectRetry(5000);
             logger.error("handleException, can't connect TBot server, sleep 5s and retry connect", exception);
+            // connectRetry(5000);
         }
     }
 
