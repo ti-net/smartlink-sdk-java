@@ -63,6 +63,11 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private Long startTime;
 
     /**
+     * 话单数据创建时间  (单位：秒)
+     */
+    private Long createTime;
+
+    /**
      * 应答时间  (单位：秒)
      */
     private Long answerTime;
@@ -376,6 +381,16 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+        if(createTime != null){
+            putBodyParameter("createTime", createTime);
+        }
+    }
     public Long getBridgeTime() {
         return bridgeTime;
     }

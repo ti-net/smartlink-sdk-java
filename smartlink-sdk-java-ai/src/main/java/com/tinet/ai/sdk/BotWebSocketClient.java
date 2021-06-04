@@ -176,6 +176,15 @@ public class BotWebSocketClient implements DisposableBean {
      * @param clientSession ClientSession
      */
     public void login(ClientSession clientSession) {
+        login(clientSession, null);
+    }
+
+    /**
+     * 进入机器人结点时，将该机器人进行订阅
+     *
+     * @param clientSession ClientSession
+     */
+    public void login(ClientSession clientSession, String reLogin) {
         StompHeaders headers = new StompHeaders();
 
         String loginId = clientSession.getLoginId();
@@ -193,15 +202,15 @@ public class BotWebSocketClient implements DisposableBean {
         headers.set("uniqueId", uniqueId);
         headers.set("clientId", clientSession.getClientId());
         headers.set("botId", clientSession.getBotId());
+        if (Objects.nonNull(reLogin)) {
+            headers.set("reLogin", reLogin);
+        }
         try {
             headers.set("params", objectMapper.writeValueAsString(clientSession.getParams()));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        /*if (session == null || !session.isConnected()) {
-            connect();
-        }*/
         StompSession.Subscription subscription = session.subscribe(headers,
                 new StompFrameHandler() {
                     @Override
