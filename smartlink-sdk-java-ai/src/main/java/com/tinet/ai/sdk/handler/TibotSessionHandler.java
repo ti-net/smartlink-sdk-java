@@ -59,7 +59,7 @@ public class TibotSessionHandler extends StompSessionHandlerAdapter {
                 // 客户端自动进行重新订阅
                 for (Map.Entry<String, ClientSession> sessionEntry : clientSessionMap.entrySet()) {
                     logger.info("[TBot] reConnected, login, current loginId :{}", sessionEntry.getKey());
-                    tbotWebSocketClient.login(sessionEntry.getValue());
+                    tbotWebSocketClient.login(sessionEntry.getValue(), "noLogin");
                 }
             }
         }
