@@ -230,9 +230,15 @@ public class TestClient {
     @Test
     public void testTibot() throws ServerException, ClientException {
         TibotRequest request = new TibotRequest();
-        request.setUserId(String.valueOf(3000000));
-
+        request.setUserId(String.valueOf(8000559));
+        request.setBotType(2);
+        // nonemotibot: 非竹间
+        // emotibot: 竹间
+        // none: 配置是空
+        request.setProvider("emotibot");
         TibotResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response);
+        System.out.println(response.getTbots().size());
         System.out.println(response.getRequestId());
 
     }
