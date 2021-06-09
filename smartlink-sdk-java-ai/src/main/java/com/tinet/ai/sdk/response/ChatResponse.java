@@ -181,4 +181,9 @@ public class ChatResponse {
 	 */
 	private String responseId;
 
+	/**
+	 * 任务引擎标签（多轮标签）。map中的key是name和value，name：标签的名称；value：标签的值；
+	 */
+	private List<Map> taskEngineTags;
+
 }
