@@ -26,4 +26,8 @@ public class AnswerResponse {
      */
     private List<String> cards;
 
+    /**
+     * 子类型 similar相似问、recommend推荐问
+     */
+    private String subType;
 }
