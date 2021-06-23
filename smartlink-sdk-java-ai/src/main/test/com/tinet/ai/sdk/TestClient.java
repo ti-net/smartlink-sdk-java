@@ -12,6 +12,7 @@ import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -48,6 +49,23 @@ public class TestClient {
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    // 点赞点踩验证
+    @Test
+    public void testFeadback() throws Exception{
+        ApiMessageFeedbackRequest request = new ApiMessageFeedbackRequest();
+        request.setBotId("924588");
+        request.setEnterpriseId(8000585);
+        request.setResponseId("04b1e46f82864fc9a5efd2bdefc6100c");
+        request.setFeedback("helpful");
+        request.setCustomFeadback("哈哈");
+
+        ApiMessageFeedbackResponse responseModel = smartLinkClient.getResponseModel(request);
+
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+
     }
 
     // 知识库文件内容权限控制
