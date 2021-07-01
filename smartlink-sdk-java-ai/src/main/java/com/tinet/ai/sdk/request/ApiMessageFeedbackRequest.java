@@ -93,7 +93,7 @@ public class ApiMessageFeedbackRequest  extends BaseRequest<ApiMessageFeedbackRe
     }
 
     public ApiMessageFeedbackRequest() {
-        super("/api/tibots/apiMessageFeedback", HttpMethodType.GET);
+        super("/api/tibots/message/feedback", HttpMethodType.GET);
     }
 
     @Override
