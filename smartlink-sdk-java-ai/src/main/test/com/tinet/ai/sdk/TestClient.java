@@ -12,6 +12,7 @@ import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,19 +36,45 @@ public class TestClient {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
         //测试环境
-        //configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        //configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
-        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        /*configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost("localhost", 8085);
+        configuration.setHost("localhost", 8085);*/
 
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    // 点赞点踩验证
+    @Test
+    public void testFeadback() throws Exception {
+        ApiMessageFeedbackRequest request = new ApiMessageFeedbackRequest();
+        request.setBotId("924588");
+        request.setEnterpriseId(8000585);
+        request.setResponseId("04b1e46f82864fc9a5efd2bdefc6100c");
+        request.setFeedback("helpful");
+        request.setCustomFeadback("哈哈");
+
+        ApiMessageFeedbackResponse responseModel = smartLinkClient.getResponseModel(request);
+
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void testDscArticle () throws Exception{
+
+        KbDescribeArticleRequest request = new KbDescribeArticleRequest();
+
+        KbDescribeArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 
     // 知识库文件内容权限控制
