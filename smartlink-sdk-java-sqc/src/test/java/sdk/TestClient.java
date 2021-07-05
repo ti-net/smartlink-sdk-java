@@ -17,11 +17,13 @@ import com.tinet.sqc.sdk.response.JumpUserCheckResponse;
 import com.tinet.sqc.sdk.response.PermissionResponse;
 import com.tinet.sqc.sdk.response.PushCdrResponse;
 import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 测试客户端
@@ -42,7 +44,9 @@ public class TestClient {
         configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
         //configuration.setHost("localhost", 8083);
-        configuration.setHost("smartlink-sqc-openapi.tinetcloud.com");
+        //configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
+        configuration.setHost("smartlink-openapi.clink.cn");
+        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443,"https"));
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -53,7 +57,7 @@ public class TestClient {
     @Test
     public void pushCdr() throws ServerException, ClientException, JsonProcessingException {
         PushCdrRequest pushCdrRequest = new PushCdrRequest();
-        pushCdrRequest.setUserId("8001967");
+        pushCdrRequest.setUserId("8880000");
         String uniqueid = "8001967-1599198778.1";
         pushCdrRequest.setUniqueId(uniqueid);
         pushCdrRequest.setMainUniqueId(uniqueid);

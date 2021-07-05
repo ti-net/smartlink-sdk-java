@@ -4,13 +4,17 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
+import com.tinet.sqc.sdk.model.Record;
 import com.tinet.sqc.sdk.request.ListCdrsByConditionsRequest;
+import com.tinet.sqc.sdk.request.PushCdrRequest;
 import com.tinet.sqc.sdk.response.ListCdrsByConditionsResponse;
+import com.tinet.sqc.sdk.response.PushCdrResponse;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 侯法超
@@ -27,9 +31,9 @@ public class MainTest {
 //    configuration.setAccessKeyId(StringConstant.ACCESSKEY_ID);
 //    configuration.setAccessKeySecret(StringConstant.ACCESSKEY_SECRET);
 //    configuration.setHost(new HttpHost(StringConstant.HOST));
-        configuration.setAccessKeyId("397548UC977E9KMP33D7");
-        configuration.setAccessKeySecret("w5j99jfyqm5e2x8p786ra48qu839j3zj");
-        configuration.setHost(new HttpHost("smartlink-sqc-openapi-test.tinetcloud.com"));
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
+        configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443));
 //    configuration.setHost(new HttpHost("{smartlink-sqc-openapi-test.tinetcloud.com}"));
 
 
@@ -86,4 +90,56 @@ public class MainTest {
             e.getMessage();
         }
     }
+
+
+    @Test
+    public  void main1() {
+        SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
+        // 这些是必须设置的参数
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
+        configuration.setHost(new HttpHost("smartlink-openapi.clink.cn"));
+
+        SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
+
+        PushCdrRequest pushCdrRequest = new PushCdrRequest();
+
+        String uid = UUID.randomUUID().toString() + "-1616712697.5790";
+        System.out.println(uid);
+        pushCdrRequest.setUniqueId(uid);
+        pushCdrRequest.setUserId("8880000");
+        pushCdrRequest.setCdrType("cdr_ib");
+        pushCdrRequest.setCallType(1);
+        pushCdrRequest.setCdrSource(3);
+        pushCdrRequest.setStartTime(1616712697L);
+        pushCdrRequest.setAnswerTime(1616712697L);
+        pushCdrRequest.setEndTime(1616712697L);
+        pushCdrRequest.setBridgeTime(1616712697L);
+        pushCdrRequest.setBridgeDuration(184);
+        pushCdrRequest.setTotalDuration(184);
+        pushCdrRequest.setStatus(50);
+        pushCdrRequest.setEndReason(1);
+
+        Record record = new Record();
+        record.setStorageRecord(true);
+        record.setFileUrl("https://img.gsxservice.com/1118729889_jdv2r1ou.mp3");
+        List<Record> recordList = new ArrayList<>();
+        recordList.add(record);
+        pushCdrRequest.setRecords(recordList);
+
+        pushCdrRequest.setRecordFile("1118729889_jdv2r1ou.mp3");
+
+        PushCdrResponse responseModel = null;
+        try {
+            responseModel = smartlinkClient.getResponseModel(pushCdrRequest);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
+        System.out.println(responseModel);
+    }
+
 }
