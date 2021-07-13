@@ -12,6 +12,16 @@ public enum ProductEnum {
      * 质检
      */
     SQC("sqc"),
+
+    /**
+     * 在线智能质检
+     */
+    IMSQC("imsqc"),
+
+    /**
+     * 在线人工质检
+     */
+    IMQC("imqc"),
     /**
      * 机器人
      */
