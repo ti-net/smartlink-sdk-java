@@ -22,6 +22,22 @@ public class TibotRequest extends BaseRequest<TibotResponse> {
      */
     private Integer botType;
 
+    /**
+     * 机器人提供商
+     */
+    private String provider;
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putQueryParameter("provider", provider);
+        }
+    }
+
     public TibotRequest() {
         super("/api/tibots", HttpMethodType.GET);
     }

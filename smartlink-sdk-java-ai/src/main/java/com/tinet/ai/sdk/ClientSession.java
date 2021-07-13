@@ -38,6 +38,16 @@ public class ClientSession {
     private String botId;
 
     /**
+     * 平台客户端服务器唯一标识，作为订阅路径
+     */
+    private String platformClientId;
+
+    /**
+     * 客户端服务器名称标识
+     */
+    private String clientHostName;
+
+    /**
      * 请求参数
      */
     private Map<String, String> params;

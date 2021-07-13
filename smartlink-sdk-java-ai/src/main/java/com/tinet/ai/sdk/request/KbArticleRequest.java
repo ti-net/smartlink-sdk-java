@@ -6,6 +6,8 @@ import com.tinet.ai.sdk.response.KbArticleResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
+import java.util.List;
+
 /**
  * 知识库文章列表请求
  *
@@ -37,6 +39,19 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
     private String[] highlight;
 
     private Integer repositoryType;
+
+    private List<String> qnos;
+
+    public List<String> getQnos() {
+        return qnos;
+    }
+
+    public void setQnos(List<String> qnos) {
+        this.qnos = qnos;
+        if (qnos != null) {
+            putQueryParameter("qnos", qnos);
+        }
+    }
 
     public Integer getRepositoryType() {
         return repositoryType;
@@ -171,7 +186,7 @@ public class KbArticleRequest extends BaseRequest<KbArticleResponse> {
     }
 
     public KbArticleRequest() {
-        super("/api/articles", HttpMethodType.GET, "2021-02-25");
+        super("/api/articles", HttpMethodType.GET, "2021-05-27");
     }
 
     @Override

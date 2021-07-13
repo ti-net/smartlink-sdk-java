@@ -12,9 +12,14 @@ import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 测试客户端
@@ -31,14 +36,14 @@ public class TestClient {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
         //测试环境
-        //configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        //configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        //         configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
-        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        /*configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost("localhost", 8085);
+        configuration.setHost("localhost", 8085);*/
 
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
@@ -46,7 +51,93 @@ public class TestClient {
         smartLinkClient = new SmartlinkClient(configuration);
     }
 
+    // 点赞点踩验证
+    @Test
+    public void testFeadback() throws Exception {
+        ApiMessageFeedbackRequest request = new ApiMessageFeedbackRequest();
+        request.setBotId("924588");
+        request.setEnterpriseId(8000585);
+        request.setResponseId("04b1e46f82864fc9a5efd2bdefc6100c");
+        request.setFeedback("helpful");
+        request.setCustomFeadback("哈哈");
 
+        ApiMessageFeedbackResponse responseModel = smartLinkClient.getResponseModel(request);
+
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void testDscArticle () throws Exception{
+
+        KbDescribeArticleRequest request = new KbDescribeArticleRequest();
+
+        KbDescribeArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    // 知识库文件内容权限控制
+    @Test
+    public void testFileAuthContent() throws Exception{
+        KbFileRequest fileRequest = new KbFileRequest();
+
+        fileRequest.setEnterpriseId("8000559");
+        fileRequest.setRepositoryType(2);
+        fileRequest.setLimit(10);
+        fileRequest.setOffset(0);
+        fileRequest.setChannelType(ChannelEnum.CONTENT);
+        fileRequest.setOrder(OrderRuleEnum.NONE);
+        fileRequest.setKeyword("价格多少");
+        List<String> qnos = new ArrayList<>();
+        qnos.add("0001");
+        fileRequest.setQnos(qnos);
+
+        KbFileResponse fileResponse = smartLinkClient.getResponseModel(fileRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(fileResponse));
+    }
+
+    // 知识库文章内容权限控制
+    @Test
+    public void testArticleAuthContent() throws Exception{
+        KbArticleRequest articleRequest = new KbArticleRequest();
+        articleRequest.setEnterpriseId(String.valueOf(8000559));
+        // articleRequest.setKbId(782);
+        // articleRequest.setKeyword("人工");
+        //articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setRepositoryType(0);
+        //articleRequest.setKbId(771);
+        //articleRequest.setDirectoryId(589);
+        articleRequest.setKeyword("价格多少");
+        //articleRequest.setKbId(424);
+        articleRequest.setOffset(0);
+        articleRequest.setLimit(40);
+        articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
+        List<String> qnos = new ArrayList<>();
+        qnos.add("9999");
+        articleRequest.setQnos(qnos);
+//        articleRequest.setCno("123123");
+//        articleRequest.setChannelType(ChannelEnum.CONTENT);
+
+        KbArticleResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(articleResponse));
+    }
+
+    // 座席知识库权限
+    @Test
+    public void testAuth() throws Exception{
+        KbDirectoryRequest kbDirectoryRequest = new KbDirectoryRequest();
+        kbDirectoryRequest.setEnterpriseId("8000585");
+        kbDirectoryRequest.setQnos(null);
+        kbDirectoryRequest.setRepositoryType(0);
+
+        KbDirectoriesResponse responseModel = smartLinkClient.getResponseModel(kbDirectoryRequest);
+        System.out.println(responseModel.toString());
+        System.out.println(responseModel.getDirectories());
+    }
 
     @Test
     public void testArticle() throws ServerException, ClientException, JsonProcessingException {
@@ -166,9 +257,15 @@ public class TestClient {
     @Test
     public void testTibot() throws ServerException, ClientException {
         TibotRequest request = new TibotRequest();
-        request.setUserId(String.valueOf(3000000));
-
+        request.setUserId(String.valueOf(8000559));
+        request.setBotType(2);
+        // nonemotibot: 非竹间
+        // emotibot: 竹间
+        // none: 配置是空
+        request.setProvider("emotibot");
         TibotResponse response = smartLinkClient.getResponseModel(request);
+        System.out.println(response);
+        System.out.println(response.getTbots().size());
         System.out.println(response.getRequestId());
 
     }
@@ -299,9 +396,21 @@ public class TestClient {
     @Test
     public void intelligentAssociation() throws ServerException, Exception {
         IntelligentAssociationRequest intelligentAssociationRequest = new IntelligentAssociationRequest();
-        intelligentAssociationRequest.setEnterpriseId("8000071");
+        /*intelligentAssociationRequest.setEnterpriseId("8000071");
         intelligentAssociationRequest.setBotId("798000");
-        intelligentAssociationRequest.setText("jira");
+        intelligentAssociationRequest.setText("jira");*/
+
+        // 竹间
+        intelligentAssociationRequest.setEnterpriseId("8000585");
+        intelligentAssociationRequest.setBotId("924588");
+        intelligentAssociationRequest.setText("测试");
+        //intelligentAssociationRequest.setTop(5);
+
+        // 芒果
+        /*intelligentAssociationRequest.setEnterpriseId("8000559");
+        intelligentAssociationRequest.setBotId("791319");
+        intelligentAssociationRequest.setText("真实性");*/
+        // intelligentAssociationRequest.setTop(5);
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();
@@ -327,6 +436,21 @@ public class TestClient {
         callScriptLikeRequest.setQuery("true");
 
         OptimalCallScriptResponse responseModel = smartLinkClient.getResponseModel(callScriptLikeRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void tibotFileUrlRequest() throws ServerException, Exception {
+        TibotFileUrlRequest tibotFileUrlRequest = new TibotFileUrlRequest();
+        tibotFileUrlRequest.setFileKey("530aea5dc1764fa2a9d66b7bc6fe5c16%7C0909f07196de57a1c10aefad745a73efEpUGflCYUasmile.jpg");
+        tibotFileUrlRequest.setFileName("smile.jpg");
+        tibotFileUrlRequest.setProvider("emotibot");
+        tibotFileUrlRequest.setType("inline");
+//        tibotFileUrlRequest.setWidth(100000);
+        tibotFileUrlRequest.setHeight(100);
+
+        TibotFileUrlResponse responseModel = smartLinkClient.getResponseModel(tibotFileUrlRequest);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
     }
