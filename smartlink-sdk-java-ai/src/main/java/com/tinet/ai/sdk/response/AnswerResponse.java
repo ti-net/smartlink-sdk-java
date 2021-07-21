@@ -30,4 +30,9 @@ public class AnswerResponse {
      * 子类型 similar相似问、recommend推荐问
      */
     private String subType;
+
+    /**
+     * 公用数据对象
+     */
+    private Object data;
 }
