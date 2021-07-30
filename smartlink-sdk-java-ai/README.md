@@ -45,3 +45,18 @@
 3. 开放知识库接口；
 工单：http://task.tinetcloud.com/browse/AICC-3644
 ~~~~
+
+
+## sdk 升级
+
+~~~~
+日期： 2021-07-29
+版本： 2.0.4-RELEASE
+分支： release/2.0.4
+~~~~
+
+### 功能
+~~~~
+1. 对接竹间【新版本】多级热门问；
+工单：http://task.tinetcloud.com/browse/AICC-3646
+~~~~
