@@ -186,4 +186,8 @@ public class ChatResponse {
 	 */
 	private List<Map> taskEngineTags;
 
+	/**
+	 * 是否是按键交互
+	 */
+	private boolean dtmf = false;
 }
