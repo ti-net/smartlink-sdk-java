@@ -328,6 +328,16 @@ public class NewBotWebSocketClient implements DisposableBean {
 
     }
 
+    /**
+     * 告知tbot 用户按键超时
+     *
+     * @param loginId
+     */
+    public void keyPressTimeout(String loginId) {
+        logger.debug("[TBot] loginId {} keyPressTimeout", loginId);
+        session.send("/app/keyPressTimeout", loginId);
+    }
+
     public void chat(ChatRequest chatRequest) {
         logger.debug("[TBot] ChatRequest {}, timestamp is {}", chatRequest, System.currentTimeMillis());
         chatRequest.setPlatformClientId(PLATFORM_CLIENT_UUID);
