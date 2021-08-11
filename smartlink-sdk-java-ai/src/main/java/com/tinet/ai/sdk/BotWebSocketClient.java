@@ -335,7 +335,7 @@ public class BotWebSocketClient implements DisposableBean {
      * @param loginId
      */
     public void keyPressTimeout(String loginId) {
-        logger.debug("[TBot] loginId {} playEnd", loginId);
+        logger.debug("[TBot] loginId {} keyPressTimeout", loginId);
         session.send("/app/keyPressTimeout", loginId);
     }
 
