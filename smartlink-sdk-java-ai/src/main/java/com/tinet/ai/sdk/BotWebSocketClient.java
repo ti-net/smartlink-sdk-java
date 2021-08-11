@@ -331,6 +331,15 @@ public class BotWebSocketClient implements DisposableBean {
     }
 
     /**
+     * 告知tbot 用户按键超时
+     * @param loginId
+     */
+    public void KeyPressTimeout(String loginId) {
+        logger.debug("[TBot] loginId {} playEnd", loginId);
+        session.send("/app/KeyPressTimeout", loginId);
+    }
+
+    /**
      * 退出IVR机器人节点时，关闭与TiBot的WebSocket连接
      */
     public void disconnect() {

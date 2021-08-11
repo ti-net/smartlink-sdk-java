@@ -30,6 +30,7 @@ public class ChatRequest {
 	 * 对话类型(此字段供CC的asr转写结果使用)
 	 * intermediateResult  中间结果
 	 * sentenceEnd 一个完整的句子
+	 * @com.tinet.ai.sdk.model.enums.AsrTypeEnum
 	 */
 	private String type;
 	/**
