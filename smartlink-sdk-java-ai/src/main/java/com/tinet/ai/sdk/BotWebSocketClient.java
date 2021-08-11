@@ -332,6 +332,7 @@ public class BotWebSocketClient implements DisposableBean {
 
     /**
      * 告知tbot 用户按键超时
+     *
      * @param loginId
      */
     public void keyPressTimeout(String loginId) {
