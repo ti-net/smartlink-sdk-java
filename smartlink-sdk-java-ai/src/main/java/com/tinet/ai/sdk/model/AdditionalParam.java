@@ -1,6 +1,9 @@
 package com.tinet.ai.sdk.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author tinet-yuhq
@@ -8,6 +11,9 @@ import lombok.Data;
  * @createTime 2021/8/13 10:58
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdditionalParam {
     /**
      * 追一随路参数：手机号
