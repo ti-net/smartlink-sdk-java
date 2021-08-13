@@ -18,20 +18,20 @@ public class AdditionalParam {
     /**
      * 追一随路参数：手机号
      */
-    private String phNumber;
+    private String number;
 
     /**
      * 追一随路参数：归属省份
      */
-    private String phProvince;
+    private String province;
 
     /**
      * 追一随路参数：归属城市
      */
-    private String phCity;
+    private String city;
 
     /**
      * 追一随路参数：业务标识
      */
-    private String businessFlag;
+    private String flag;
 }
