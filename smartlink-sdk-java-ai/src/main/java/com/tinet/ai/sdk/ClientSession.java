@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk;
 
+import com.tinet.ai.sdk.model.AdditionalParam;
 import lombok.Data;
 
 import java.util.Map;
@@ -52,4 +53,8 @@ public class ClientSession {
      */
     private Map<String, String> params;
 
+    /**
+     * 追一随路参数
+     */
+    private AdditionalParam extParams;
 }
