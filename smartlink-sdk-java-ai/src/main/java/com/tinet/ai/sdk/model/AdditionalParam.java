@@ -34,4 +34,9 @@ public class AdditionalParam {
      * 追一随路参数：业务标识
      */
     private String flag;
+
+    /**
+     * 追一随路参数：号码类型(tel,mobile)
+     */
+    private String type;
 }
