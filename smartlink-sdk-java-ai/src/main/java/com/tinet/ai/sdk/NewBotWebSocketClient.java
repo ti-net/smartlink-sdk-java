@@ -329,13 +329,13 @@ public class NewBotWebSocketClient implements DisposableBean {
     }
 
     /**
-     * 告知tbot 用户按键
+     * 告知tbot 用户按键超时
      *
-     * @param chatRequest
+     * @param loginId
      */
-    public void keyPress(ChatRequest chatRequest) {
-        logger.debug("[TBot] loginId {} keyPressTimeout", chatRequest);
-        session.send("/app/keyPress", chatRequest);
+    public void keyPressTimeout(String loginId) {
+        logger.debug("[TBot] loginId {} keyPressTimeout", loginId);
+        session.send("/app/keyPressTimeout", loginId);
     }
 
     public void chat(ChatRequest chatRequest) {
