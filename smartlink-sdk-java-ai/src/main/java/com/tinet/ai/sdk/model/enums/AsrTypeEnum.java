@@ -17,7 +17,11 @@ public enum AsrTypeEnum {
     /**
      * sentenceEnd 一个完整的句子
      */
-    SENTENCE_END("sentenceEnd");
+    SENTENCE_END("sentenceEnd"),
+    /**
+     * 按键交互
+     */
+    DTMF("dtmf");
 
 
     private String value;
