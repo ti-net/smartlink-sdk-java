@@ -56,7 +56,7 @@ public class TestClient {
 
         InputAssociationRequest request = new InputAssociationRequest();
         request.setBotId("924588");
-        request.setText("测试");
+        request.setText("验证");
         request.setEnterpriseId("8000585");
         request.setTop(5);
 
@@ -358,14 +358,14 @@ public class TestClient {
     }
 
     @Test
-    public void testCallScriptRecommendation() throws ServerException, ClientException {
+    public void testCallScriptRecommendation() throws Exception {
         CallScriptRecommendationRequest request = new CallScriptRecommendationRequest();
-        request.setBotId("646853");
-        request.setQuery("哈哈");
+        request.setBotId("924588");
+        request.setQuery("九月二号");
         request.setTop(5);
         CallScriptRecommendationResponse responseModel = smartLinkClient.getResponseModel(request);
-        System.out.println(responseModel.getRequestId());
-        System.out.println(responseModel.getRecommendations());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 
     @Test
