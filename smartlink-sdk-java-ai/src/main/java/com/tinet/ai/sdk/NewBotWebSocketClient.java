@@ -224,6 +224,7 @@ public class NewBotWebSocketClient implements DisposableBean {
         subHeaders.setDestination("/chat/response/" + PLATFORM_CLIENT_UUID);
         subHeaders.set("clientHostName", clientHostName);
         subHeaders.set("podName", podName);
+        logger.info("[TBot] Websocket connect header : {}", subHeaders);
         try {
             session = stompClient.connect(url, getWebSocketHttpHeaders(),
                     new StompHeaders(), sessionHandler).get();
