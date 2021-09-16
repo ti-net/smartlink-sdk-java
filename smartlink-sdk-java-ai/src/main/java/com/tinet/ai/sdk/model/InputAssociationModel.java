@@ -27,4 +27,9 @@ public class InputAssociationModel {
      * 问题
      */
     private String title;
+
+    /**
+     * 供应商；emotibot 代表 竹间
+     */
+    private String provider;
 }
