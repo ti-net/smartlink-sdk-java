@@ -12,10 +12,12 @@ import com.tinet.sqc.sdk.request.EnableBiFunctionRequest;
 import com.tinet.sqc.sdk.request.JumpUserCheckRequest;
 import com.tinet.sqc.sdk.request.PermissionRequest;
 import com.tinet.sqc.sdk.request.PushCdrRequest;
+import com.tinet.sqc.sdk.request.UpdateCdrRequest;
 import com.tinet.sqc.sdk.response.EnableBiFunctionResponse;
 import com.tinet.sqc.sdk.response.JumpUserCheckResponse;
 import com.tinet.sqc.sdk.response.PermissionResponse;
 import com.tinet.sqc.sdk.response.PushCdrResponse;
+import com.tinet.sqc.sdk.response.UpdateCdrResponse;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.http.HttpHost;
 import org.junit.Before;
@@ -38,15 +40,20 @@ public class TestClient {
     @Before
     public void init() {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
+        configuration.setHost("smartlink-sqc-openapi-test2.tinetcloud.com");
 
 //        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
 //        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
-        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        //configuration.setHost("localhost", 8083);
-        //configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
-        configuration.setHost("smartlink-openapi.clink.cn");
-        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443,"https"));
+//        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+//        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
+//        //configuration.setHost("localhost", 8083);
+//        //configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
+//        configuration.setHost("smartlink-openapi.clink.cn");
+//        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443,"https"));
+
+
         configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
@@ -92,6 +99,18 @@ public class TestClient {
         PushCdrResponse responseModel = authClient.getResponseModel(pushCdrRequest);
         System.out.println(responseModel.toString());
     }
+
+    @Test
+    public void updateCdr() throws ServerException, ClientException, JsonProcessingException {
+        UpdateCdrRequest updateCdrRequest = new UpdateCdrRequest();
+        String uniqueid = "8001967-1599198778.1";
+        updateCdrRequest.setUniqueId(uniqueid);
+        updateCdrRequest.setBusinessPriority("1");
+        //继续添加等话单信息
+        UpdateCdrResponse updateCdrResponse = authClient.getResponseModel(updateCdrRequest);
+        System.out.println(updateCdrResponse.toString());
+    }
+
 
     @Test
     public void bi() throws ServerException, ClientException, JsonProcessingException {
