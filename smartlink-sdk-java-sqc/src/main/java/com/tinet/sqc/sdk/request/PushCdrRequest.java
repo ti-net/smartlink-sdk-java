@@ -249,6 +249,9 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
 
     public void setBusinessPriority(String businessPriority) {
         this.businessPriority = businessPriority;
+        if (businessPriority != null) {
+            putBodyParameter("businessPriority", businessPriority);
+        }
     }
 
     public Integer getCdrSource() {

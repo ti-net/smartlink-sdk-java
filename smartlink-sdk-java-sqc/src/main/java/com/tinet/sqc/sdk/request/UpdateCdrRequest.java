@@ -36,6 +36,9 @@ public class UpdateCdrRequest extends BaseRequest<UpdateCdrResponse> {
 
     public void setBusinessPriority(String businessPriority) {
         this.businessPriority = businessPriority;
+        if (businessPriority != null) {
+            putBodyParameter("businessPriority", businessPriority);
+        }
     }
 
     public UpdateCdrRequest() {
