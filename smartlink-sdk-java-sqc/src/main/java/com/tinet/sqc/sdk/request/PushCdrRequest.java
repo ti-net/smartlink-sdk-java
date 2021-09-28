@@ -234,9 +234,25 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private String asrProvider;
 
     /**
+     *  业务优先级
+     */
+    private String businessPriority;
+
+    /**
      * 平台自定义字段传值list
      */
     private List<OriginData> originDataList;
+
+    public String getBusinessPriority() {
+        return businessPriority;
+    }
+
+    public void setBusinessPriority(String businessPriority) {
+        this.businessPriority = businessPriority;
+        if (businessPriority != null) {
+            putBodyParameter("businessPriority", businessPriority);
+        }
+    }
 
     public Integer getCdrSource() {
         return cdrSource;

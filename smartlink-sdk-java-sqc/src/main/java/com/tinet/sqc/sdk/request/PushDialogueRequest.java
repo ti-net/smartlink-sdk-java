@@ -40,6 +40,11 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
      */
     private String customerCity;
     /**
+     * 客户名称
+     */
+    private String customerName;
+
+    /**
      * 访客ip地址
      */
     private String customerIp;
@@ -360,6 +365,17 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
         this.chatCustomer = chatCustomer;
         if (chatCustomer != null) {
             putBodyParameter("chatCustomer", chatCustomer);
+        }
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+        if (customerName != null) {
+            putBodyParameter("customerName", customerName);
         }
     }
 
