@@ -34,7 +34,7 @@ public class CallScriptRecommendationRequest extends BaseRequest<CallScriptRecom
     private Float score;
 
     public CallScriptRecommendationRequest() {
-        super("/api/recommendations", HttpMethodType.POST);
+        super("/api/recommendations", HttpMethodType.POST, "2021-09-16");
     }
 
     public String getBotId() {

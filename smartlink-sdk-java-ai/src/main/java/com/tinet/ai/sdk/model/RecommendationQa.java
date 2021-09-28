@@ -1,5 +1,6 @@
 package com.tinet.ai.sdk.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
 
@@ -11,6 +12,7 @@ import lombok.ToString;
  **/
 @Data
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RecommendationQa {
 
     /**
@@ -37,5 +39,10 @@ public class RecommendationQa {
      * 文章评分
      */
     private Float score;
+
+    /**
+     * 供应商；emotibot 代表 竹间
+     */
+    private String provider;
 
 }
