@@ -77,3 +77,17 @@
 2. 【上药】座席输入联想支持对接竹间知识库；
 工单：http://task.tinetcloud.com/browse/AICC-4779
 ~~~~
+
+~~~~
+日期： 2021-09-28
+版本： 2.0.5.1-RELEASE
+分支： release/2.0.5
+~~~~
+
+### 功能
+~~~~
+1. 【哗啦啦】解决复制粘贴的图片无法直接发送问题
+工单：http://task.tinetcloud.com/browse/AICC-4798
+修改 NewBotWebSocketClient
+增加 maxTextMessageBufferSize 大小
+~~~~
