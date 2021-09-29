@@ -22,6 +22,8 @@ import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import javax.websocket.ContainerProvider;
+import javax.websocket.WebSocketContainer;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -57,7 +59,15 @@ public class NewBotWebSocketClient implements DisposableBean {
 
     private static Logger logger = LoggerFactory.getLogger(NewBotWebSocketClient.class);
 
-    private WebSocketStompClient stompClient = new WebSocketStompClient(new StandardWebSocketClient());
+    private static StandardWebSocketClient standardWebSocketClient;
+
+    static {
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        container.setDefaultMaxTextMessageBufferSize(1024 * 1024);
+        standardWebSocketClient = new StandardWebSocketClient(container);
+    }
+
+    private WebSocketStompClient stompClient = new WebSocketStompClient(standardWebSocketClient);
 
     /**
      * SDK 连接到 Tibot 生成的 session，复用一个 WebSocket 连接
