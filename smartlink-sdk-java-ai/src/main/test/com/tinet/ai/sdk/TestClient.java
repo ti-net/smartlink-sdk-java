@@ -12,11 +12,9 @@ import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +47,32 @@ public class TestClient {
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    @Test
+    public void testAnswerQuery() throws Exception {
+        KbAnswerQueryRequest request = new KbAnswerQueryRequest();
+        request.setEnterpriseId("8000559");
+        request.setQuery("测试");
+        request.setKbType(0);
+
+        KbAnswerQueryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void testInputAssociation() throws Exception {
+
+        InputAssociationRequest request = new InputAssociationRequest();
+        request.setBotId("924588");
+        request.setText("验证");
+        request.setEnterpriseId("8000585");
+        request.setTop(5);
+
+        InputAssociationResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 
     // 点赞点踩验证
@@ -344,14 +368,14 @@ public class TestClient {
     }
 
     @Test
-    public void testCallScriptRecommendation() throws ServerException, ClientException {
+    public void testCallScriptRecommendation() throws Exception {
         CallScriptRecommendationRequest request = new CallScriptRecommendationRequest();
-        request.setBotId("646853");
-        request.setQuery("哈哈");
+        request.setBotId("924588");
+        request.setQuery("九月二号");
         request.setTop(5);
         CallScriptRecommendationResponse responseModel = smartLinkClient.getResponseModel(request);
-        System.out.println(responseModel.getRequestId());
-        System.out.println(responseModel.getRecommendations());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 
     @Test
