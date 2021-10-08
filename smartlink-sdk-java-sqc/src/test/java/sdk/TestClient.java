@@ -8,11 +8,13 @@ import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import com.tinet.sqc.sdk.model.PlatformEnum;
 import com.tinet.sqc.sdk.model.ProductEnum;
 import com.tinet.sqc.sdk.model.Record;
+import com.tinet.sqc.sdk.request.CdrSqcDetailsRequest;
 import com.tinet.sqc.sdk.request.EnableBiFunctionRequest;
 import com.tinet.sqc.sdk.request.JumpUserCheckRequest;
 import com.tinet.sqc.sdk.request.PermissionRequest;
 import com.tinet.sqc.sdk.request.PushCdrRequest;
 import com.tinet.sqc.sdk.request.UpdateCdrRequest;
+import com.tinet.sqc.sdk.response.CdrSqcDetailsResponse;
 import com.tinet.sqc.sdk.response.EnableBiFunctionResponse;
 import com.tinet.sqc.sdk.response.JumpUserCheckResponse;
 import com.tinet.sqc.sdk.response.PermissionResponse;
@@ -40,10 +42,10 @@ public class TestClient {
     @Before
     public void init() {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
-        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-        configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
-
+        configuration.setAccessKeyId("DA5D86BM41F6LH31FN4L");
+        configuration.setAccessKeySecret("60prd9176j956iv680113az66243mk61");
+        configuration.setHost("smartlink-sqc-openapi.tinetcloud.com");
+//        configuration.setHost("localhost",8083);
 
 //        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
 //        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
@@ -64,6 +66,21 @@ public class TestClient {
         configuration.setSocketTimeout(100000);
         authClient = new SmartlinkClient(configuration);
     }
+
+
+
+
+    @Test
+    public void getDetail() throws ServerException, ClientException {
+        CdrSqcDetailsRequest request=new CdrSqcDetailsRequest();
+        request.setUniqueId("medias_1-1632464196.22");
+        request.setUserId("8000559");
+
+        CdrSqcDetailsResponse responseModel = authClient.getResponseModel(request);
+        System.out.println(responseModel.toString());
+    }
+
+
 
     @Test
     public void pushCdr1() throws ServerException, ClientException, JsonProcessingException {
@@ -162,10 +179,11 @@ public class TestClient {
     @Test
     public void updateCdr() throws ServerException, ClientException {
         UpdateCdrRequest updateCdrRequest = new UpdateCdrRequest();
-        String uniqueid = "8001967-1599198778.1";
+        String uniqueid = "8001967-1599198778.11234";
         updateCdrRequest.setUniqueId(uniqueid);
         updateCdrRequest.setBusinessPriority("1");
-        //继续添加等话单信息
+        updateCdrRequest.setUserId("1100036");
+        //修改话单信息的业务优先级
         UpdateCdrResponse updateCdrResponse = authClient.getResponseModel(updateCdrRequest);
         System.out.println(updateCdrResponse.toString());
     }
