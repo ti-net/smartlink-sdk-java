@@ -86,16 +86,16 @@ public class TestClient {
     @Test
     public void pushCdr1() throws ServerException, ClientException, JsonProcessingException {
         PushCdrRequest pushCdrRequest = new PushCdrRequest();
-        pushCdrRequest.setUserId("8000559");
-        String uniqueid = "medias_1-1633932042.22";
+        pushCdrRequest.setUserId("110Y");
+        String uniqueid = "medias_1-1633938155.22";
         pushCdrRequest.setUniqueId(uniqueid);
         pushCdrRequest.setMainUniqueId(uniqueid);
         pushCdrRequest.setCdrType("cdr_ib");
         pushCdrRequest.setCallType(1);
-        pushCdrRequest.setStartTime(1632464196L);
-        pushCdrRequest.setAnswerTime(1632464198L);
-        pushCdrRequest.setEndTime(1632464232L);
-        pushCdrRequest.setBridgeTime(1632464209L);
+        pushCdrRequest.setStartTime(1633938119L);
+        pushCdrRequest.setAnswerTime(1633938119L);
+        pushCdrRequest.setEndTime(1633938119L);
+        pushCdrRequest.setBridgeTime(1633938119L);
         pushCdrRequest.setBridgeDuration(23);
         pushCdrRequest.setTotalDuration(26);
         pushCdrRequest.setStatus(1);
@@ -107,8 +107,8 @@ public class TestClient {
         pushCdrRequest.setCustomerAreaCode("0310");
         pushCdrRequest.setCustomerProvince("河北");
         pushCdrRequest.setCustomerCity("邯郸");
-        pushCdrRequest.setJoinQueueTime(1632464198L);
-        pushCdrRequest.setRecordFile("8000559-20210924141636-01012345678-221221--record-medias_1-1632464196.13");
+        pushCdrRequest.setJoinQueueTime(1633938119L);
+        pushCdrRequest.setRecordFile("8000559-20210924141636-01012345678-221221--record-medias_1-1633938133.13");
         pushCdrRequest.setNumberTrunk("02759566331");
         pushCdrRequest.setHotline("02759566331");
 //        pushCdrRequest.setCallbackUrl("http://api-bj-test5.clink.cn/internal/sqc/asr?platform=SMARTLINK&Timestamp=1632464243&AccessKeyId=b22f93a2d70b6c8125c94c20eb488027");
