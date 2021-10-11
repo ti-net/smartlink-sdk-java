@@ -243,6 +243,23 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private List<OriginData> originDataList;
 
+
+    /**
+     * 录音地址是否需要鉴权
+     */
+    private Boolean fileAuthFlag=false;
+
+    public Boolean getFileAuthFlag() {
+        return fileAuthFlag;
+    }
+
+    public void setFileAuthFlag(Boolean fileAuthFlag) {
+        this.fileAuthFlag = fileAuthFlag;
+        if (fileAuthFlag != null) {
+            putBodyParameter("fileAuthFlag", fileAuthFlag);
+        }
+    }
+
     public String getBusinessPriority() {
         return businessPriority;
     }
