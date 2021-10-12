@@ -1,6 +1,8 @@
 package com.tinet.smartlink.sdk.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.smartlink.sdk.core.SdkConnectionKeepAliveStrategy;
+import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.auth.Signer;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
@@ -41,35 +43,37 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 /**
  * <p>示例代码</p><br>
-<pre>
-        SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
+ <pre>
+ SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
-        *******************************
-        // 这些是必须设置的参数
-        configuration.setAccessKeyId("");
-        configuration.setAccessKeySecret("");
-        configuration.setHost(new HttpHost(""))
-        *******************************
+ *******************************
+ // 这些是必须设置的参数
+ configuration.setAccessKeyId("");
+ configuration.setAccessKeySecret("");
+ configuration.setHost(new HttpHost(""))
+ *******************************
 
-        configuration.set...  设置其他参数
+ configuration.set...  设置其他参数
 
-        SmartlinkClient smartLinkClient = new SmartlinkClient(configuration);
+ SmartlinkClient smartLinkClient = new SmartlinkClient(configuration);
 
-        SaveCdrRequest saveCdrRequest = new SaveCdrRequest();
-        // 设置属性 saveCdrRequest.set...
-        try {
-            // 请求成功正常返回对应的 response
-            SaveCdrResponse saveCdrResponse = smartLinkClient.getResponseModel(saveCdrRequest);
-        } catch (ServerException e) {
-            // 服务器错误，大概率是出 bug 了
-            e.printStackTrace();
-        } catch (ClientException e) {
-            // 客户端错误，参数校验没通过？做了不该做的事？反正是你的事，再看看你写的代码
-            e.printStackTrace();
-        }
+ SaveCdrRequest saveCdrRequest = new SaveCdrRequest();
+ // 设置属性 saveCdrRequest.set...
+ try {
+ // 请求成功正常返回对应的 response
+ SaveCdrResponse saveCdrResponse = smartLinkClient.getResponseModel(saveCdrRequest);
+ } catch (ServerException e) {
+ // 服务器错误，大概率是出 bug 了
+ e.printStackTrace();
+ } catch (ClientException e) {
+ // 客户端错误，参数校验没通过？做了不该做的事？反正是你的事，再看看你写的代码
+ e.printStackTrace();
+ }
  </pre>
  详细文档：<a href="http://kb.tinetcloud.com/pages/viewpage.action?pageId=6293887">http://kb.tinetcloud.com/pages/viewpage.action?pageId=6293887</a>
  * @author houfc
@@ -99,12 +103,12 @@ public class SmartlinkClient {
     }
 
     public <T extends BaseResponse> HttpResponse execute(BaseRequest<T> request)
-            throws ServerException, ClientException {
+        throws ServerException, ClientException {
         return execute(request, httpHost);
     }
 
     public <T extends BaseResponse> HttpResponse execute(BaseRequest<T> request, HttpHost host)
-            throws ClientException, ServerException {
+        throws ClientException, ServerException {
         request.signRequest(signer, configuration.getCredentials(), host.getHostName(), request.uri());
         try {
 
@@ -130,7 +134,7 @@ public class SmartlinkClient {
             }
 
             BasicHttpEntityEnclosingRequest httpRequest = new BasicHttpEntityEnclosingRequest(
-                    request.httpMethod().toString(), request.uri() + "?" + request.generateUri());
+                request.httpMethod().toString(), request.uri() + "?" + request.generateUri());
             if (request.httpMethod().hasContent()) {
                 entity = new StringEntity(objectMapper.writeValueAsString(request), ContentType.APPLICATION_JSON);
                 httpRequest.setEntity(entity);
@@ -160,14 +164,19 @@ public class SmartlinkClient {
             synchronized (this) {
                 if (httpClient == null) {
                     httpClientBuilder.setKeepAliveStrategy(
-                            new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()));
+                        new SdkConnectionKeepAliveStrategy(this.configuration.getKeepAliveDurationMillis()));
                     if (configuration.getProxy() != null) {
                         // httpclient 设置代理 ，如果使用system property 会报错：
                         // org.apache.http.ProtocolException: The server failed to respond with a valid HTTP response
                         // https://cloud.tencent.com/developer/ask/35004
                         httpClientBuilder.setProxy(configuration.getProxy());
                     }
-                    TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
+                    TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
+                        @Override
+                        public boolean isTrusted(X509Certificate[] cert, String authType) throws CertificateException {
+                            return true;
+                        }
+                    };
                     SSLContext sslContext = null;
                     try {
                         sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
@@ -175,16 +184,16 @@ public class SmartlinkClient {
                         e.printStackTrace();
                     }
                     SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext,
-                            NoopHostnameVerifier.INSTANCE);
+                        NoopHostnameVerifier.INSTANCE);
 
                     Registry<ConnectionSocketFactory> socketFactoryRegistry =
-                            RegistryBuilder.<ConnectionSocketFactory> create()
-                                    .register("https", sslsf)
-                                    .register("http", new PlainConnectionSocketFactory())
-                                    .build();
+                        RegistryBuilder.<ConnectionSocketFactory> create()
+                            .register("https", sslsf)
+                            .register("http", new PlainConnectionSocketFactory())
+                            .build();
 
                     BasicHttpClientConnectionManager connectionManager =
-                            new BasicHttpClientConnectionManager(socketFactoryRegistry);
+                        new BasicHttpClientConnectionManager(socketFactoryRegistry);
                     httpClientBuilder.setSSLSocketFactory(sslsf);
                     httpClientBuilder.setConnectionManager(connectionManager);
 
@@ -197,17 +206,17 @@ public class SmartlinkClient {
 
 
     public <T extends BaseResponse> T getResponseModel (BaseRequest<T> request, String host)
-            throws ServerException, ClientException {
+        throws ServerException, ClientException {
         return getResponseModel(request, new HttpHost(host));
     }
 
     public <T extends BaseResponse> T getResponseModel (BaseRequest<T> request)
-            throws ServerException, ClientException {
+        throws ServerException, ClientException {
         return getResponseModel(request, this.httpHost);
     }
 
     public <T extends BaseResponse> T getResponseModel (BaseRequest<T> request, HttpHost host)
-            throws ClientException, ServerException {
+        throws ClientException, ServerException {
         HttpResponse response = execute(request, host);
         if (isSuccess(response)) {
             try {
@@ -268,10 +277,10 @@ public class SmartlinkClient {
         httpClientBuilder = HttpClientBuilder.create().setConnectionManager(connectionManager);
 
         RequestConfig requestConfig = RequestConfig.custom()
-                .setSocketTimeout(configuration.getSocketTimeout())
-                .setConnectTimeout(configuration.getConnectTimeout())
-                .setConnectionRequestTimeout(configuration.getConnectionRequestTimeout())
-                .build();
+            .setSocketTimeout(configuration.getSocketTimeout())
+            .setConnectTimeout(configuration.getConnectTimeout())
+            .setConnectionRequestTimeout(configuration.getConnectionRequestTimeout())
+            .build();
         httpClientBuilder.setDefaultRequestConfig(requestConfig);
     }
 
