@@ -57,7 +57,7 @@ public class TestClient {
 //        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
 //        //configuration.setHost("localhost", 8083);
 //        configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
-        configuration.setHost("smartlink-sqc-openapi-test2.tinetcloud.com");
+        configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
 //        configuration.setHost("smartlink-openapi.clink.cn");
 //        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443,"https"));
 
@@ -87,27 +87,27 @@ public class TestClient {
     public void pushCdr1() throws ServerException, ClientException, JsonProcessingException {
         PushCdrRequest pushCdrRequest = new PushCdrRequest();
         pushCdrRequest.setUserId("110Y");
-        String uniqueid = "medias_1-1633938155.22";
+        String uniqueid = "medias_1-1634004708.22";
         pushCdrRequest.setUniqueId(uniqueid);
         pushCdrRequest.setMainUniqueId(uniqueid);
         pushCdrRequest.setCdrType("cdr_ib");
         pushCdrRequest.setCallType(1);
-        pushCdrRequest.setStartTime(1633938119L);
-        pushCdrRequest.setAnswerTime(1633938119L);
-        pushCdrRequest.setEndTime(1633938119L);
-        pushCdrRequest.setBridgeTime(1633938119L);
+        pushCdrRequest.setStartTime(1634004708L);
+        pushCdrRequest.setAnswerTime(1634004708L);
+        pushCdrRequest.setEndTime(1634004708L);
+        pushCdrRequest.setBridgeTime(1634004708L);
         pushCdrRequest.setBridgeDuration(23);
         pushCdrRequest.setTotalDuration(26);
         pushCdrRequest.setStatus(1);
         pushCdrRequest.setEndReason(1);
         pushCdrRequest.setCno("2021");
-        pushCdrRequest.setAgentName("yinzk");
+        pushCdrRequest.setAgentName("yinzk123");
         pushCdrRequest.setCustomerNumber("18832015829");
         pushCdrRequest.setCustomerNumberType("2");
         pushCdrRequest.setCustomerAreaCode("0310");
         pushCdrRequest.setCustomerProvince("河北");
         pushCdrRequest.setCustomerCity("邯郸");
-        pushCdrRequest.setJoinQueueTime(1633938119L);
+        pushCdrRequest.setJoinQueueTime(1634004708L);
         pushCdrRequest.setRecordFile("8000559-20210924141636-01012345678-221221--record-medias_1-1633938133.13");
         pushCdrRequest.setNumberTrunk("02759566331");
         pushCdrRequest.setHotline("02759566331");
@@ -123,6 +123,7 @@ public class TestClient {
 //        String fileUrlAgent = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-in.wav?Expires=1599226249&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=L7IUPjkfRCOQg1X%2BRm4o5lPDCeo%3D";
 //        String fileUrlClient = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-out.wav?Expires=1599226273&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=IzLCVzpuU5h4Ev7EPZ1hlCwrGcc%3D";
         recordAgent.setFileId("path.amVGaWxlU3lzdGVtL00wMC8wRS8xMi93S2dBMUdGZ0Z5MkFGZ0wxQUFCLUFEbUluTTQ3NjMubXAz");
+        recordAgent.setErpetualUrl(true);
 //        recordAgent.setRecordSide("agent");
 //        Record recordClient = new Record();
 //        recordClient.setFileUrl(fileUrlClient);
