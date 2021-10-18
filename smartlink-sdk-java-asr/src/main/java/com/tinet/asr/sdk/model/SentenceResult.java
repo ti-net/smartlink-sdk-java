@@ -9,6 +9,10 @@ import lombok.Data;
  */
 @Data
 public class SentenceResult {
+    @JsonProperty("sentence_id")
+    private Integer sentenceId;
+
+
     @JsonProperty("channel_id")
     private Integer channelId;
 

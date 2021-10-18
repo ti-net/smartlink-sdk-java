@@ -5,6 +5,7 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
+import com.tinet.sqc.sdk.model.OriginData;
 import com.tinet.sqc.sdk.model.PlatformEnum;
 import com.tinet.sqc.sdk.model.ProductEnum;
 import com.tinet.sqc.sdk.model.Record;
@@ -51,8 +52,8 @@ public class TestClient {
 //        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
 //        configuration.setHost("smartlink-sqc-openapi-test2.tinetcloud.com");
 
-        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
 //        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
 //        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
 //        //configuration.setHost("localhost", 8083);
@@ -74,8 +75,8 @@ public class TestClient {
     @Test
     public void getDetail() throws ServerException, ClientException {
         CdrSqcDetailsRequest request=new CdrSqcDetailsRequest();
-        request.setUniqueId("medias_1-1632464196.22");
-        request.setUserId("8000559");
+        request.setUniqueId("770547bc.28ce.48a4.bb43.1bb7fd99bee1-1634095666.1832");
+        request.setUserId("8000001");
 
         CdrSqcDetailsResponse responseModel = authClient.getResponseModel(request);
         System.out.println(responseModel.toString());
@@ -86,35 +87,35 @@ public class TestClient {
     @Test
     public void pushCdr1() throws ServerException, ClientException, JsonProcessingException {
         PushCdrRequest pushCdrRequest = new PushCdrRequest();
-        pushCdrRequest.setUserId("110Y");
-        String uniqueid = "medias_1-1634004708.22";
+        pushCdrRequest.setUserId("8000001");
+        String uniqueid = "770547bc.28ce.48a4.bb43.1bb7fd99bee1-1634095666.1832";
         pushCdrRequest.setUniqueId(uniqueid);
         pushCdrRequest.setMainUniqueId(uniqueid);
-        pushCdrRequest.setCdrType("cdr_ib");
-        pushCdrRequest.setCallType(1);
-        pushCdrRequest.setStartTime(1634004708L);
-        pushCdrRequest.setAnswerTime(1634004708L);
-        pushCdrRequest.setEndTime(1634004708L);
-        pushCdrRequest.setBridgeTime(1634004708L);
-        pushCdrRequest.setBridgeDuration(23);
-        pushCdrRequest.setTotalDuration(26);
-        pushCdrRequest.setStatus(1);
-        pushCdrRequest.setEndReason(1);
-        pushCdrRequest.setCno("2021");
-        pushCdrRequest.setAgentName("yinzk123");
-        pushCdrRequest.setCustomerNumber("18832015829");
-        pushCdrRequest.setCustomerNumberType("2");
-        pushCdrRequest.setCustomerAreaCode("0310");
-        pushCdrRequest.setCustomerProvince("河北");
-        pushCdrRequest.setCustomerCity("邯郸");
-        pushCdrRequest.setJoinQueueTime(1634004708L);
-        pushCdrRequest.setRecordFile("8000559-20210924141636-01012345678-221221--record-medias_1-1633938133.13");
-        pushCdrRequest.setNumberTrunk("02759566331");
-        pushCdrRequest.setHotline("02759566331");
+        pushCdrRequest.setCdrType("cdr_ob_agent");
+        pushCdrRequest.setCallType(3);
+        pushCdrRequest.setStartTime(1634091971L);
+        pushCdrRequest.setAnswerTime(1634091971L);
+        pushCdrRequest.setEndTime(1634091972L);
+        pushCdrRequest.setBridgeTime(1634091971L);
+        pushCdrRequest.setBridgeDuration(44);
+        pushCdrRequest.setTotalDuration(44);
+        pushCdrRequest.setStatus(23);
+        pushCdrRequest.setEndReason(0);
+        pushCdrRequest.setCno("");
+        pushCdrRequest.setAgentName(null);
+        pushCdrRequest.setCustomerNumber("13069774737");
+        pushCdrRequest.setCustomerNumberType(null);
+        pushCdrRequest.setCustomerAreaCode(null);
+        pushCdrRequest.setCustomerProvince(null);
+        pushCdrRequest.setCustomerCity(null);
+        pushCdrRequest.setJoinQueueTime(null);
+        pushCdrRequest.setRecordFile("path.amVGaWxlU3lzdGVtL00wMC8wRS8xMi93S2dBMUdGZ0Z5MkFGZ0wxQUFCLUFEbUluTTQ3NjMubXAz");
+        pushCdrRequest.setNumberTrunk(null);
+        pushCdrRequest.setHotline(null);
 //        pushCdrRequest.setCallbackUrl("http://api-bj-test5.clink.cn/internal/sqc/asr?platform=SMARTLINK&Timestamp=1632464243&AccessKeyId=b22f93a2d70b6c8125c94c20eb488027");
-        pushCdrRequest.setQno("1211");
-        pushCdrRequest.setQname("yinzk-test");
-        pushCdrRequest.setBusinessPriority("2");
+        pushCdrRequest.setQno(null);
+        pushCdrRequest.setQname(null);
+//        pushCdrRequest.setBusinessPriority("2");
         pushCdrRequest.setFileAuthFlag(true);
 
 //
@@ -132,6 +133,25 @@ public class TestClient {
         list.add(recordAgent);
 //        list.add(recordClient);
         pushCdrRequest.setRecords(list);
+
+//        "originDataList":[
+//        {
+//            "name":"serviceId",
+//            "value":""
+//        },
+//        {
+//            "name":"callId",
+//            "value":"95678_1633688723"
+//        }
+//    ],
+
+        List<OriginData> originDataList = new ArrayList<>();
+        OriginData originData=new OriginData();
+        originData.setName("callId");
+        originData.setValue("95678_1633688723");
+        originDataList.add(originData);
+        pushCdrRequest.setOriginDataList(originDataList);
+
         //继续添加等话单信息
         PushCdrResponse responseModel = authClient.getResponseModel(pushCdrRequest);
         System.out.println(responseModel.toString());
