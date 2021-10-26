@@ -4,15 +4,15 @@ import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 import com.tinet.sqc.sdk.model.OriginData;
 import com.tinet.sqc.sdk.response.ListCdrSqcDetailsResponse;
+import com.tinet.sqc.sdk.response.PostListCdrSqcDetailsResponse;
 import java.util.List;
 
 /**
- * 根据质检时间查询ES数据
- *
- * @author liuhongyu
- * @date 2019/12/20
- **/
-public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsResponse> {
+ * @Author: liurf
+ * @Description: 根据质检时间查询ES数据
+ * @Date: 2021/10/26 12:15
+*/
+public class PostListCdrSqcDetailsRequest extends BaseRequest<PostListCdrSqcDetailsResponse> {
 
 
     /**
@@ -39,7 +39,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setOriginDataList(List<OriginData> originDataList) {
         this.originDataList = originDataList;
         if(originDataList != null){
-            putQueryParameter("originDataList",originDataList);
+            putBodyParameter("originDataList",originDataList);
         }
     }
 
@@ -50,7 +50,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setChannelTime(String channelTime) {
         this.channelTime = channelTime;
         if(channelTime != null){
-            putQueryParameter("channelTime",channelTime);
+            putBodyParameter("channelTime",channelTime);
         }
     }
 
@@ -61,7 +61,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setQcTime(String qcTime) {
         this.qcTime = qcTime;
         if(qcTime != null){
-            putQueryParameter("qcTime",qcTime);
+            putBodyParameter("qcTime",qcTime);
         }
     }
 
@@ -72,7 +72,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setScrollId(String scrollId) {
         this.scrollId = scrollId;
         if (scrollId != null) {
-            putQueryParameter("scrollId", scrollId);
+            putBodyParameter("scrollId", scrollId);
         }
     }
 
@@ -83,7 +83,7 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setUserId(String userId) {
         this.userId = userId;
         if (userId != null) {
-            putQueryParameter("userId", userId);
+            putBodyParameter("userId", userId);
         }
     }
 
@@ -94,16 +94,16 @@ public class ListCdrSqcDetailsRequest extends BaseRequest<ListCdrSqcDetailsRespo
     public void setLimit(Integer limit) {
         this.limit = limit;
         if (limit != null) {
-            putQueryParameter("limit", limit);
+            putBodyParameter("limit", limit);
         }
     }
 
-    public ListCdrSqcDetailsRequest() {
-        super("/sqc/listCdrSqcDetails", HttpMethodType.GET);
+    public PostListCdrSqcDetailsRequest() {
+        super("/sqc/listCdrSqcDetails", HttpMethodType.POST);
     }
 
     @Override
-    public Class<ListCdrSqcDetailsResponse> getResponseClass() {
-        return ListCdrSqcDetailsResponse.class;
+    public Class<PostListCdrSqcDetailsResponse> getResponseClass() {
+        return PostListCdrSqcDetailsResponse.class;
     }
 }
