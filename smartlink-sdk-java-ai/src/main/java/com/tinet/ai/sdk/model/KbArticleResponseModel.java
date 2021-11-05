@@ -160,4 +160,14 @@ public class KbArticleResponseModel {
         private Integer transfer;
 
     }
+
+    /**
+     * 有效性（0~无效，1~有效）
+     */
+    private Integer validity;
+
+    /**
+     * 标签（0~内部标签，1~外部标签）
+     */
+    private Integer label;
 }

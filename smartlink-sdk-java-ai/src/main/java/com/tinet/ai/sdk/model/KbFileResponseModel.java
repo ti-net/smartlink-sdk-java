@@ -108,4 +108,14 @@ public class KbFileResponseModel {
      * 0 已点赞 1 已点踩  null 未被点击
      */
     private String status;
+
+    /**
+     * 有效性（0~无效，1~有效）
+     */
+    private Integer validity;
+
+    /**
+     * 标签（0~内部标签，1~外部标签）
+     */
+    private Integer label;
 }
