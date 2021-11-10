@@ -125,6 +125,36 @@ public class PushDialogueRequest extends BaseRequest<PushDialogueResponse> {
      */
     private List<OriginData> originDataList;
 
+    /**
+     * 会话状态
+     */
+    private Integer chatRecordStatus;
+    /**
+     * 接待类型
+     */
+    private Integer chatType;
+
+    public Integer getChatRecordStatus() {
+        return chatRecordStatus;
+    }
+
+    public void setChatRecordStatus(Integer chatRecordStatus) {
+        this.chatRecordStatus = chatRecordStatus;
+        if (chatRecordStatus != null) {
+            putBodyParameter("chatRecordStatus", chatRecordStatus);
+        }
+    }
+
+    public Integer getChatType() {
+        return chatType;
+    }
+
+    public void setChatType(Integer chatType) {
+        this.chatType = chatType;
+        if (chatType != null) {
+            putBodyParameter("chatType", chatType);
+        }
+    }
 
     public List<OriginData> getOriginDataList() {
         return originDataList;
