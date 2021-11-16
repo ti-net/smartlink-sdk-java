@@ -71,6 +71,13 @@ public class KbArticleResponseModel {
     private Integer kbId;
 
     /**
+     * 所属知识库类型，冗余kbId对应库的类型
+     * 0 表示 问答库
+     * 1 文档库
+     */
+    private Integer kbType;
+
+    /**
      * 有效起始日期
      */
     private Date validDateFrom;
