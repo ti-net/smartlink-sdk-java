@@ -243,6 +243,150 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private Boolean fileAuthFlag=false;
 
+    /**
+     * 业务类型
+     */
+    private String typeBusiness;
+
+    /**
+     * 上报类型
+     */
+    private String typeReport;
+
+    /**
+     * 产品类型
+     */
+    private String productType;
+
+    /**
+     * 满意度
+     */
+    private String satisfaction;
+
+    /**
+     * 质检状态
+     */
+    private String checkedFlag;
+
+    /**
+     * 挂机类别
+     */
+    private String callOffFlag;
+
+    /**
+     * 按键
+     */
+    private String ivrNoivr;
+
+    /**
+     * 是否发送短信（中文：是/否）
+     */
+    private String smsFlag;
+
+    /**
+     * 是否发票（中文：是/否）
+     */
+    private String invoiceFlag;
+
+    public String getTypeBusiness() {
+        return typeBusiness;
+    }
+
+    public void setTypeBusiness(String typeBusiness) {
+        this.typeBusiness = typeBusiness;
+        if (typeBusiness != null) {
+            putBodyParameter("typeBusiness", typeBusiness);
+        }
+    }
+
+    public String getTypeReport() {
+        return typeReport;
+    }
+
+    public void setTypeReport(String typeReport) {
+        this.typeReport = typeReport;
+        if (typeReport != null) {
+            putBodyParameter("typeReport", typeReport);
+        }
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+        if (productType != null) {
+            putBodyParameter("productType", productType);
+        }
+    }
+
+    public String getSatisfaction() {
+        return satisfaction;
+    }
+
+    public void setSatisfaction(String satisfaction) {
+        this.satisfaction = satisfaction;
+        if (satisfaction != null) {
+            putBodyParameter("satisfaction", satisfaction);
+        }
+    }
+
+    public String getCheckedFlag() {
+        return checkedFlag;
+    }
+
+    public void setCheckedFlag(String checkedFlag) {
+        this.checkedFlag = checkedFlag;
+        if (checkedFlag != null) {
+            putBodyParameter("checkedFlag", checkedFlag);
+        }
+    }
+
+    public String getCallOffFlag() {
+        return callOffFlag;
+    }
+
+    public void setCallOffFlag(String callOffFlag) {
+        this.callOffFlag = callOffFlag;
+        if (callOffFlag != null) {
+            putBodyParameter("callOffFlag", callOffFlag);
+        }
+    }
+
+    public String getIvrNoivr() {
+        return ivrNoivr;
+    }
+
+    public void setIvrNoivr(String ivrNoivr) {
+        this.ivrNoivr = ivrNoivr;
+        if (ivrNoivr != null) {
+            putBodyParameter("ivrNoivr", ivrNoivr);
+        }
+    }
+
+    public String getSmsFlag() {
+        return smsFlag;
+    }
+
+    public void setSmsFlag(String smsFlag) {
+        this.smsFlag = smsFlag;
+        if (smsFlag != null) {
+            putBodyParameter("smsFlag", smsFlag);
+        }
+    }
+
+    public String getInvoiceFlag() {
+        return invoiceFlag;
+    }
+
+    public void setInvoiceFlag(String invoiceFlag) {
+        this.invoiceFlag = invoiceFlag;
+        if (invoiceFlag != null) {
+            putBodyParameter("invoiceFlag", invoiceFlag);
+        }
+    }
+
     public Boolean getFileAuthFlag() {
         return fileAuthFlag;
     }
