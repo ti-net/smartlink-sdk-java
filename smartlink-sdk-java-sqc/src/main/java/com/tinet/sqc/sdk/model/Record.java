@@ -28,4 +28,10 @@ public class Record implements Serializable {
      * 录音是否需要存储
      */
     private boolean storageRecord = false;
+
+    /**
+     * 录音id
+     */
+    private String fileId;
+
 }

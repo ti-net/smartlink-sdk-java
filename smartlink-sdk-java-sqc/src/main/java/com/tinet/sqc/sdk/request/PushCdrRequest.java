@@ -243,6 +243,38 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private List<OriginData> originDataList;
 
+    /**
+     * 录音地址是否需要鉴权
+     */
+    private Boolean fileAuthFlag=false;
+
+    /**
+     * 悟空租车vnc 自定义信息适配专用字段
+     */
+    private String userField;
+
+    public String getUserField() {
+        return userField;
+    }
+
+    public void setUserField(String userField) {
+        this.userField = userField;
+        if (userField != null) {
+            putBodyParameter("userField", userField);
+        }
+    }
+
+    public Boolean getFileAuthFlag() {
+        return fileAuthFlag;
+    }
+
+    public void setFileAuthFlag(Boolean fileAuthFlag) {
+        this.fileAuthFlag = fileAuthFlag;
+        if (fileAuthFlag != null) {
+            putBodyParameter("fileAuthFlag", fileAuthFlag);
+        }
+    }
+
     public String getBusinessPriority() {
         return businessPriority;
     }

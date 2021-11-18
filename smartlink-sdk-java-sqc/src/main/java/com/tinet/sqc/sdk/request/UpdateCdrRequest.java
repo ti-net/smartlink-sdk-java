@@ -21,6 +21,21 @@ public class UpdateCdrRequest extends BaseRequest<UpdateCdrResponse> {
      *  业务优先级
      */
     private String businessPriority;
+    /**
+     * 用户ID
+     */
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+        if (userId != null) {
+            putBodyParameter("userId", userId);
+        }
+    }
 
     public String getUniqueId() {
         return uniqueId;
@@ -28,6 +43,9 @@ public class UpdateCdrRequest extends BaseRequest<UpdateCdrResponse> {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+        if (uniqueId != null) {
+            putBodyParameter("uniqueId", uniqueId);
+        }
     }
 
     public String getBusinessPriority() {

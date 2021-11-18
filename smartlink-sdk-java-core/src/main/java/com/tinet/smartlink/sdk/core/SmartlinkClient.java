@@ -183,8 +183,12 @@ public class SmartlinkClient {
                                     .register("http", new PlainConnectionSocketFactory())
                                     .build();
 
-                    BasicHttpClientConnectionManager connectionManager =
-                            new BasicHttpClientConnectionManager(socketFactoryRegistry);
+                    // 调整为连接池管理器 add by qianjin on 2021年10月15日17:38:44
+                    PoolingHttpClientConnectionManager connectionManager
+                            = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+                    connectionManager.setDefaultMaxPerRoute(configuration.getMaxConnectionsPerRoute());
+                    connectionManager.setMaxTotal(configuration.getMaxConnections());
+
                     httpClientBuilder.setSSLSocketFactory(sslsf);
                     httpClientBuilder.setConnectionManager(connectionManager);
 
