@@ -91,3 +91,15 @@
 修改 NewBotWebSocketClient
 增加 maxTextMessageBufferSize 大小
 ~~~~
+
+~~~~
+日期： 2021-11-18
+版本： 2.0.6-RELEASE
+分支： release/2.0.6
+~~~~
+
+### 功能
+~~~~
+1. 【江泰保险】- 希望知识库的文章可以相关联
+工单：http://task.tinetcloud.com/browse/AICC-3518
+~~~~
