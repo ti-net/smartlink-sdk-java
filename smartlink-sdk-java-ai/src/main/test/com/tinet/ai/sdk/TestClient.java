@@ -95,6 +95,8 @@ public class TestClient {
     public void testDscArticle () throws Exception{
 
         KbDescribeArticleRequest request = new KbDescribeArticleRequest();
+        request.setId("3020");
+        request.setEnterpriseId(8000559);
 
         KbDescribeArticleResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
