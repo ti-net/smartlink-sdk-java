@@ -71,6 +71,13 @@ public class KbArticleResponseModel {
     private Integer kbId;
 
     /**
+     * 所属知识库类型，冗余kbId对应库的类型
+     * 0 表示 问答库
+     * 1 文档库
+     */
+    private Integer kbType;
+
+    /**
      * 有效起始日期
      */
     private Date validDateFrom;
@@ -143,6 +150,12 @@ public class KbArticleResponseModel {
      */
     private String[] botAction;
 
+    /**
+     * 文档库-关联知识点
+     */
+    private List<RelatedQuestion> relatedQuestions;
+
+
     @Data
     @ToString
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -159,5 +172,24 @@ public class KbArticleResponseModel {
          */
         private Integer transfer;
 
+        /**
+         * 问答库-关联知识点
+         */
+        private List<RelatedQuestion> relatedQuestions;
+    }
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class RelatedQuestion {
+
+        /**
+         * 知识点标题
+         */
+        private String relatedQuestion;
+
+        /**
+         * 标题ID
+         */
+        private String relatedQuestionId;
     }
 }
