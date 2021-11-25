@@ -151,6 +151,11 @@ public class KbArticleResponseModel {
     private String[] botAction;
 
     /**
+     * 机器人厂商
+     */
+    private String provider;
+
+    /**
      * 文档库-关联知识点
      */
     private List<RelatedQuestion> relatedQuestions;
