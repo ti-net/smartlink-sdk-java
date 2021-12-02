@@ -111,6 +111,21 @@ public class TestClient {
     }
 
     @Test
+    public void testFaq() throws Exception {
+        IntelligentKnowledgeBaseRequest request = new IntelligentKnowledgeBaseRequest();
+        request.setEnterpriseId("8000559");
+        request.setQuery("总部");
+        // 芒果  198252，全屋全屋WiFi产  竹间  362924，总部
+        request.setBotId("362924");
+        request.setOffset(0);
+        request.setLimit(10);
+
+        KbArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
     public void testAnswerQuery() throws Exception {
         KbAnswerQueryRequest request = new KbAnswerQueryRequest();
         request.setEnterpriseId("8000559");
