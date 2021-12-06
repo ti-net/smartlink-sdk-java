@@ -103,3 +103,17 @@
 1. 【江泰保险】- 希望知识库的文章可以相关联
 工单：http://task.tinetcloud.com/browse/AICC-3518
 ~~~~
+
+### 功能
+~~~~
+1. 【内部自提】补充知识库接口能力
+工单：http://task.tinetcloud.com/browse/AICC-5549
+2. 【上药】【深圳小亿】个人知识库与机器人知识库互通
+工单：http://task.tinetcloud.com/browse/AICC-5551
+~~~~
+
+~~~~
+日期： 2021-12-02
+版本： 2.0.7-RELEASE
+分支： release/2.0.7
+~~~~
