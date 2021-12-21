@@ -71,6 +71,11 @@ public class UpdateKbArticleRequest extends BaseRequest<ArticleResponse> {
     private String botId;
 
     /**
+     * 所属人
+     */
+    private String owner;
+
+    /**
      * 关联标题
      */
     private List<KbArticleResponseModel.RelatedQuestion> relatedQuestions;
@@ -198,6 +203,17 @@ public class UpdateKbArticleRequest extends BaseRequest<ArticleResponse> {
         this.botId = botId;
         if (botId != null) {
             putBodyParameter("botId", botId);
+        }
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+        if (owner != null) {
+            putBodyParameter("owner", owner);
         }
     }
 
