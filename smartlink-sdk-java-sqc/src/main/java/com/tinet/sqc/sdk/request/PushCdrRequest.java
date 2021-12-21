@@ -249,11 +249,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private String typeBusiness;
 
     /**
-     * 上报类型
-     */
-    private String typeReport;
-
-    /**
      * 产品类型
      */
     private String productType;
@@ -274,11 +269,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private String callOffFlag;
 
     /**
-     * 按键
-     */
-    private String ivrNoivr;
-
-    /**
      * 是否发送短信（中文：是/否）
      */
     private String smsFlag;
@@ -287,6 +277,14 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      * 是否发票（中文：是/否）
      */
     private String invoiceFlag;
+    /**
+     * callId
+     */
+    private String callId;
+    /**
+     * 录音编号
+     */
+    private String serviceId;
 
     public String getTypeBusiness() {
         return typeBusiness;
@@ -296,17 +294,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         this.typeBusiness = typeBusiness;
         if (typeBusiness != null) {
             putBodyParameter("typeBusiness", typeBusiness);
-        }
-    }
-
-    public String getTypeReport() {
-        return typeReport;
-    }
-
-    public void setTypeReport(String typeReport) {
-        this.typeReport = typeReport;
-        if (typeReport != null) {
-            putBodyParameter("typeReport", typeReport);
         }
     }
 
@@ -354,17 +341,6 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
-    public String getIvrNoivr() {
-        return ivrNoivr;
-    }
-
-    public void setIvrNoivr(String ivrNoivr) {
-        this.ivrNoivr = ivrNoivr;
-        if (ivrNoivr != null) {
-            putBodyParameter("ivrNoivr", ivrNoivr);
-        }
-    }
-
     public String getSmsFlag() {
         return smsFlag;
     }
@@ -387,6 +363,27 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
+    public String getCallId() {
+        return callId;
+    }
+
+    public void setCallId(String callId) {
+        this.callId = callId;
+        if (callId != null) {
+            putBodyParameter("callId", callId);
+        }
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+        if (serviceId != null) {
+            putBodyParameter("serviceId", serviceId);
+        }
+    }
     public Boolean getFileAuthFlag() {
         return fileAuthFlag;
     }
