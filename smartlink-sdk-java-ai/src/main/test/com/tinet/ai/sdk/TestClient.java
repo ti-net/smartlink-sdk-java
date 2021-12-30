@@ -94,6 +94,16 @@ public class TestClient {
     }
 
     @Test
+    public void testEnterprise() throws Exception {
+        EmotibotEnterpriseRequest request = new EmotibotEnterpriseRequest();
+        request.setEnterpriseId("80005590");
+
+        EmotibotEnterpriseResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
     public void deleteDirectory() throws Exception{
         DeleteKbDirectoryRequest request = new DeleteKbDirectoryRequest();
 
