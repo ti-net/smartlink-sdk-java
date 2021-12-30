@@ -51,6 +51,84 @@ public class TestClient {
     }
 
     @Test
+    public void describeRespository() throws Exception{
+        DescribeKbRepositoryRequest request = new DescribeKbRepositoryRequest();
+
+        request.setOwner("3954");
+        request.setEnterpriseId("8000559");
+
+        DescribeKbRepositoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void createDirectory() throws Exception{
+        CreateKbDirectoryRequest request = new CreateKbDirectoryRequest();
+
+        request.setKbId(875);
+        request.setLeaf(0);
+        request.setParentId(2904);
+        request.setName("冬至目录4");
+        request.setOwner("3954");
+        request.setEnterpriseId("8000559");
+
+        KbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void updateDirectory() throws Exception{
+        UpdateKbDirectoryRequest request = new UpdateKbDirectoryRequest();
+
+        request.setId(2901);
+        request.setKbId(875);
+        request.setName("冬至目录1");
+        request.setOwner("3954");
+        request.setEnterpriseId("8000559");
+
+        KbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void testEnterprise() throws Exception {
+        EmotibotEnterpriseRequest request = new EmotibotEnterpriseRequest();
+        request.setEnterpriseId("80005590");
+
+        EmotibotEnterpriseResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void deleteDirectory() throws Exception{
+        DeleteKbDirectoryRequest request = new DeleteKbDirectoryRequest();
+
+        request.setId(2904);
+        request.setEnterpriseId("8000559");
+
+        KbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void listDirectory() throws Exception{
+        ListKbDirectoryRequest request = new ListKbDirectoryRequest();
+
+        request.setKbId(875);
+        request.setEnterpriseId("8000559");
+
+        ListKbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+
+    @Test
     public void deleteArticle() throws Exception{
         DeleteKbArticleRequest request = new DeleteKbArticleRequest();
         request.setEnterpriseId("8000559");
