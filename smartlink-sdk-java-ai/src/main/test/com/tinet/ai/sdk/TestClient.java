@@ -3,6 +3,7 @@ package com.tinet.ai.sdk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.Bot;
+import com.tinet.ai.sdk.model.KbArticleResponseModel;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
@@ -47,6 +48,159 @@ public class TestClient {
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    @Test
+    public void describeRespository() throws Exception{
+        DescribeKbRepositoryRequest request = new DescribeKbRepositoryRequest();
+
+        request.setOwner("3954");
+        request.setEnterpriseId("8000559");
+
+        DescribeKbRepositoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void createDirectory() throws Exception{
+        CreateKbDirectoryRequest request = new CreateKbDirectoryRequest();
+
+        request.setKbId(875);
+        request.setLeaf(0);
+        request.setParentId(2904);
+        request.setName("冬至目录4");
+        request.setOwner("3954");
+        request.setEnterpriseId("8000559");
+
+        KbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void updateDirectory() throws Exception{
+        UpdateKbDirectoryRequest request = new UpdateKbDirectoryRequest();
+
+        request.setId(2901);
+        request.setKbId(875);
+        request.setName("冬至目录1");
+        request.setOwner("3954");
+        request.setEnterpriseId("8000559");
+
+        KbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void testEnterprise() throws Exception {
+        EmotibotEnterpriseRequest request = new EmotibotEnterpriseRequest();
+        request.setEnterpriseId("80005590");
+
+        EmotibotEnterpriseResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void deleteDirectory() throws Exception{
+        DeleteKbDirectoryRequest request = new DeleteKbDirectoryRequest();
+
+        request.setId(2904);
+        request.setEnterpriseId("8000559");
+
+        KbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void listDirectory() throws Exception{
+        ListKbDirectoryRequest request = new ListKbDirectoryRequest();
+
+        request.setKbId(875);
+        request.setEnterpriseId("8000559");
+
+        ListKbDirectoryResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+
+    @Test
+    public void deleteArticle() throws Exception{
+        DeleteKbArticleRequest request = new DeleteKbArticleRequest();
+        request.setEnterpriseId("8000559");
+        request.setId(3084);
+
+        ArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void updateArticle() throws Exception{
+        UpdateKbArticleRequest request = new UpdateKbArticleRequest();
+
+        request.setId(3085);
+        request.setEnterpriseId("8000559");
+        request.setKbId(846);
+        request.setKbType(0);
+        request.setDirectoryId(2262);
+        request.setTitle("创建文章接口被更新");
+        request.setAgentEnabled(1);
+        String[] similars = new String[]{"标题二"};
+        request.setSimilars(similars);
+        request.setTopStatus(0);
+        List<KbArticleResponseModel.Answer> answers = new ArrayList<>();
+        KbArticleResponseModel.Answer answer = new KbArticleResponseModel.Answer();
+        answer.setAnswer("答案好啊二");
+        answers.add(answer);
+        request.setAnswers(answers);
+
+        ArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void createArticle() throws Exception{
+        CreateKbArticleRequest request = new CreateKbArticleRequest();
+
+        request.setEnterpriseId("8000559");
+        request.setKbId(846);
+        request.setKbType(0);
+        request.setDirectoryId(2262);
+        request.setTitle("创建文章接口");
+        request.setAgentEnabled(1);
+        String[] similars = new String[]{"标题一"};
+        request.setSimilars(similars);
+        request.setTopStatus(0);
+        List<KbArticleResponseModel.Answer> answers = new ArrayList<>();
+        KbArticleResponseModel.Answer answer = new KbArticleResponseModel.Answer();
+        answer.setAnswer("答案好啊一");
+        answers.add(answer);
+        request.setAnswers(answers);
+
+        ArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
+    @Test
+    public void testFaq() throws Exception {
+        IntelligentKnowledgeBaseRequest request = new IntelligentKnowledgeBaseRequest();
+        request.setEnterpriseId("8000559");
+        request.setQuery("总部");
+        // 芒果  198252，全屋全屋WiFi产  竹间  362924，总部
+        request.setBotId("362924");
+        request.setOffset(0);
+        request.setLimit(10);
+
+        KbArticleResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
     }
 
     @Test
@@ -95,6 +249,8 @@ public class TestClient {
     public void testDscArticle () throws Exception{
 
         KbDescribeArticleRequest request = new KbDescribeArticleRequest();
+        request.setId("3020");
+        request.setEnterpriseId(8000559);
 
         KbDescribeArticleResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();

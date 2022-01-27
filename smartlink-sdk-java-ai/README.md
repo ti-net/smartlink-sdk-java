@@ -91,3 +91,41 @@
 修改 NewBotWebSocketClient
 增加 maxTextMessageBufferSize 大小
 ~~~~
+
+~~~~
+日期： 2021-11-18
+版本： 2.0.6-RELEASE
+分支： release/2.0.6
+~~~~
+
+### 功能
+~~~~
+1. 【江泰保险】- 希望知识库的文章可以相关联
+工单：http://task.tinetcloud.com/browse/AICC-3518
+~~~~
+
+### 功能
+~~~~
+1. 【内部自提】补充知识库接口能力
+工单：http://task.tinetcloud.com/browse/AICC-5549
+2. 【上药】【深圳小亿】个人知识库与机器人知识库互通
+工单：http://task.tinetcloud.com/browse/AICC-5551
+~~~~
+
+~~~~
+日期： 2021-12-02
+版本： 2.0.7-RELEASE
+分支： release/2.0.7
+~~~~
+
+### 功能
+~~~~
+1. 【上药】支持个人知识库功能以及个人知识库开发接口
+工单：http://task.tinetcloud.com/browse/AICC-5914
+~~~~
+
+~~~~
+日期： 2021-12-30
+版本： 2.0.8-RELEASE
+分支： release/2.0.8
+~~~~
