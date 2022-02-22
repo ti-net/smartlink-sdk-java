@@ -5,10 +5,8 @@ import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
 import com.tinet.sqc.sdk.model.Record;
-import com.tinet.sqc.sdk.request.ListCdrsByConditionsRequest;
-import com.tinet.sqc.sdk.request.PushCdrRequest;
-import com.tinet.sqc.sdk.response.ListCdrsByConditionsResponse;
-import com.tinet.sqc.sdk.response.PushCdrResponse;
+import com.tinet.sqc.sdk.request.*;
+import com.tinet.sqc.sdk.response.*;
 import org.apache.http.HttpHost;
 import org.junit.Test;
 
@@ -142,4 +140,101 @@ public class MainTest {
         System.out.println(responseModel);
     }
 
+
+    @Test
+    public  void getDetail() {
+        SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
+        // 这些是必须设置的参数
+        /*configuration.setAccessKeyId("6Z45P02IB48X3TAE585U");
+        configuration.setAccessKeySecret("9q30r5d2675qe1ws6d7sw32v0pl1s0w1");*/
+        /*configuration.setAccessKeyId("I6C9N2U49N767QZ4Y433");
+        configuration.setAccessKeySecret("qe30w30gl795uv5gnno595d1ew4ww33l");*/
+        configuration.setAccessKeyId("E5GJ9M1MUDQ2YY995E7F");
+        configuration.setAccessKeySecret("y0622a727gwq2s56q7l57ewqmig015k7");
+        //configuration.setHost(new HttpHost("smartlink-sqc-openapi-test.tinetcloud.com"));
+        configuration.setHost(new HttpHost("smartlink-sqc-openapi.tinetcloud.com"));
+        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443));
+
+        SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
+
+        CdrSqcDetailsRequest request = new CdrSqcDetailsRequest();
+        //request.setUniqueId("medias_1-1643102980.17");
+        request.setUniqueId("951a7763ce3d4c6bbc0a6b4fcb260881-1643130000.802");
+        request.setUserId("8001925");
+
+        CdrSqcDetailsResponse responseModel = null;
+        try {
+            responseModel = smartlinkClient.getResponseModel(request);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
+        System.out.println(responseModel);
+    }
+
+    @Test
+    public  void getListDetail() {
+        SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
+        // 这些是必须设置的参数
+        configuration.setAccessKeyId("I6C9N2U49N767QZ4Y433");
+        configuration.setAccessKeySecret("qe30w30gl795uv5gnno595d1ew4ww33l");
+        configuration.setHost(new HttpHost("smartlink-sqc-openapi.tinetcloud.com"));
+        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443));
+
+        SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
+
+        ListCdrSqcDetailsRequest request = new ListCdrSqcDetailsRequest();
+        request.setChannelTime("2022-02-08");
+        request.setUserId("8005354");
+
+        ListCdrSqcDetailsResponse responseModel = null;
+        try {
+            responseModel = smartlinkClient.getResponseModel(request);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
+        System.out.println(responseModel);
+    }
+
+    @Test
+    public  void getListDetailByUniqueId() {
+        SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
+        // 这些是必须设置的参数
+        /*configuration.setAccessKeyId("6Z45P02IB48X3TAE585U");
+        configuration.setAccessKeySecret("9q30r5d2675qe1ws6d7sw32v0pl1s0w1");
+        configuration.setHost(new HttpHost("smartlink-sqc-openapi-test.tinetcloud.com"));*/
+        //configuration.setHost(new HttpHost("smartlink-openapi.clink.cn",443));
+
+        configuration.setAccessKeyId("E5GJ9M1MUDQ2YY995E7F");
+        configuration.setAccessKeySecret("y0622a727gwq2s56q7l57ewqmig015k7");
+        configuration.setHost(new HttpHost("smartlink-sqc-openapi.tinetcloud.com"));
+
+        SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
+
+        ListCdrDetailsByUniqueIdListRequest request = new ListCdrDetailsByUniqueIdListRequest();
+        List<String> uniqueIdList = new ArrayList<>();
+        uniqueIdList.add("951a7763ce3d4c6bbc0a6b4fcb260881-1643130000.802");
+        //uniqueIdList.add("1fc57eff17304583b3a56a7cc218b7ea-1644548861.1917");
+        request.setUniqueIdList(uniqueIdList);
+        request.setUserId("8001925");
+
+        ListCdrDetailsByUniqueIdListResponse responseModel = null;
+        try {
+            responseModel = smartlinkClient.getResponseModel(request);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
+        System.out.println(responseModel);
+    }
 }
