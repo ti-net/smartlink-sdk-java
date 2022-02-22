@@ -34,7 +34,7 @@
 |MissingRequestBody |400 |缺少请求body。
 |MissingAuthenticationToken |400 |请求必须包含有效的访问密钥ID。
 |HttpMediaTypeNotSupported |400 |HttpMediaType不支持，只支持application/json
-|HttpRequestMethodNotSupported |405 |HTTP方法不支持。
+|HttpRequestMethodNotSupported |405 |HTTP。
 |UnauthorizedOperation |403 |您无权执行此操作。请确认您的密钥ID有此权限
 |UnknownParameter |400 |提供了未知或未识别的参数。
 |SignaturesExpired |403 |签名过期

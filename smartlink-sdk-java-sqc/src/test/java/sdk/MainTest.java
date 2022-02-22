@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -94,38 +95,52 @@ public class MainTest {
     public  void main1() {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
         // 这些是必须设置的参数
-        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
-        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost(new HttpHost("smartlink-openapi.clink.cn"));
+        configuration.setAccessKeyId("I6C9N2U49N767QZ4Y433");
+        configuration.setAccessKeySecret("qe30w30gl795uv5gnno595d1ew4ww33l");
+        configuration.setHost(new HttpHost("smartlink-sqc-openapi-test.tinetcloud.com"));
 
         SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
 
         PushCdrRequest pushCdrRequest = new PushCdrRequest();
-
-        String uid = UUID.randomUUID().toString() + "-1616712697.5790";
-        System.out.println(uid);
-        pushCdrRequest.setUniqueId(uid);
-        pushCdrRequest.setUserId("8880000");
-        pushCdrRequest.setCdrType("cdr_ib");
-        pushCdrRequest.setCallType(1);
+        pushCdrRequest.setUserId("8005354");
+        pushCdrRequest.setAgentName("工号1002");
+        pushCdrRequest.setAgentNumber("cno002");
+        pushCdrRequest.setAsrProvider("Tinet");
+        pushCdrRequest.setBridgeDuration(54);
+        pushCdrRequest.setCallType(3);
+        pushCdrRequest.setCdrType("cdr_ob_customer");
         pushCdrRequest.setCdrSource(3);
-        pushCdrRequest.setStartTime(1616712697L);
-        pushCdrRequest.setAnswerTime(1616712697L);
-        pushCdrRequest.setEndTime(1616712697L);
-        pushCdrRequest.setBridgeTime(1616712697L);
-        pushCdrRequest.setBridgeDuration(184);
-        pushCdrRequest.setTotalDuration(184);
-        pushCdrRequest.setStatus(50);
+        pushCdrRequest.setAnswerTime(1645499493L);
+        pushCdrRequest.setBridgeTime(1645499493L);
+        pushCdrRequest.setCno("cno002");
+        pushCdrRequest.setQno("qno002");
+        pushCdrRequest.setCustomerNumber("13912345678");
+        pushCdrRequest.setQname("队列1002");
         pushCdrRequest.setEndReason(1);
+        pushCdrRequest.setEndTime(1645499519L);
+        pushCdrRequest.setStartTime(1645499493L);
+        pushCdrRequest.setStatus(22);
+        pushCdrRequest.setTotalDuration(54);
+        // 文件名
+        pushCdrRequest.setRecordFile("test01.wav");
+        Record recordAgent = new Record();
+        String fileUrlAgent = "https://rms-asr-test.oss-cn-beijing.aliyuncs.com/smartlink/8005354/Tue%20Jan%2025%2000%3A00%3A00%20CST%202022/17394413884%E5%8F%B2%E7%8E%89%E9%BE%99_2022-01-19%2018_48_09.wav?Expires=1645523788&OSSAccessKeyId=TMP.3KjvnigMV6ss67N1NBT5bbrFwT56xxyfd5ES7kDJFwELD46NbX2Nw9at2ew7FkVbsCZ3krvN3Fadn52J2WdcX6gv3dc4AK&Signature=ZV861y5A5cFVvW5B9f%2FAWtlJDZc%3D";
+        recordAgent.setFileUrl(fileUrlAgent);
+        //recordAgent.setRecordSide("all");
+        // 录音是否长期有效
+        recordAgent.setErpetualUrl(true);
+        List<Record> list = new ArrayList<>();
+        list.add(recordAgent);
+        pushCdrRequest.setRecords(list);
+        // 声道话者标识
+        //pushCdrRequest.setChannelSpeaker(new String[]{"client","agent"});
+        //pushCdrRequest.setChannelSpeaker(new String[]{"agent","client"});
 
-        Record record = new Record();
-        record.setStorageRecord(true);
-        record.setFileUrl("https://img.gsxservice.com/1118729889_jdv2r1ou.mp3");
-        List<Record> recordList = new ArrayList<>();
-        recordList.add(record);
-        pushCdrRequest.setRecords(recordList);
-
-        pushCdrRequest.setRecordFile("1118729889_jdv2r1ou.mp3");
+        Random random = new Random();
+        String uniqueid = UUID.randomUUID().toString().replace("-", "") + "-" + pushCdrRequest.getStartTime() + "." + random.nextInt(1000);
+        pushCdrRequest.setUniqueId(uniqueid);
+        pushCdrRequest.setMainUniqueId(uniqueid);
+        System.out.println("uniqueId:" + uniqueid);
 
         PushCdrResponse responseModel = null;
         try {
