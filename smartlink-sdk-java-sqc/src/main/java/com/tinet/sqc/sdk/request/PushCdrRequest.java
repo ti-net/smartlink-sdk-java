@@ -277,6 +277,14 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      * 是否发票（中文：是/否）
      */
     private String invoiceFlag;
+    /**
+     * callId
+     */
+    private String callId;
+    /**
+     * 录音编号
+     */
+    private String serviceId;
 
     /**
      * callId
@@ -419,6 +427,27 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         }
     }
 
+    public String getCallId() {
+        return callId;
+    }
+
+    public void setCallId(String callId) {
+        this.callId = callId;
+        if (callId != null) {
+            putBodyParameter("callId", callId);
+        }
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+        if (serviceId != null) {
+            putBodyParameter("serviceId", serviceId);
+        }
+    }
     public Boolean getFileAuthFlag() {
         return fileAuthFlag;
     }
