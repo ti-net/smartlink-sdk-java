@@ -289,6 +289,19 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
     private String serviceId;
 
     /**
+     * 是否存在理赔 存在：1，不存在：0
+     */
+    private String existClaim;
+    /**
+     * 出险类型
+     */
+    private String insurType;
+    /**
+     * 质检结果 正确：success ,错误：error
+     */
+    private String result;
+
+    /**
      * 任务部门
      */
     private String taskDept;
@@ -811,6 +824,39 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         this.clid = clid;
         if (clid != null) {
             putBodyParameter("clid", clid);
+        }
+    }
+
+    public String getExistClaim() {
+        return existClaim;
+    }
+
+    public void setExistClaim(String existClaim) {
+        this.existClaim = existClaim;
+        if (existClaim != null) {
+            putBodyParameter("existClaim", existClaim);
+        }
+    }
+
+    public String getInsurType() {
+        return insurType;
+    }
+
+    public void setInsurType(String insurType) {
+        this.insurType = insurType;
+        if (insurType != null) {
+            putBodyParameter("insurType", insurType);
+        }
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+        if (result != null) {
+            putBodyParameter("result", result);
         }
     }
 

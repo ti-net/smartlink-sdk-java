@@ -38,7 +38,7 @@ public class MainTest {
         String endTime = "2020-04-30 23:59:59";
         String startTime = "2020-04-23 00:00:00";
         List<String> uniqueIdList = new ArrayList<>();
-        configuration.setProxy(new HttpHost(""));
+//        configuration.setProxy(new HttpHost(""));
         SmartlinkClient smartlinkClient = new SmartlinkClient(configuration);
         ListCdrsByConditionsRequest listCdrsRequest = new ListCdrsByConditionsRequest();
         listCdrsRequest.setUniqueIdList(uniqueIdList);
