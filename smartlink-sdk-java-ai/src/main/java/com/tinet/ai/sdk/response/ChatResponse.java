@@ -190,4 +190,9 @@ public class ChatResponse {
 	 * 是否是按键交互
 	 */
 	private boolean dtmf = false;
+
+	/**
+	 * 是否是多按键交互
+	 */
+	private boolean dtmfMultiple = false;
 }
