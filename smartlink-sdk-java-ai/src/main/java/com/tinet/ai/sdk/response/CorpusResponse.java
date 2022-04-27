@@ -20,5 +20,5 @@ public class CorpusResponse extends BaseResponse {
 
     private String requestId;
 
-    private List<Corpus> corpuses;
+    private List<Corpus> corpus;
 }
