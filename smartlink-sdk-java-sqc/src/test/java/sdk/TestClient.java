@@ -48,11 +48,11 @@ public class TestClient {
 //        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
 //        configuration.setHost("smartlink-sqc-openapi-test2.tinetcloud.com");
 
-        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+        configuration.setAccessKeyId("9Z811FQNMNYVE0C4N63P");
+        configuration.setAccessKeySecret("eqpyh3u31w8uu4p4cy22zog6530sy5b6");
 //        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
 //        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-//        //configuration.setHost("localhost", 8083);
+//        configuration.setHost("localhost", 8083);
 //        configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
         configuration.setHost("smartlink-sqc-openapi-test.tinetcloud.com");
 //        configuration.setHost("smartlink-openapi.clink.cn");
@@ -83,17 +83,17 @@ public class TestClient {
     @Test
     public void pushCdr1() throws ServerException, ClientException, JsonProcessingException {
         PushCdrRequest pushCdrRequest = new PushCdrRequest();
-        pushCdrRequest.setUserId("110Y");
-        String uniqueid = "medias_1-1634004755.22";
+        pushCdrRequest.setUserId("8000001");
+        String uniqueid = "medias_1-1648779220.82";
         pushCdrRequest.setUniqueId(uniqueid);
         pushCdrRequest.setMainUniqueId(uniqueid);
         pushCdrRequest.setCdrType("cdr_ib");
-        pushCdrRequest.setCallType(1);
-        pushCdrRequest.setStartTime(1634004708L);
-        pushCdrRequest.setAnswerTime(1634004708L);
-        pushCdrRequest.setEndTime(1634004708L);
-        pushCdrRequest.setBridgeTime(1634004708L);
-        pushCdrRequest.setBridgeDuration(23);
+        pushCdrRequest.setCallType(1);//115
+        pushCdrRequest.setStartTime(1648779220L);
+        pushCdrRequest.setAnswerTime(1648779220L);
+        pushCdrRequest.setEndTime(1648779220L);
+        pushCdrRequest.setBridgeTime(1648779220L);
+        pushCdrRequest.setBridgeDuration(12);
         pushCdrRequest.setTotalDuration(26);
         pushCdrRequest.setStatus(1);
         pushCdrRequest.setEndReason(1);
@@ -104,7 +104,7 @@ public class TestClient {
         pushCdrRequest.setCustomerAreaCode("0310");
         pushCdrRequest.setCustomerProvince("河北");
         pushCdrRequest.setCustomerCity("邯郸");
-        pushCdrRequest.setJoinQueueTime(1634004708L);
+        pushCdrRequest.setJoinQueueTime(1648717087L);
         pushCdrRequest.setRecordFile("8000559-20210924141636-01012345678-221221--record-medias_1-1633938133.13");
         pushCdrRequest.setNumberTrunk("02759566331");
         pushCdrRequest.setHotline("02759566331");
@@ -112,8 +112,21 @@ public class TestClient {
         pushCdrRequest.setQno("1211");
         pushCdrRequest.setQname("yinzk-test");
         pushCdrRequest.setFileAuthFlag(true);
+        pushCdrRequest.setTypeBusiness("快递");
+        pushCdrRequest.setProductType("标准快递");
+        pushCdrRequest.setSatisfaction("满意");
+        pushCdrRequest.setCheckedFlag("未质检");
+        pushCdrRequest.setCallOffFlag("客户挂机");
+        pushCdrRequest.setSmsFlag("否");
+        pushCdrRequest.setInvoiceFlag("是");
+        pushCdrRequest.setCallId("59112389");
+        pushCdrRequest.setServiceId("9859232s");
+        pushCdrRequest.setExistClaim("0");
+        pushCdrRequest.setInsurType("GOODS_LESS");
+        pushCdrRequest.setResult("success");
+        pushCdrRequest.setTaskDept("质检部b");
+        pushCdrRequest.setVoucherNumber("12356789321");
 
-//
 //        pushCdrRequest.setBusinessPriority("1");
         Record recordAgent = new Record();
 //        String fileUrlAgent = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-in.wav?Expires=1599226249&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=L7IUPjkfRCOQg1X%2BRm4o5lPDCeo%3D";
@@ -137,41 +150,41 @@ public class TestClient {
 
     @Test
     public void pushCdr() throws ServerException, ClientException, JsonProcessingException {
-        PushCdrRequest pushCdrRequest = new PushCdrRequest();
-        pushCdrRequest.setUserId("8001967");
-        String uniqueid = "8001967-1599198778.1";
-        pushCdrRequest.setUniqueId(uniqueid);
-        pushCdrRequest.setMainUniqueId(uniqueid);
-        pushCdrRequest.setAgentName("测试");
-        pushCdrRequest.setAgentNumber("13804881234");
-        pushCdrRequest.setAsrProvider("Tinet");
-        pushCdrRequest.setBridgeDuration(1000);
-        pushCdrRequest.setCallType(1);
-        pushCdrRequest.setCdrType("cdr_ib");
-        pushCdrRequest.setRecordFile("20200820194226-1890212-1885214-1597923745.146874.mp3");
-        pushCdrRequest.setAnswerTime(1599198778L);
-        pushCdrRequest.setBridgeTime(1599198778L);
-        pushCdrRequest.setCno("007");
-        pushCdrRequest.setEndReason(1);
-        pushCdrRequest.setEndTime(1599199778L);
-        pushCdrRequest.setStartTime(1599198778L);
-        pushCdrRequest.setStatus(1);
-        pushCdrRequest.setTotalDuration(1000);
-        Record recordAgent = new Record();
-        String fileUrlAgent = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-in.wav?Expires=1599226249&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=L7IUPjkfRCOQg1X%2BRm4o5lPDCeo%3D";
-        String fileUrlClient = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-out.wav?Expires=1599226273&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=IzLCVzpuU5h4Ev7EPZ1hlCwrGcc%3D";
-        recordAgent.setFileUrl(fileUrlAgent);
-        recordAgent.setRecordSide("agent");
-        Record recordClient = new Record();
-        recordClient.setFileUrl(fileUrlClient);
-        recordClient.setRecordSide("client");
-        List<Record> list = new ArrayList<>();
-        list.add(recordAgent);
-        list.add(recordClient);
-        pushCdrRequest.setRecords(list);
-        //继续添加等话单信息
-        PushCdrResponse responseModel = authClient.getResponseModel(pushCdrRequest);
-        System.out.println(responseModel.toString());
+//        PushCdrRequest pushCdrRequest = new PushCdrRequest();
+//        pushCdrRequest.setUserId("8001967");
+//        String uniqueid = "8001967-1599198778.1";
+//        pushCdrRequest.setUniqueId(uniqueid);
+//        pushCdrRequest.setMainUniqueId(uniqueid);
+//        pushCdrRequest.setAgentName("测试");
+//        pushCdrRequest.setAgentNumber("13804881234");
+//        pushCdrRequest.setAsrProvider("Tinet");
+//        pushCdrRequest.setBridgeDuration(1000);
+//        pushCdrRequest.setCallType(1);
+//        pushCdrRequest.setCdrType("cdr_ib");
+//        pushCdrRequest.setRecordFile("20200820194226-1890212-1885214-1597923745.146874.mp3");
+//        pushCdrRequest.setAnswerTime(1599198778L);
+//        pushCdrRequest.setBridgeTime(1599198778L);
+//        pushCdrRequest.setCno("007");
+//        pushCdrRequest.setEndReason(1);
+//        pushCdrRequest.setEndTime(1599199778L);
+//        pushCdrRequest.setStartTime(1599198778L);
+//        pushCdrRequest.setStatus(1);
+//        pushCdrRequest.setTotalDuration(1000);
+//        Record recordAgent = new Record();
+//        String fileUrlAgent = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-in.wav?Expires=1599226249&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=L7IUPjkfRCOQg1X%2BRm4o5lPDCeo%3D";
+//        String fileUrlClient = "https://yin-file.oss-cn-beijing.aliyuncs.com/smartlink-demo/20200820194226-1890212-1885214-1597923745.146874-out.wav?Expires=1599226273&OSSAccessKeyId=TMP.3Kj7jy8W64BU9ZAhVBma1RRcBHLqkXdmqsYc4YtyGCmDuiPEz8oVm3jZPC1LYzNKZrE8qvu3i7tJCg8ZRxFMFpXFsNXVh2&Signature=IzLCVzpuU5h4Ev7EPZ1hlCwrGcc%3D";
+//        recordAgent.setFileUrl(fileUrlAgent);
+//        recordAgent.setRecordSide("agent");
+//        Record recordClient = new Record();
+//        recordClient.setFileUrl(fileUrlClient);
+//        recordClient.setRecordSide("client");
+//        List<Record> list = new ArrayList<>();
+//        list.add(recordAgent);
+//        list.add(recordClient);
+//        pushCdrRequest.setRecords(list);
+//        //继续添加等话单信息
+//        PushCdrResponse responseModel = authClient.getResponseModel(pushCdrRequest);
+//        System.out.println(responseModel.toString());
     }
 
     @Test
