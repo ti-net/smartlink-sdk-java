@@ -311,6 +311,86 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
      */
     private String voucherNumber;
 
+    /**
+     * 是否一键通知
+     */
+    private String isNotice;
+
+    /**
+     * 是否提交订单
+     */
+    private String isSubmitOrder;
+
+    /**
+     * 是否转接成功
+     */
+    private String isTransfer;
+
+    /**
+     * 是否人工划分
+     */
+    private String responsibility;
+
+    /**
+     * 处理编号
+     */
+    private String handleNo;
+
+    /**
+     * 来电人身份
+     */
+    private String callerIdentity;
+
+    /**
+     * 上报时间
+     */
+    private String reportingTime;
+
+    /**
+     * 一级目录
+     */
+    private String oneLevelMenu;
+
+    /**
+     * 二级目录
+     */
+    private String twoLevelMenu;
+
+    /**
+     * 三级目录
+     */
+    private String threeLevelMenu;
+
+    /**
+     * 投诉次数
+     */
+    private String complaintCount;
+
+    /**
+     * 异常次数
+     */
+    private String abnormalCount;
+
+    /**
+     * 工单级别
+     */
+    private String workOrderLevel;
+
+    /**
+     * 首次跟进人
+     */
+    private String firstOperator;
+
+    /**
+     * 所在部门
+     */
+    private String department;
+
+    /**
+     * 是否站内信
+     */
+    private String isMail;
+
     public String getVoucherNumber() {
         return voucherNumber;
     }
@@ -857,6 +937,182 @@ public class PushCdrRequest extends BaseRequest<PushCdrResponse> {
         this.result = result;
         if (result != null) {
             putBodyParameter("result", result);
+        }
+    }
+
+    public String getIsNotice() {
+        return isNotice;
+    }
+
+    public void setIsNotice(String isNotice) {
+        this.isNotice = isNotice;
+        if (isNotice != null) {
+            putBodyParameter("isNotice", isNotice);
+        }
+    }
+
+    public String getIsSubmitOrder() {
+        return isSubmitOrder;
+    }
+
+    public void setIsSubmitOrder(String isSubmitOrder) {
+        this.isSubmitOrder = isSubmitOrder;
+        if (isSubmitOrder != null) {
+            putBodyParameter("isSubmitOrder", isSubmitOrder);
+        }
+    }
+
+    public String getIsTransfer() {
+        return isTransfer;
+    }
+
+    public void setIsTransfer(String isTransfer) {
+        this.isTransfer = isTransfer;
+        if (isTransfer != null) {
+            putBodyParameter("isTransfer", isTransfer);
+        }
+    }
+
+    public String getResponsibility() {
+        return responsibility;
+    }
+
+    public void setResponsibility(String responsibility) {
+        this.responsibility = responsibility;
+        if (responsibility != null) {
+            putBodyParameter("responsibility", responsibility);
+        }
+    }
+
+    public String getHandleNo() {
+        return handleNo;
+    }
+
+    public void setHandleNo(String handleNo) {
+        this.handleNo = handleNo;
+        if (handleNo != null) {
+            putBodyParameter("handleNo", handleNo);
+        }
+    }
+
+    public String getCallerIdentity() {
+        return callerIdentity;
+    }
+
+    public void setCallerIdentity(String callerIdentity) {
+        this.callerIdentity = callerIdentity;
+        if (callerIdentity != null) {
+            putBodyParameter("callerIdentity", callerIdentity);
+        }
+    }
+
+    public String getReportingTime() {
+        return reportingTime;
+    }
+
+    public void setReportingTime(String reportingTime) {
+        this.reportingTime = reportingTime;
+        if (reportingTime != null) {
+            putBodyParameter("reportingTime", reportingTime);
+        }
+    }
+
+    public String getOneLevelMenu() {
+        return oneLevelMenu;
+    }
+
+    public void setOneLevelMenu(String oneLevelMenu) {
+        this.oneLevelMenu = oneLevelMenu;
+        if (oneLevelMenu != null) {
+            putBodyParameter("oneLevelMenu", oneLevelMenu);
+        }
+    }
+
+    public String getTwoLevelMenu() {
+        return twoLevelMenu;
+    }
+
+    public void setTwoLevelMenu(String twoLevelMenu) {
+        this.twoLevelMenu = twoLevelMenu;
+        if (twoLevelMenu != null) {
+            putBodyParameter("twoLevelMenu", twoLevelMenu);
+        }
+    }
+
+    public String getThreeLevelMenu() {
+        return threeLevelMenu;
+    }
+
+    public void setThreeLevelMenu(String threeLevelMenu) {
+        this.threeLevelMenu = threeLevelMenu;
+        if (threeLevelMenu != null) {
+            putBodyParameter("threeLevelMenu", threeLevelMenu);
+        }
+    }
+
+    public String getComplaintCount() {
+        return complaintCount;
+    }
+
+    public void setComplaintCount(String complaintCount) {
+        this.complaintCount = complaintCount;
+        if (complaintCount != null) {
+            putBodyParameter("complaintCount", complaintCount);
+        }
+    }
+
+    public String getAbnormalCount() {
+        return abnormalCount;
+    }
+
+    public void setAbnormalCount(String abnormalCount) {
+        this.abnormalCount = abnormalCount;
+        if (abnormalCount != null) {
+            putBodyParameter("abnormalCount", abnormalCount);
+        }
+    }
+
+    public String getWorkOrderLevel() {
+        return workOrderLevel;
+    }
+
+    public void setWorkOrderLevel(String workOrderLevel) {
+        this.workOrderLevel = workOrderLevel;
+        if (workOrderLevel != null) {
+            putBodyParameter("workOrderLevel", workOrderLevel);
+        }
+    }
+
+    public String getFirstOperator() {
+        return firstOperator;
+    }
+
+    public void setFirstOperator(String firstOperator) {
+        this.firstOperator = firstOperator;
+        if (firstOperator != null) {
+            putBodyParameter("firstOperator", firstOperator);
+        }
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+        if (department != null) {
+            putBodyParameter("department", department);
+        }
+    }
+
+    public String getIsMail() {
+        return isMail;
+    }
+
+    public void setIsMail(String isMail) {
+        this.isMail = isMail;
+        if (isMail != null) {
+            putBodyParameter("isMail", isMail);
         }
     }
 
