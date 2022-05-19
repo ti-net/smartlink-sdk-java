@@ -16,5 +16,5 @@ public class Corpus {
     private String inputs;
     private String outputs;
     private String type;
-
+    private String text;
 }
