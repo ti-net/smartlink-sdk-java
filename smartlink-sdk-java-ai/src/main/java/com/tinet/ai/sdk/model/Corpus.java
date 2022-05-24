@@ -12,9 +12,24 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Corpus {
 
-    private String corpus_id;
+    /**
+     * 语料id（随机串）
+     */
+    private String corpusId;
+    /**
+     * 输入内容
+     */
     private String inputs;
+    /**
+     * 输出内容
+     */
     private String outputs;
+    /**
+     * 语料类型（中文）
+     */
     private String type;
+    /**
+     * 流程节点名称
+     */
     private String text;
 }
