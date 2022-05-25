@@ -108,4 +108,9 @@ public class KbFileResponseModel {
      * 0 已点赞 1 已点踩  null 未被点击
      */
     private String status;
+
+    /**
+     * 文件说明
+     */
+    private String description;
 }
