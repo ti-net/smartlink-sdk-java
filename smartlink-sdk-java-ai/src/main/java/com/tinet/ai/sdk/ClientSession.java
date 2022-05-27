@@ -48,6 +48,11 @@ public class ClientSession {
     private String clientHostName;
 
     /**
+     * 机器人厂商
+     */
+    private String provider;
+
+    /**
      * 请求参数
      */
     private Map<String, String> params;

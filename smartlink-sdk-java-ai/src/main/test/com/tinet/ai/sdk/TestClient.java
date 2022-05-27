@@ -3,6 +3,7 @@ package com.tinet.ai.sdk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.Bot;
+import com.tinet.ai.sdk.model.EventData;
 import com.tinet.ai.sdk.model.KbArticleResponseModel;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
@@ -49,6 +50,23 @@ public class TestClient {
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
     }
+
+    @Test
+    public void webhook() throws Exception{
+        WebhookRequest request = new WebhookRequest();
+
+        request.setEvent("clink2-account-managet");
+        EventData data = new EventData();
+        data.setName("中国石化测试1");
+        data.setEnterpriseId(2000002L);
+        data.setStatus(1);
+        request.setData(data);
+
+        WebhookResponse responseModel = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
+    }
+
 
     @Test
     public void describeRespository() throws Exception{
@@ -435,18 +453,14 @@ public class TestClient {
 
     }
     @Test
-    public void testTibot() throws ServerException, ClientException {
+    public void testTibot() throws Exception {
         TibotRequest request = new TibotRequest();
-        request.setUserId(String.valueOf(8000559));
+        request.setUserId(String.valueOf(8000001));
         request.setBotType(2);
-        // nonemotibot: 非竹间
-        // emotibot: 竹间
-        // none: 配置是空
-        request.setProvider("emotibot");
+        request.setProvider("tibot");
         TibotResponse response = smartLinkClient.getResponseModel(request);
-        System.out.println(response);
-        System.out.println(response.getTbots().size());
-        System.out.println(response.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
 
     }
     @Test
@@ -460,26 +474,29 @@ public class TestClient {
     }
 
     @Test
-    public void testAvatar() throws ServerException, ClientException {
+    public void testAvatar() throws Exception {
         BotAvatarUrlRequest request = new BotAvatarUrlRequest();
-        request.setBotId(126671);
-        request.setEnterpriseId("3000000");
+        request.setBotId(800000148556712L);
+        request.setEnterpriseId("8000001");
+        request.setProvider("tibot");
 
         BotAvatarUrlResponse response = smartLinkClient.getResponseModel(request);
-        System.out.println(response.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
 
     }
 
 
     @Test
-    public void testBot() throws ServerException, ClientException {
+    public void testBot() throws Exception {
         BotRequest request = new BotRequest();
-        request.setBotId("116067");
-        request.setEnterpriseId("8000376");
+        request.setBotId("800000148556712");
+        request.setEnterpriseId("8000001");
+        request.setProvider("tibot");
 
         BotResponse responseModel = smartLinkClient.getResponseModel(request);
-        Bot bot = responseModel.getBot();
-        System.out.println(bot);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
 
     }
 
