@@ -57,8 +57,8 @@ public class TestClient {
 
         request.setEvent("clink2-account-managet");
         EventData data = new EventData();
-        data.setName("中国石化测试1");
-        data.setEnterpriseId(2000002L);
+        data.setName("Prior测试011");
+        data.setEnterpriseId(8000559L);
         data.setStatus(1);
         request.setData(data);
 
