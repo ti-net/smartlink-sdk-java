@@ -51,6 +51,16 @@ public class TestClient {
     }
 
     @Test
+    public void testCorpus() throws Exception{
+        CorpusRequest request = new CorpusRequest();
+        request.setBotId("307734");
+        request.setEnterpriseId(6000001);
+        CorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
     public void describeRespository() throws Exception{
         DescribeKbRepositoryRequest request = new DescribeKbRepositoryRequest();
 
