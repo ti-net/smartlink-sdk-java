@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.Bot;
 import com.tinet.ai.sdk.model.KbArticleResponseModel;
+import com.tinet.ai.sdk.model.TiBotFaq;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
@@ -48,6 +49,56 @@ public class TestClient {
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    @Test
+    public void pushFaq() throws Exception{
+        PushFaqRequest pushFaqRequest = new PushFaqRequest();
+        pushFaqRequest.setUuid("329d829u3jd92u3eu23u9");
+        pushFaqRequest.setSenderTime("2022-06-06 17:10:00");
+        pushFaqRequest.setEnterpriseId(8000559L);
+        pushFaqRequest.setBotId(123L);
+        List faqList = new ArrayList<TiBotFaq>();
+        TiBotFaq faqData = new TiBotFaq();
+        faqData.setFaqId(1L);
+        faqData.setCatalog(new String[]{"a", "b"});
+//        faqData.setStandardQuestion("标准问");
+        List<TiBotFaq.TiBotAnswer> answers = new ArrayList<>();
+        TiBotFaq.TiBotAnswer answer = new TiBotFaq.TiBotAnswer();
+        answer.setAnswersType("text");
+        answer.setAnswersContent("答案内容abcaa");
+        answers.add(answer);
+        faqData.setAnswers(answers);
+//        faqData.setSimilarQuestions(new String[]{"标准", "标问"});
+        faqData.setOperType("update");
+
+        TiBotFaq faqData1 = new TiBotFaq();
+        faqData1.setFaqId(2L);
+        faqData1.setCatalog(new String[]{"a1", "b1"});
+//        faqData.setStandardQuestion("标准问");
+        List<TiBotFaq.TiBotAnswer> answers1 = new ArrayList<>();
+        TiBotFaq.TiBotAnswer answer1 = new TiBotFaq.TiBotAnswer();
+        answer1.setAnswersType("text");
+        answer1.setAnswersContent("答案内容234");
+        answers1.add(answer1);
+        faqData1.setAnswers(answers1);
+//        faqData.setSimilarQuestions(new String[]{"标准", "标问"});
+        faqData1.setOperType("delete");
+
+        faqList.add(faqData);
+        faqList.add(faqData1);
+        pushFaqRequest.setFaqList(faqList);
+
+        PushFaqResponse responseModel = null;
+        try {
+            responseModel = smartLinkClient.getResponseModel(pushFaqRequest);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
     }
 
     @Test
