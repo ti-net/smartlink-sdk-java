@@ -33,6 +33,11 @@ public class CallScriptRecommendationRequest extends BaseRequest<CallScriptRecom
      */
     private Float score;
 
+    /**
+     * 供应商
+     */
+    private String provider;
+
     public CallScriptRecommendationRequest() {
         super("/api/recommendations", HttpMethodType.POST, "2021-09-16");
     }
@@ -48,6 +53,9 @@ public class CallScriptRecommendationRequest extends BaseRequest<CallScriptRecom
     }
     public Float getScore() {
         return score;
+    }
+    public String getProvider() {
+        return provider;
     }
 
 
@@ -73,6 +81,13 @@ public class CallScriptRecommendationRequest extends BaseRequest<CallScriptRecom
         this.score = score;
         if (score != null) {
             putBodyParameter("score", score);
+        }
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putBodyParameter("provider", provider);
         }
     }
 

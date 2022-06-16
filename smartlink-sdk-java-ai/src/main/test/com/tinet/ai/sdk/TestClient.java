@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.CorpusRecordModel;
 import com.tinet.ai.sdk.model.KbArticleResponseModel;
+import com.tinet.ai.sdk.model.TiBotFaq;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
@@ -179,6 +180,63 @@ public class TestClient {
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(response));
     }
+    @Test
+    public void pushFaq() throws Exception{
+        PushFaqRequest pushFaqRequest = new PushFaqRequest();
+        pushFaqRequest.setUuid("329d829u3jd92u3eu23u9");
+        pushFaqRequest.setSenderTime("2022-06-06 17:10:00");
+        pushFaqRequest.setEnterpriseId(8000559L);
+        pushFaqRequest.setBotId(123L);
+        List faqList = new ArrayList<TiBotFaq>();
+        TiBotFaq faqData = new TiBotFaq();
+        faqData.setFaqId(1L);
+        faqData.setCatalog(new String[]{"a", "b"});
+        faqData.setStandardQuestion("标准问哈哈哈哈哈哈哈哈哈。呵呵呵呵呵。啊啊啊啊啊啊。哇哇哇哇哇哇哇。红红火火恍恍惚惚。的代价");
+        List<TiBotFaq.TiBotAnswer> answers = new ArrayList<>();
+        TiBotFaq.TiBotAnswer answer = new TiBotFaq.TiBotAnswer();
+        answer.setAnswersType("text");
+        answer.setAnswersContent("答案内容abcaa");
+        TiBotFaq.TiBotAnswer answer1 = new TiBotFaq.TiBotAnswer();
+        answer1.setAnswersType("text");
+        answer1.setAnswersContent("答案内容哈哈哈");
+        TiBotFaq.TiBotAnswer answer2 = new TiBotFaq.TiBotAnswer();
+        answer2.setAnswersType("text");
+        answer2.setAnswersContent("不知道");
+        answers.add(answer);
+        answers.add(answer1);
+        answers.add(answer2);
+        faqData.setAnswers(answers);
+        faqData.setSimilarQuestions(new String[]{"标准", "标问"});
+        faqData.setOperType("update");
+
+//        TiBotFaq faqData1 = new TiBotFaq();
+//        faqData1.setFaqId(2L);
+//        faqData1.setCatalog(new String[]{"a1", "b1"});
+////        faqData.setStandardQuestion("标准问");
+//        List<TiBotFaq.TiBotAnswer> answers1 = new ArrayList<>();
+//        TiBotFaq.TiBotAnswer answer1 = new TiBotFaq.TiBotAnswer();
+//        answer1.setAnswersType("text");
+//        answer1.setAnswersContent("答案内容234");
+//        answers1.add(answer1);
+//        faqData1.setAnswers(answers1);
+////        faqData.setSimilarQuestions(new String[]{"标准", "标问"});
+//        faqData1.setOperType("delete");
+
+        faqList.add(faqData);
+//        faqList.add(faqData1);
+        pushFaqRequest.setFaqList(faqList);
+
+        PushFaqResponse responseModel = null;
+        try {
+            responseModel = smartLinkClient.getResponseModel(pushFaqRequest);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testCorpus() throws Exception{
@@ -332,11 +390,12 @@ public class TestClient {
     public void testFaq() throws Exception {
         IntelligentKnowledgeBaseRequest request = new IntelligentKnowledgeBaseRequest();
         request.setEnterpriseId("8000559");
-        request.setQuery("总部");
+        request.setQuery("福报");
         // 芒果  198252，全屋全屋WiFi产  竹间  362924，总部
-        request.setBotId("362924");
+        request.setBotId("800055911272142");
         request.setOffset(0);
         request.setLimit(10);
+        request.setProvider("tibot");
 
         KbArticleResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
@@ -359,10 +418,11 @@ public class TestClient {
     public void testInputAssociation() throws Exception {
 
         InputAssociationRequest request = new InputAssociationRequest();
-        request.setBotId("924588");
-        request.setText("验证");
-        request.setEnterpriseId("8000585");
+        request.setBotId("800055911272142");
+        request.setText("中国");
+        request.setEnterpriseId("8000559");
         request.setTop(5);
+        request.setProvider("tibot");
 
         InputAssociationResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
@@ -665,9 +725,10 @@ public class TestClient {
     @Test
     public void testCallScriptRecommendation() throws Exception {
         CallScriptRecommendationRequest request = new CallScriptRecommendationRequest();
-        request.setBotId("924588");
-        request.setQuery("九月二号");
+        request.setBotId("800055911272142");
+        request.setQuery("人工");
         request.setTop(5);
+        request.setProvider("tibot");
         CallScriptRecommendationResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
@@ -720,9 +781,9 @@ public class TestClient {
         intelligentAssociationRequest.setText("jira");*/
 
         // 竹间
-        intelligentAssociationRequest.setEnterpriseId("8000585");
-        intelligentAssociationRequest.setBotId("924588");
-        intelligentAssociationRequest.setText("测试");
+//        intelligentAssociationRequest.setEnterpriseId("8000585");
+//        intelligentAssociationRequest.setBotId("924588");
+//        intelligentAssociationRequest.setText("测试");
         //intelligentAssociationRequest.setTop(5);
 
         // 芒果
@@ -730,6 +791,12 @@ public class TestClient {
         intelligentAssociationRequest.setBotId("791319");
         intelligentAssociationRequest.setText("真实性");*/
         // intelligentAssociationRequest.setTop(5);
+
+        // tiBot
+        intelligentAssociationRequest.setEnterpriseId("8000559");
+        intelligentAssociationRequest.setBotId("800055911272142");
+        intelligentAssociationRequest.setText("ge");
+        intelligentAssociationRequest.setProvider("tibot");
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();
