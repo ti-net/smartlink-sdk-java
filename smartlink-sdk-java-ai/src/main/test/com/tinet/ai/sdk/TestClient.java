@@ -3,6 +3,7 @@ package com.tinet.ai.sdk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.Bot;
+import com.tinet.ai.sdk.model.CorpusRecordModel;
 import com.tinet.ai.sdk.model.KbArticleResponseModel;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
@@ -35,19 +36,150 @@ public class TestClient {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
         //测试环境
-        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+//        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
-        /*configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost("localhost", 8085);*/
+        configuration.setHost("localhost", 8085);
 
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    @Test
+    public void testCreateSq() throws Exception{
+        CreateStandardQuestionRequest request = new CreateStandardQuestionRequest();
+        request.setBotId("581926");
+        request.setCategoryId(-1);
+        request.setTitle("测试和创建标准问接口");
+        request.setEnterpriseId("8000559");
+        CreateStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testUpdateSq() throws Exception{
+        UpdateStandardQuestionRequest request = new UpdateStandardQuestionRequest();
+        request.setId(167100);
+        request.setBotId("581926");
+        request.setCategoryId(-1);
+        request.setTitle("测试和创建标准问接口12");
+        request.setEnterpriseId("8000559");
+
+        UpdateStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testDeleteSq() throws Exception{
+        DeleteStandardQuestionRequest request = new DeleteStandardQuestionRequest();
+        request.setBotId("581926");
+        request.setIds(new Integer[]{167100});
+        request.setEnterpriseId("8000559");
+
+        DeleteStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testCreateAnswer() throws Exception{
+        CreateAnswerRequest request = new CreateAnswerRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setAnswer("接口创建添加答案啊啊啊啊");
+        request.setSqId(167100);
+
+        CreateAnswerResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testUpdateAnswer() throws Exception{
+        UpdateAnswerRequest request = new UpdateAnswerRequest();
+        request.setId(201515);
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setAnswer("接口创建添加答案啊啊啊啊112");
+        request.setSqId(167100);
+
+        UpdateAnswerResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testDeleteAnswer() throws Exception{
+        DeleteAnswerRequest request = new DeleteAnswerRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setIds(new Integer[]{201515});
+
+        DeleteAnswerResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testCreateCorpus() throws Exception{
+        CreateCorpusRequest request = new CreateCorpusRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        List<CorpusRecordModel> records = new ArrayList<>();
+        CorpusRecordModel model = new CorpusRecordModel();
+        model.setSqId(167100);
+        List<CorpusRecordModel.Corpus> corpusList = new ArrayList<>();
+        CorpusRecordModel.Corpus corpus = new CorpusRecordModel.Corpus();
+        corpus.setCorpusName("创建接口增加语料测试");
+        CorpusRecordModel.Corpus corpus1 = new CorpusRecordModel.Corpus();
+        corpus1.setCorpusName("创建接口增加语料测试1");
+        corpusList.add(corpus);
+        corpusList.add(corpus1);
+        model.setCorpusList(corpusList);
+        records.add(model);
+        request.setRecords(records);
+
+        CreateCorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testUpdateCorpus() throws Exception{
+        UpdateCorpusRequest request = new UpdateCorpusRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setSourceCorpusName("创建接口增加语料测试");
+        request.setTargetCorpusName("创建接口增加语料测试11");
+        request.setSqId(167100);
+
+        UpdateCorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testDeleteCorpus() throws Exception{
+        DeleteCorpusRequest request = new DeleteCorpusRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setCorpusNames(new ArrayList<String>(){{
+            add("创建接口增加语料测试11");
+            add("见附件是否就爱上了11126");
+        }});
+        request.setSqId(167100);
+
+        DeleteCorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
     }
 
     @Test
