@@ -104,11 +104,12 @@ public class TestClient {
     @Test
     public void testUpdateAnswer() throws Exception{
         UpdateAnswerRequest request = new UpdateAnswerRequest();
-        request.setId(201515);
+        request.setId(201656);
         request.setBotId("581926");
         request.setEnterpriseId("8000559");
         request.setAnswer("接口创建添加答案啊啊啊啊112");
-        request.setSqId(167100);
+        request.setSqId(167241);
+        request.setRelatedSqIdList(new String[]{"167213", "167187"});
 
         UpdateAnswerResponse response = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
