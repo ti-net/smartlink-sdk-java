@@ -45,6 +45,11 @@ public class ChatResponse {
 	private List<String> userTag;
 
 	/**
+	 * 意向标签
+	 */
+	private List<String> intentTag;
+
+	/**
 	 * 错误码，非0代表有系统错误
 	 */
 	private Integer errorCode;

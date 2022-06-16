@@ -22,6 +22,11 @@ public class BotRequest extends BaseRequest<BotResponse> {
      */
     private String botId;
 
+    /**
+     * 机器人厂商
+     */
+    private String provider;
+
 
     public String getEnterpriseId() {
         return enterpriseId;
@@ -29,6 +34,10 @@ public class BotRequest extends BaseRequest<BotResponse> {
 
     public String getBotId() {
         return botId;
+    }
+
+    public String getProvider() {
+        return provider;
     }
 
     public void setEnterpriseId(String enterpriseId) {
@@ -44,6 +53,14 @@ public class BotRequest extends BaseRequest<BotResponse> {
             putQueryParameter("botId", botId);
         }
     }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putQueryParameter("provider", provider);
+        }
+    }
+
     public BotRequest() {
         super("/api/tibots/bot", HttpMethodType.GET);
     }
