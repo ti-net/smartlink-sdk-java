@@ -32,6 +32,11 @@ public class InputAssociationRequest extends BaseRequest<InputAssociationRespons
      */
     private Integer top;
 
+    /**
+     * 供应商
+     */
+    private String provider;
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -73,6 +78,17 @@ public class InputAssociationRequest extends BaseRequest<InputAssociationRespons
         this.top = top;
         if (top != null) {
             putBodyParameter("top", top);
+        }
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putBodyParameter("provider", provider);
         }
     }
 

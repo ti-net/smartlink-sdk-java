@@ -32,6 +32,11 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
      */
     private String text;
 
+    /**
+     * 供应商
+     */
+    private String provider;
+
     public IntelligentAssociationRequest() {
         super("/api/intelligentAssociation", HttpMethodType.POST);
     }
@@ -69,6 +74,16 @@ public class IntelligentAssociationRequest extends BaseRequest<IntelligentAssoci
         }
     }
 
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putBodyParameter("provider", provider);
+        }
+    }
 
     public Integer getTop() {
         return top;

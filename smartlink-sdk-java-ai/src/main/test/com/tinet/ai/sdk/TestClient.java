@@ -2,8 +2,9 @@ package com.tinet.ai.sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tinet.ai.sdk.model.Bot;
+import com.tinet.ai.sdk.model.CorpusRecordModel;
 import com.tinet.ai.sdk.model.KbArticleResponseModel;
+import com.tinet.ai.sdk.model.TiBotFaq;
 import com.tinet.ai.sdk.model.enums.ChannelEnum;
 import com.tinet.ai.sdk.model.enums.OrderRuleEnum;
 import com.tinet.ai.sdk.request.*;
@@ -12,7 +13,6 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
-import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,19 +35,208 @@ public class TestClient {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
         //测试环境
-        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+//        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
-        /*configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
         configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost("localhost", 8085);*/
+        configuration.setHost("localhost", 8085);
 
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    @Test
+    public void testCreateSq() throws Exception{
+        CreateStandardQuestionRequest request = new CreateStandardQuestionRequest();
+        request.setBotId("581926");
+        request.setCategoryId(-1);
+        request.setTitle("测试和创建标准问接口");
+        request.setEnterpriseId("8000559");
+        CreateStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testUpdateSq() throws Exception{
+        UpdateStandardQuestionRequest request = new UpdateStandardQuestionRequest();
+        request.setId(167100);
+        request.setBotId("581926");
+        request.setCategoryId(-1);
+        request.setTitle("测试和创建标准问接口12");
+        request.setEnterpriseId("8000559");
+
+        UpdateStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testDeleteSq() throws Exception{
+        DeleteStandardQuestionRequest request = new DeleteStandardQuestionRequest();
+        request.setBotId("581926");
+        request.setIds(new Integer[]{167100});
+        request.setEnterpriseId("8000559");
+
+        DeleteStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testCreateAnswer() throws Exception{
+        CreateAnswerRequest request = new CreateAnswerRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setAnswer("接口创建添加答案啊啊啊啊");
+        request.setSqId(167100);
+
+        CreateAnswerResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testUpdateAnswer() throws Exception{
+        UpdateAnswerRequest request = new UpdateAnswerRequest();
+        request.setId(201656);
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setAnswer("接口创建添加答案啊啊啊啊112");
+        request.setSqId(167241);
+        request.setRelatedSqIdList(new String[]{"167213", "167187"});
+
+        UpdateAnswerResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testDeleteAnswer() throws Exception{
+        DeleteAnswerRequest request = new DeleteAnswerRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setIds(new Integer[]{201515});
+
+        DeleteAnswerResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testCreateCorpus() throws Exception{
+        CreateCorpusRequest request = new CreateCorpusRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        List<CorpusRecordModel> records = new ArrayList<>();
+        CorpusRecordModel model = new CorpusRecordModel();
+        model.setSqId(167100);
+        List<CorpusRecordModel.Corpus> corpusList = new ArrayList<>();
+        CorpusRecordModel.Corpus corpus = new CorpusRecordModel.Corpus();
+        corpus.setCorpusName("创建接口增加语料测试");
+        CorpusRecordModel.Corpus corpus1 = new CorpusRecordModel.Corpus();
+        corpus1.setCorpusName("创建接口增加语料测试1");
+        corpusList.add(corpus);
+        corpusList.add(corpus1);
+        model.setCorpusList(corpusList);
+        records.add(model);
+        request.setRecords(records);
+
+        CreateCorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testUpdateCorpus() throws Exception{
+        UpdateCorpusRequest request = new UpdateCorpusRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setSourceCorpusName("创建接口增加语料测试");
+        request.setTargetCorpusName("创建接口增加语料测试11");
+        request.setSqId(167100);
+
+        UpdateCorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void testDeleteCorpus() throws Exception{
+        DeleteCorpusRequest request = new DeleteCorpusRequest();
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setCorpusNames(new ArrayList<String>(){{
+            add("创建接口增加语料测试11");
+            add("见附件是否就爱上了11126");
+        }});
+        request.setSqId(167100);
+
+        DeleteCorpusResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+    @Test
+    public void pushFaq() throws Exception{
+        PushFaqRequest pushFaqRequest = new PushFaqRequest();
+        pushFaqRequest.setUuid("329d829u3jd92u3eu23u9");
+        pushFaqRequest.setSenderTime("2022-06-06 17:10:00");
+        pushFaqRequest.setEnterpriseId(8000559L);
+        pushFaqRequest.setBotId(123L);
+        List faqList = new ArrayList<TiBotFaq>();
+        TiBotFaq faqData = new TiBotFaq();
+        faqData.setFaqId(1L);
+        faqData.setCatalog(new String[]{"a", "b"});
+        faqData.setStandardQuestion("标准问哈哈哈哈哈哈哈哈哈。呵呵呵呵呵。啊啊啊啊啊啊。哇哇哇哇哇哇哇。红红火火恍恍惚惚。的代价");
+        List<TiBotFaq.TiBotAnswer> answers = new ArrayList<>();
+        TiBotFaq.TiBotAnswer answer = new TiBotFaq.TiBotAnswer();
+        answer.setAnswersType("text");
+        answer.setAnswersContent("答案内容abcaa");
+        TiBotFaq.TiBotAnswer answer1 = new TiBotFaq.TiBotAnswer();
+        answer1.setAnswersType("text");
+        answer1.setAnswersContent("答案内容哈哈哈");
+        TiBotFaq.TiBotAnswer answer2 = new TiBotFaq.TiBotAnswer();
+        answer2.setAnswersType("text");
+        answer2.setAnswersContent("不知道");
+        answers.add(answer);
+        answers.add(answer1);
+        answers.add(answer2);
+        faqData.setAnswers(answers);
+        faqData.setSimilarQuestions(new String[]{"标准", "标问"});
+        faqData.setOperType("update");
+
+//        TiBotFaq faqData1 = new TiBotFaq();
+//        faqData1.setFaqId(2L);
+//        faqData1.setCatalog(new String[]{"a1", "b1"});
+////        faqData.setStandardQuestion("标准问");
+//        List<TiBotFaq.TiBotAnswer> answers1 = new ArrayList<>();
+//        TiBotFaq.TiBotAnswer answer1 = new TiBotFaq.TiBotAnswer();
+//        answer1.setAnswersType("text");
+//        answer1.setAnswersContent("答案内容234");
+//        answers1.add(answer1);
+//        faqData1.setAnswers(answers1);
+////        faqData.setSimilarQuestions(new String[]{"标准", "标问"});
+//        faqData1.setOperType("delete");
+
+        faqList.add(faqData);
+//        faqList.add(faqData1);
+        pushFaqRequest.setFaqList(faqList);
+
+        PushFaqResponse responseModel = null;
+        try {
+            responseModel = smartLinkClient.getResponseModel(pushFaqRequest);
+        } catch (ServerException e) {
+            // 服务器错误,大概率是出 bug 了
+            e.printStackTrace();
+        } catch (ClientException e) {
+            // 客户端错误,参数校验没通过？做了不该做的事？反正是你的事,再看看你写的代码
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -202,11 +391,12 @@ public class TestClient {
     public void testFaq() throws Exception {
         IntelligentKnowledgeBaseRequest request = new IntelligentKnowledgeBaseRequest();
         request.setEnterpriseId("8000559");
-        request.setQuery("总部");
+        request.setQuery("福报");
         // 芒果  198252，全屋全屋WiFi产  竹间  362924，总部
-        request.setBotId("362924");
+        request.setBotId("800055911272142");
         request.setOffset(0);
         request.setLimit(10);
+        request.setProvider("tibot");
 
         KbArticleResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
@@ -229,10 +419,11 @@ public class TestClient {
     public void testInputAssociation() throws Exception {
 
         InputAssociationRequest request = new InputAssociationRequest();
-        request.setBotId("924588");
-        request.setText("验证");
-        request.setEnterpriseId("8000585");
+        request.setBotId("800055911272142");
+        request.setText("中国");
+        request.setEnterpriseId("8000559");
         request.setTop(5);
+        request.setProvider("tibot");
 
         InputAssociationResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
@@ -445,18 +636,14 @@ public class TestClient {
 
     }
     @Test
-    public void testTibot() throws ServerException, ClientException {
+    public void testTibot() throws Exception {
         TibotRequest request = new TibotRequest();
-        request.setUserId(String.valueOf(8000559));
+        request.setUserId(String.valueOf(8000001));
         request.setBotType(2);
-        // nonemotibot: 非竹间
-        // emotibot: 竹间
-        // none: 配置是空
-        request.setProvider("emotibot");
+        request.setProvider("tibot");
         TibotResponse response = smartLinkClient.getResponseModel(request);
-        System.out.println(response);
-        System.out.println(response.getTbots().size());
-        System.out.println(response.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
 
     }
     @Test
@@ -470,26 +657,29 @@ public class TestClient {
     }
 
     @Test
-    public void testAvatar() throws ServerException, ClientException {
+    public void testAvatar() throws Exception {
         BotAvatarUrlRequest request = new BotAvatarUrlRequest();
-        request.setBotId(126671);
-        request.setEnterpriseId("3000000");
+        request.setBotId(800000148556712L);
+        request.setEnterpriseId("8000001");
+        request.setProvider("tibot");
 
         BotAvatarUrlResponse response = smartLinkClient.getResponseModel(request);
-        System.out.println(response.getRequestId());
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
 
     }
 
 
     @Test
-    public void testBot() throws ServerException, ClientException {
+    public void testBot() throws Exception {
         BotRequest request = new BotRequest();
-        request.setBotId("116067");
-        request.setEnterpriseId("8000376");
+        request.setBotId("800000148556712");
+        request.setEnterpriseId("8000001");
+        request.setProvider("tibot");
 
         BotResponse responseModel = smartLinkClient.getResponseModel(request);
-        Bot bot = responseModel.getBot();
-        System.out.println(bot);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(responseModel));
 
     }
 
@@ -536,9 +726,10 @@ public class TestClient {
     @Test
     public void testCallScriptRecommendation() throws Exception {
         CallScriptRecommendationRequest request = new CallScriptRecommendationRequest();
-        request.setBotId("924588");
-        request.setQuery("九月二号");
+        request.setBotId("800055911272142");
+        request.setQuery("人工");
         request.setTop(5);
+        request.setProvider("tibot");
         CallScriptRecommendationResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(responseModel));
@@ -591,9 +782,9 @@ public class TestClient {
         intelligentAssociationRequest.setText("jira");*/
 
         // 竹间
-        intelligentAssociationRequest.setEnterpriseId("8000585");
-        intelligentAssociationRequest.setBotId("924588");
-        intelligentAssociationRequest.setText("测试");
+//        intelligentAssociationRequest.setEnterpriseId("8000585");
+//        intelligentAssociationRequest.setBotId("924588");
+//        intelligentAssociationRequest.setText("测试");
         //intelligentAssociationRequest.setTop(5);
 
         // 芒果
@@ -601,6 +792,12 @@ public class TestClient {
         intelligentAssociationRequest.setBotId("791319");
         intelligentAssociationRequest.setText("真实性");*/
         // intelligentAssociationRequest.setTop(5);
+
+        // tiBot
+        intelligentAssociationRequest.setEnterpriseId("8000559");
+        intelligentAssociationRequest.setBotId("800055911272142");
+        intelligentAssociationRequest.setText("ge");
+        intelligentAssociationRequest.setProvider("tibot");
 
         IntelligentAssociationResponse responseModel = smartLinkClient.getResponseModel(intelligentAssociationRequest);
         ObjectMapper mapper = new ObjectMapper();

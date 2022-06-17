@@ -28,6 +28,11 @@ public class IntelligentKnowledgeBaseRequest extends BaseRequest<KbArticleRespon
     private String query;
 
     /**
+     * 供应商
+     */
+    private String provider;
+
+    /**
      * 偏移量
      */
     private Integer offset;
@@ -67,6 +72,17 @@ public class IntelligentKnowledgeBaseRequest extends BaseRequest<KbArticleRespon
         this.query = query;
         if (query != null) {
             putQueryParameter("query", query);
+        }
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putQueryParameter("provider", provider);
         }
     }
 

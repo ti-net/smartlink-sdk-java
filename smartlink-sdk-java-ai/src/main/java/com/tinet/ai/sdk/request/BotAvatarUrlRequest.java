@@ -16,19 +16,28 @@ public class BotAvatarUrlRequest extends BaseRequest<BotAvatarUrlResponse> {
     /**
      * 机器人id
      */
-    private Integer botId;
+    private Long botId;
 
     /**
      * 企业id
      */
     private String enterpriseId;
 
+    /**
+     * 机器人厂商
+     */
+    private String provider;
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
 
-    public Integer getBotId() {
+    public Long getBotId() {
         return botId;
+    }
+
+    public String getProvider() {
+        return provider;
     }
 
     public void setEnterpriseId(String enterpriseId) {
@@ -38,10 +47,17 @@ public class BotAvatarUrlRequest extends BaseRequest<BotAvatarUrlResponse> {
         }
     }
 
-    public void setBotId(Integer botId) {
+    public void setBotId(Long botId) {
         this.botId = botId;
         if (botId != null) {
             putQueryParameter("botId", botId);
+        }
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putQueryParameter("provider", provider);
         }
     }
 
