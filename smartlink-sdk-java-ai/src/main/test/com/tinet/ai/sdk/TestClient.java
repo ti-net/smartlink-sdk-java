@@ -13,6 +13,7 @@ import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import com.tinet.smartlink.sdk.core.exceptions.ClientException;
 import com.tinet.smartlink.sdk.core.exceptions.ServerException;
+import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -35,19 +36,57 @@ public class TestClient {
         SmartlinkClientConfiguration configuration = new SmartlinkClientConfiguration();
 
         //测试环境
-//        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
-//        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
+        configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
+                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
 
         //本地环境
-        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
-        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
-        configuration.setHost("localhost", 8085);
+//        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
+//        configuration.setAccessKeySecret("u610p9q44llvd1c0qluj06yq3d1946kz");
+//        configuration.setHost("localhost", 8085);
 
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
         smartLinkClient = new SmartlinkClient(configuration);
+    }
+
+    @Test
+    public void createCategory() throws Exception {
+        CreateCategoryRequest request = new CreateCategoryRequest();
+        request.setEnterpriseId("8000559");
+        request.setBotId("581926");
+        request.setParentId(0);
+        request.setName("分类测试111");
+
+        CreateCategoryResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void updateCategory() throws Exception {
+        UpdateCategoryRequest request = new UpdateCategoryRequest();
+        request.setEnterpriseId("8000559");
+        request.setBotId("581926");
+        request.setName("分类测试222");
+        request.setId(10741);
+
+        UpdateCategoryResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
+    public void deleteCategory() throws Exception {
+        DeleteCategoryRequest request = new DeleteCategoryRequest();
+        request.setEnterpriseId("8000559");
+        request.setBotId("581926");
+        request.setId(10741);
+
+        DeleteCategoryResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
     }
 
     @Test
