@@ -51,6 +51,36 @@ public class TestClient {
         smartLinkClient = new SmartlinkClient(configuration);
     }
 
+    // 知识库文章内容权限控制
+    @Test
+    public void testSearch() throws Exception {
+        KbSearchRequest articleRequest = new KbSearchRequest();
+        articleRequest.setEnterpriseId(String.valueOf(8000559));
+        // articleRequest.setKbId(782);
+        // articleRequest.setKeyword("人工");
+        //articleRequest.setOrder(OrderRuleEnum.NONE);
+//        articleRequest.setRepositoryType(0);
+        //articleRequest.setKbId(771);
+        //articleRequest.setDirectoryId(589);
+//        articleRequest.setKeyword("价格多少");
+        //articleRequest.setKbId(424);
+        articleRequest.setRepositoryType(2);
+        articleRequest.setCno("3954");
+        articleRequest.setOffset(0);
+        articleRequest.setLimit(10);
+        articleRequest.setOrder(OrderRuleEnum.NONE);
+        articleRequest.setChannelType(ChannelEnum.CONTENT);
+//        List<String> qnos = new ArrayList<>();
+//        qnos.add("9999");
+//        articleRequest.setQnos(qnos);
+//        articleRequest.setCno("123123");
+//        articleRequest.setChannelType(ChannelEnum.CONTENT);
+
+        KbSearchResponse articleResponse = smartLinkClient.getResponseModel(articleRequest);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(articleResponse));
+    }
+
     @Test
     public void createCategory() throws Exception {
         CreateCategoryRequest request = new CreateCategoryRequest();
@@ -520,24 +550,25 @@ public class TestClient {
 
     // 知识库文章内容权限控制
     @Test
-    public void testArticleAuthContent() throws Exception{
+    public void testArticleAuthContent() throws Exception {
         KbArticleRequest articleRequest = new KbArticleRequest();
         articleRequest.setEnterpriseId(String.valueOf(8000559));
         // articleRequest.setKbId(782);
         // articleRequest.setKeyword("人工");
         //articleRequest.setOrder(OrderRuleEnum.NONE);
-        articleRequest.setRepositoryType(0);
+//        articleRequest.setRepositoryType(0);
         //articleRequest.setKbId(771);
         //articleRequest.setDirectoryId(589);
-        articleRequest.setKeyword("价格多少");
+//        articleRequest.setKeyword("价格多少");
         //articleRequest.setKbId(424);
+        articleRequest.setCno("3954");
         articleRequest.setOffset(0);
-        articleRequest.setLimit(40);
+        articleRequest.setLimit(10);
         articleRequest.setOrder(OrderRuleEnum.NONE);
         articleRequest.setChannelType(ChannelEnum.CONTENT);
-        List<String> qnos = new ArrayList<>();
-        qnos.add("9999");
-        articleRequest.setQnos(qnos);
+//        List<String> qnos = new ArrayList<>();
+//        qnos.add("9999");
+//        articleRequest.setQnos(qnos);
 //        articleRequest.setCno("123123");
 //        articleRequest.setChannelType(ChannelEnum.CONTENT);
 
