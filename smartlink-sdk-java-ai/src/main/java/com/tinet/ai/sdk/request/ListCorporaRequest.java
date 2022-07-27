@@ -1,0 +1,111 @@
+package com.tinet.ai.sdk.request;
+
+import com.tinet.ai.sdk.response.ListCorporaResponse;
+import com.tinet.smartlink.sdk.core.HttpMethodType;
+import com.tinet.smartlink.sdk.core.request.BaseRequest;
+
+/**
+ * @author feizq
+ * @date 2022/07/26
+ **/
+public class ListCorporaRequest extends BaseRequest<ListCorporaResponse> {
+
+    /**
+     * 企业ID
+     */
+    private String enterpriseId;
+
+    /**
+     * 机器人ID
+     */
+    private String botId;
+
+    /**
+     * 标准问ID
+     */
+    private Integer sqId;
+
+    /**
+     * 关键词
+     */
+    private String keyword;
+
+    private Integer offset;
+
+    private Integer limit;
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+        if (enterpriseId != null) {
+            putQueryParameter("enterpriseId", enterpriseId);
+        }
+    }
+
+    public String getBotId() {
+        return botId;
+    }
+
+    public void setBotId(String botId) {
+        this.botId = botId;
+        if (botId != null) {
+            putQueryParameter("botId", botId);
+        }
+    }
+
+    public Integer getSqId() {
+        return sqId;
+    }
+
+    public void setSqId(Integer sqId) {
+        this.sqId = sqId;
+        if (sqId != null) {
+            putQueryParameter("sqId", sqId);
+        }
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+        if (keyword != null) {
+            putQueryParameter("keyword", keyword);
+        }
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+        if (offset != null) {
+            putQueryParameter("offset", offset);
+        }
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+        if (limit != null) {
+            putQueryParameter("limit", limit);
+        }
+    }
+
+    public ListCorporaRequest() {
+        super("/api/botKnowledgeBase/emotibot/listCorpora", HttpMethodType.GET);
+    }
+
+    @Override
+    public Class<ListCorporaResponse> getResponseClass() {
+        return ListCorporaResponse.class;
+    }
+}
