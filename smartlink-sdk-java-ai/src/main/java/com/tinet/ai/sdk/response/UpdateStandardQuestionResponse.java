@@ -4,6 +4,8 @@ import com.tinet.ai.sdk.model.StandardQuestionResponseModel;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 
 /**
+ * 更新标准问响应实体
+ *
  * @author feizq
  * @date 2022/06/15
  **/

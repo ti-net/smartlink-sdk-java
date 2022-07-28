@@ -3,6 +3,8 @@ package com.tinet.ai.sdk.response;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 
 /**
+ * faq推送
+ *
  * @author feizq
  * @date 2022/06/07
  **/
