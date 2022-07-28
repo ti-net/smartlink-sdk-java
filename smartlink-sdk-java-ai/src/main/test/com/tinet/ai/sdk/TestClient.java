@@ -55,8 +55,8 @@ public class TestClient {
     @Test
     public void listSq() throws Exception {
         ListStandardQuestionRequest request = new ListStandardQuestionRequest();
-        request.setBotId("996712");
-        request.setEnterpriseId("8000559");
+        request.setBotId("212858");
+        request.setEnterpriseId("8000376");
 
         long start = Instant.now().getEpochSecond();
         ListStandardQuestionResponse response = smartLinkClient.getResponseModel(request);
@@ -69,8 +69,8 @@ public class TestClient {
     @Test
     public void listAnswer() throws Exception {
         ListAnswerRequest request = new ListAnswerRequest();
-        request.setBotId("996712");
-        request.setEnterpriseId("8000559");
+        request.setBotId("212858");
+        request.setEnterpriseId("8000376");
         request.setSqId(270138);
 
         ListAnswerResponse response = smartLinkClient.getResponseModel(request);
@@ -81,9 +81,10 @@ public class TestClient {
     @Test
     public void listCorpus() throws Exception {
         ListCorporaRequest request = new ListCorporaRequest();
-        request.setBotId("996712");
-        request.setEnterpriseId("8000559");
-        request.setSqId(270138);
+        request.setBotId("212858");
+        request.setEnterpriseId("8000376");
+        request.setSqId(165385);
+        request.setKeyword("信用卡");
         request.setOffset(0);
         request.setLimit(1000);
 
