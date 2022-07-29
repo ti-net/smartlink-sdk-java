@@ -3,6 +3,8 @@ package com.tinet.ai.sdk.response;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 
 /**
+ * 更新语料响应实体
+ *
  * @author feizq
  * @date 2022/06/15
  **/

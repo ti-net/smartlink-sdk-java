@@ -4,6 +4,8 @@ import com.tinet.ai.sdk.model.CategoryResponseModel;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 
 /**
+ * 创建分类响应实体
+ *
  * @author feizq
  * @date 2022/06/20
  **/

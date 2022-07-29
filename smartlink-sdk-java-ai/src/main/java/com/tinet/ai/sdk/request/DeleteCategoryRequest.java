@@ -5,6 +5,8 @@ import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
+ * 删除分类请求
+ *
  * @author feizq
  * @date 2022/06/20
  **/

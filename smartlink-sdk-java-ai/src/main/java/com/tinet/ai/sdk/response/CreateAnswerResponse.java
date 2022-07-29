@@ -4,6 +4,8 @@ import com.tinet.ai.sdk.model.AnswerResponseModel;
 import com.tinet.smartlink.sdk.core.response.BaseResponse;
 
 /**
+ * 创建答案响应实体
+ *
  * @author feizq
  * @date 2022/06/15
  **/

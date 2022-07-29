@@ -6,6 +6,8 @@ import com.tinet.smartlink.sdk.core.response.BaseResponse;
 import java.util.List;
 
 /**
+ * 知识库答案查询
+ *
  * @author feizq
  * @date 2021/09/26
  **/
