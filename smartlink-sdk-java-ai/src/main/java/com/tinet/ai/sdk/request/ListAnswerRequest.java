@@ -1,29 +1,31 @@
 package com.tinet.ai.sdk.request;
 
-import com.tinet.ai.sdk.response.DeleteCategoryResponse;
+import com.tinet.ai.sdk.response.ListAnswerResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
- * 删除分类请求
+ * 获取答案列表请求
  *
  * @author feizq
- * @date 2022/06/20
+ * @date 2022/07/26
  **/
-public class DeleteCategoryRequest extends BaseRequest<DeleteCategoryResponse> {
+public class ListAnswerRequest extends BaseRequest<ListAnswerResponse> {
 
     /**
      * 企业ID
      */
     private String enterpriseId;
+
     /**
      * 机器人ID
      */
     private String botId;
+
     /**
-     * 分类ID
+     * 标准问ID
      */
-    private Integer id;
+    private Integer sqId;
 
     public String getEnterpriseId() {
         return enterpriseId;
@@ -32,7 +34,7 @@ public class DeleteCategoryRequest extends BaseRequest<DeleteCategoryResponse> {
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
         if (enterpriseId != null) {
-            putBodyParameter("enterpriseId", enterpriseId);
+            putQueryParameter("enterpriseId", enterpriseId);
         }
     }
 
@@ -43,27 +45,27 @@ public class DeleteCategoryRequest extends BaseRequest<DeleteCategoryResponse> {
     public void setBotId(String botId) {
         this.botId = botId;
         if (botId != null) {
-            putBodyParameter("botId", botId);
+            putQueryParameter("botId", botId);
         }
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getSqId() {
+        return sqId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-        if (id != null) {
-            putBodyParameter("id", id);
+    public void setSqId(Integer sqId) {
+        this.sqId = sqId;
+        if (sqId != null) {
+            putQueryParameter("sqId", sqId);
         }
     }
 
-    public DeleteCategoryRequest() {
-        super("/api/botKnowledgeBase/emotibot/deleteCategory", HttpMethodType.POST);
+    public ListAnswerRequest() {
+        super("/api/botKnowledgeBase/emotibot/listAnswer", HttpMethodType.GET);
     }
 
     @Override
-    public Class<DeleteCategoryResponse> getResponseClass() {
-        return DeleteCategoryResponse.class;
+    public Class<ListAnswerResponse> getResponseClass() {
+        return ListAnswerResponse.class;
     }
 }

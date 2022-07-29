@@ -7,6 +7,8 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
 import java.util.List;
 
 /**
+ * 删除语料请求
+ *
  * @author feizq
  * @date 2022/06/15
  **/

@@ -6,6 +6,8 @@ import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
 /**
+ * 更新答案请求
+ *
  * @author feizq
  * @date 2022/06/15
  **/

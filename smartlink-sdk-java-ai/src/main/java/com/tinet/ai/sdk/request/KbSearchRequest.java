@@ -9,6 +9,8 @@ import com.tinet.smartlink.sdk.core.request.BaseRequest;
 import java.util.List;
 
 /**
+ * 知识库搜索请求
+ *
  * @author feizq
  * @date 2022/07/05
  **/
