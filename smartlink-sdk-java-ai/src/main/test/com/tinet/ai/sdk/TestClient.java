@@ -53,6 +53,17 @@ public class TestClient {
     }
 
     @Test
+    public void kbSetting() throws Exception {
+        DescribeKbSettingRequest request = new DescribeKbSettingRequest();
+        request.setEnterpriseId("5000559");
+        request.setType(0);
+
+        DescribeKbSettingResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
     public void listSq() throws Exception {
         ListStandardQuestionRequest request = new ListStandardQuestionRequest();
         request.setBotId("212858");
