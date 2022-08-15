@@ -3,6 +3,8 @@ package com.tinet.ai.sdk.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 竹间答案实体
  *
@@ -37,4 +39,22 @@ public class AnswerModel {
      * 类型；1：每天，0：无
      */
     private Integer periodType;
+
+    /**
+     * 相关问集合
+     */
+    private List<RelatedQuestion> relatedQuestionList;
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class RelatedQuestion {
+        /**
+         * 相关问ID
+         */
+        private Integer relatedQuestionId;
+        /**
+         * 相关问标题
+         */
+        private String relatedQuestionTitle;
+    }
 }

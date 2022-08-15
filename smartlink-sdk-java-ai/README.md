@@ -199,3 +199,15 @@
 版本： 2.0.14-RELEASE
 分支： release/2.0.14
 ~~~~
+
+### 功能
+~~~~
+1. 【锐捷在线】知识库导出的需求，支持导出相关问题
+工单：https://devops.aliyun.com/projex/project/9fb8c3c6c028e41a603034207c/sprint/6e13816aa5f54d1eb9af2d37c0#activeTab=Workitem&openWorkitemIdentifier=3cdb3e1663bca828612d062185
+~~~~
+
+~~~~
+日期： 2022-07-28
+版本： 2.0.15-RELEASE
+分支： release/2.0.15
+~~~~

@@ -53,6 +53,17 @@ public class TestClient {
     }
 
     @Test
+    public void kbSetting() throws Exception {
+        DescribeKbSettingRequest request = new DescribeKbSettingRequest();
+        request.setEnterpriseId("5000559");
+        request.setType(0);
+
+        DescribeKbSettingResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
     public void listSq() throws Exception {
         ListStandardQuestionRequest request = new ListStandardQuestionRequest();
         request.setBotId("212858");
@@ -69,11 +80,14 @@ public class TestClient {
     @Test
     public void listAnswer() throws Exception {
         ListAnswerRequest request = new ListAnswerRequest();
-        request.setBotId("212858");
-        request.setEnterpriseId("8000376");
-        request.setSqId(270138);
+        request.setBotId("581926");
+        request.setEnterpriseId("8000559");
+        request.setSqId(174249);
 
+        long start = Instant.now().getEpochSecond();
         ListAnswerResponse response = smartLinkClient.getResponseModel(request);
+        long end = Instant.now().getEpochSecond();
+        System.out.println("时间差：" + (end - start));
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(response));
     }
@@ -942,8 +956,8 @@ public class TestClient {
     @Test
     public void tibotFileUrlRequest() throws ServerException, Exception {
         TibotFileUrlRequest tibotFileUrlRequest = new TibotFileUrlRequest();
-        tibotFileUrlRequest.setFileKey("530aea5dc1764fa2a9d66b7bc6fe5c16%7C0909f07196de57a1c10aefad745a73efEpUGflCYUasmile.jpg");
-        tibotFileUrlRequest.setFileName("smile.jpg");
+        tibotFileUrlRequest.setFileKey("837d6acb29944a4bb9d68de9d0b25bd2|313cce3f94eb284db4f68fd5e2a57d2eNEWtsKQijl吴.jpeg");
+        tibotFileUrlRequest.setFileName("NEWtsKQijl吴.jpeg");
         tibotFileUrlRequest.setProvider("emotibot");
         tibotFileUrlRequest.setType("inline");
 //        tibotFileUrlRequest.setWidth(100000);
