@@ -54,4 +54,14 @@ public class KbSettingResponseModel {
      * 文档库内容保护；0：关闭，1：开启，默认关闭
      */
     private Integer documentProtection;
+
+    /**
+     * 文档库内容保护；0：关闭，1：开启，默认关闭
+     */
+    private Integer fileProtection;
+
+    /**
+     * 文档库内容保护；0：关闭，1：开启，默认关闭
+     */
+    private Integer faqProtection;
 }
