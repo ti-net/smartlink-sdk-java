@@ -516,9 +516,9 @@ public class TestClient {
     public void testFaq() throws Exception {
         IntelligentKnowledgeBaseRequest request = new IntelligentKnowledgeBaseRequest();
         request.setEnterpriseId("8000559");
-        request.setQuery("福报");
+        request.setQuery("买车活动");
         // 芒果  198252，全屋全屋WiFi产  竹间  362924，总部
-        request.setBotId("800055911272142");
+        request.setBotId("800129471494351");
         request.setOffset(0);
         request.setLimit(10);
         request.setProvider("tibot");
@@ -559,11 +559,13 @@ public class TestClient {
     @Test
     public void testFeadback() throws Exception {
         ApiMessageFeedbackRequest request = new ApiMessageFeedbackRequest();
-        request.setBotId("924588");
-        request.setEnterpriseId(8000585);
-        request.setResponseId("04b1e46f82864fc9a5efd2bdefc6100c");
+        request.setBotId("800037649270913");
+        request.setEnterpriseId(8000376);
+        request.setResponseId("067f4946-5039-4621-bf10-2354dfbf11b8.1662446706-800037649270913_11266_4");
         request.setFeedback("helpful");
-        request.setCustomFeadback("哈哈");
+        request.setCustomFeedback("阿斯顿");
+        request.setProvider("tibot");
+//        request.setLabels(new ArrayList<String>(){{add("呵呵呵呵呵");}});
 
         ApiMessageFeedbackResponse responseModel = smartLinkClient.getResponseModel(request);
 
