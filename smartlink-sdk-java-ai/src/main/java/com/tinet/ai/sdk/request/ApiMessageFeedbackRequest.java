@@ -4,6 +4,8 @@ import com.tinet.ai.sdk.response.ApiMessageFeedbackResponse;
 import com.tinet.smartlink.sdk.core.HttpMethodType;
 import com.tinet.smartlink.sdk.core.request.BaseRequest;
 
+import java.util.List;
+
 /**
  * 对会话进行点赞或点踩接口请求参数类
  *
@@ -35,7 +37,39 @@ public class ApiMessageFeedbackRequest  extends BaseRequest<ApiMessageFeedbackRe
     /**
      * 建议（反馈文字）
      */
-    private String customFeadback;
+    private String customFeedback;
+
+    /**
+     * 机器人厂商
+     */
+    private String provider;
+
+    /**
+     * 点踩项
+     */
+    private List<String> labels;
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+        if (provider != null) {
+            putQueryParameter("provider", provider);
+        }
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+        if (labels != null) {
+            putQueryParameter("labels", labels);
+        }
+    }
 
     public String getBotId() {
         return botId;
@@ -70,14 +104,14 @@ public class ApiMessageFeedbackRequest  extends BaseRequest<ApiMessageFeedbackRe
         }
     }
 
-    public String getCustomFeadback() {
-        return customFeadback;
+    public String getCustomFeedback() {
+        return customFeedback;
     }
 
-    public void setCustomFeadback(String customFeadback) {
-        this.customFeadback = customFeadback;
-        if (customFeadback != null) {
-            putQueryParameter("customFeadback", customFeadback);
+    public void setCustomFeedback(String customFeedback) {
+        this.customFeedback = customFeedback;
+        if (customFeedback != null) {
+            putQueryParameter("customFeedback", customFeedback);
         }
     }
 
