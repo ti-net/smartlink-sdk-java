@@ -211,3 +211,15 @@
 版本： 2.0.15-RELEASE
 分支： release/2.0.15
 ~~~~
+
+### 功能
+~~~~
+1. TBot_【哗啦啦】访客端点赞点踩评价及评价原因，在线传给TBot，TBot传给TiBot
+工单：https://devops.aliyun.com/projex/project/9fb8c3c6c028e41a603034207c/sprint/0f7b3974a6b5eac3d8ba2656dd#activeTab=Workitem&openWorkitemIdentifier=0f6e181dd6b7038e08309e614b
+~~~~
+
+~~~~
+日期： 2022-09-08
+版本： 2.0.16-RELEASE
+分支： release/2.0.16
+~~~~
