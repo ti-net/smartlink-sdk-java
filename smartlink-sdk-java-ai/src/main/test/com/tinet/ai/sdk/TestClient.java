@@ -420,7 +420,7 @@ public class TestClient {
     @Test
     public void testEnterprise() throws Exception {
         EmotibotEnterpriseRequest request = new EmotibotEnterpriseRequest();
-        request.setEnterpriseId("80005590");
+        request.setEnterpriseId("8006375");
 
         EmotibotEnterpriseResponse responseModel = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
@@ -958,7 +958,7 @@ public class TestClient {
     @Test
     public void tibotFileUrlRequest() throws ServerException, Exception {
         TibotFileUrlRequest tibotFileUrlRequest = new TibotFileUrlRequest();
-        tibotFileUrlRequest.setFileKey("837d6acb29944a4bb9d68de9d0b25bd2|313cce3f94eb284db4f68fd5e2a57d2eNEWtsKQijl吴.jpeg");
+        tibotFileUrlRequest.setFileKey("837d6acb29944a4bb9d68de9d0b25bd2|39cc2a37714de434c56b031ff3f819cfvgJAoqgdVnimage(3).png");
         tibotFileUrlRequest.setFileName("NEWtsKQijl吴.jpeg");
         tibotFileUrlRequest.setProvider("emotibot");
         tibotFileUrlRequest.setType("inline");

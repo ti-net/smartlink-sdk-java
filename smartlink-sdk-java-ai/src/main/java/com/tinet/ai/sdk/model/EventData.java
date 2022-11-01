@@ -33,4 +33,29 @@ public class EventData {
      * 更新人
      */
     private String updateUser;
+
+    /**
+     * 企业类型
+     */
+    private Integer type;
+
+    /**
+     * 业务状态 0未开通 1正常 2欠费 3停机 4注销
+     */
+    private Integer enterpriseStatus;
+
+    /**
+     * 功能项配置信息
+     */
+    private Object features;
+
+    /**
+     * asr配置
+     */
+    private String asrConfig;
+
+    /**
+     * tts配置
+     */
+    private String ttsConfig;
 }
