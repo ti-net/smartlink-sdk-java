@@ -125,6 +125,7 @@ public class NewBotWebSocketClient implements DisposableBean {
                                  ChatResponseCallback callback, PlatformEnum platform) {
         this.configuration = configuration;
         this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+        this.stompClient.setInboundMessageSizeLimit(configuration.getInboundMessageSizeLimit());
         this.url = "ws://" + configuration.getHost() + "/tibot";
         this.callback = callback;
         this.platform = platform;

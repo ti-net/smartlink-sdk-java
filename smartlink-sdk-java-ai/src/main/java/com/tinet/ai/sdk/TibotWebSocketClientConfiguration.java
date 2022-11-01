@@ -16,6 +16,11 @@ public class TibotWebSocketClientConfiguration {
 	private String accessKeySecret;
 	private int expires = 5;
 
+	/**
+	 * 内置消息大小限制  1024*1024
+	 */
+	private int inboundMessageSizeLimit = 1024*1024;
+
 	public TibotWebSocketClientConfiguration(@NonNull String host, @NonNull String accessKeyId, @NonNull String accessKeySecret) {
 
 		Assert.notNull(host, "websocket host can't be null");
@@ -55,5 +60,13 @@ public class TibotWebSocketClientConfiguration {
 
 	public void setExpires(int expires) {
 		this.expires = expires;
+	}
+
+	public int getInboundMessageSizeLimit() {
+		return inboundMessageSizeLimit;
+	}
+
+	public void setInboundMessageSizeLimit(int inboundMessageSizeLimit) {
+		this.inboundMessageSizeLimit = inboundMessageSizeLimit;
 	}
 }
