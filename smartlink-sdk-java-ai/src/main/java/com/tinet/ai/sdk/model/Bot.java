@@ -26,9 +26,18 @@ public class Bot {
     /**
      * 机器人id
      * 机器人名称
-     * 机器人(会话)类型 1 电话机器人 2 在线客服  3话术推荐
+     * 机器人(会话)类型
+     *   语音：1、11
+     *   协呼：18、21
+     *   呼入：12、16
+     *   外呼：13、17、20
      * 第三方机器人id
      * 供应商
+     *   芒果：mango
+     *   竹间：zhujian
+     *   百应：baiying
+     *   自研：tibot
+     *
      * 机器人昵称
      * 机器人头像
      * 描述
@@ -80,4 +89,9 @@ public class Bot {
      */
     private String createUser;
     private String updateUser;
+
+    /**
+     * PAAS平台企业ID
+     */
+    private String paasId;
 }

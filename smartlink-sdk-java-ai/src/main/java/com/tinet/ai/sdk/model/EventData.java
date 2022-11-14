@@ -58,4 +58,9 @@ public class EventData {
      * tts配置
      */
     private String ttsConfig;
+
+    /**
+     * 企业编码，平台唯一
+     */
+    private String identifier;
 }

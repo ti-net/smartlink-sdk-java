@@ -53,6 +53,17 @@ public class TestClient {
     }
 
     @Test
+    public void createEnterpriseMapping() throws Exception {
+        CreateEnterpriseMappingRequest request = new CreateEnterpriseMappingRequest();
+        request.setEnterpriseId("5000558");
+        request.setPaasId("7899871");
+
+        CreateEnterpriseMappingResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
     public void kbSetting() throws Exception {
         DescribeKbSettingRequest request = new DescribeKbSettingRequest();
         request.setEnterpriseId("5000559");
@@ -774,6 +785,21 @@ public class TestClient {
         System.out.println(mapper.writeValueAsString(response));
 
     }
+
+    @Test
+    public void testListTibot() throws Exception {
+        ListTibotRequest request = new ListTibotRequest();
+//        request.setAbRobotOpenFlag(1);
+//        request.setObRobotOpenFlag(1);
+//        request.setIbRobotOpenFlag(1);
+        request.setCallRobotOpenFlag(1);
+        request.setUserId(String.valueOf(8000560));
+        request.setBotType(1);
+        TibotResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
     @Test
     public void testImageUrl() throws ServerException, ClientException {
         KbArticleImageUrlRequest request = new KbArticleImageUrlRequest();
