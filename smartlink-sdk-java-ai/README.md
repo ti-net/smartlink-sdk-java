@@ -223,3 +223,15 @@
 版本： 2.0.16-RELEASE
 分支： release/2.0.16
 ~~~~
+
+### 功能
+~~~~
+1. 机器人整合+百应机器人对接
+工单：https://devops.aliyun.com/projex/req/KBMS-124#
+~~~~
+
+~~~~
+日期： 2022-11-16
+版本： 2.0.18-RELEASE
+分支： release/2.0.18
+~~~~
