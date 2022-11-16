@@ -56,6 +56,9 @@ public class BotSessionHandler extends StompSessionHandlerAdapter {
         } else if (exception instanceof ConnectException) {
             logger.error("handleConnectException, can't connect TBot server, sleep 5s and retry connect", exception);
             connectRetry(5000);
+        } else if (exception instanceof StompConversionException) {
+            logger.error("handleStompConversionException, can't connect TBot server, sleep 5s and retry connect", exception);
+            connectRetry(5000);
         } else {
             logger.error("handleException, can't connect TBot server, sleep 5s and retry connect", exception);
             // connectRetry(5000);
