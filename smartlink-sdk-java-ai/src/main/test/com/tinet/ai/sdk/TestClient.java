@@ -53,6 +53,17 @@ public class TestClient {
     }
 
     @Test
+    public void syncTibotStatus() throws Exception {
+        TibotSyncRequest request = new TibotSyncRequest();
+        request.setBotThirdPartyId("80012949607860");
+        request.setStatus(0);
+
+        TibotSyncResponse response = smartLinkClient.getResponseModel(request);
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println(mapper.writeValueAsString(response));
+    }
+
+    @Test
     public void createEnterpriseMapping() throws Exception {
         CreateEnterpriseMappingRequest request = new CreateEnterpriseMappingRequest();
         request.setEnterpriseId("5000558");
