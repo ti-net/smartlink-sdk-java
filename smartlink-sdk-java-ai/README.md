@@ -246,3 +246,15 @@
 版本： 2.0.18-RELEASE
 分支： release/2.0.18
 ~~~~
+
+### 功能
+~~~~
+1. 自研机器人上下线状态同步
+工单：https://devops.aliyun.com/projex/project/9fb8c3c6c028e41a603034207c/task#viewIdentifier=1945bcda00c0cf935ebdd8a5&openWorkitemIdentifier=0a670400a4f9b2a9aed66d9364
+~~~~
+
+~~~~
+日期： 2022-11-29
+版本： 2.0.19-RELEASE
+分支： release/2.0.19
+~~~~
