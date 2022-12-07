@@ -8,8 +8,6 @@ import lombok.EqualsAndHashCode;
  * @author zangshoubao
  * @date 2022/12/06
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class EnterpriseSyncResponse extends BaseResponse {
 
     private String result;
@@ -18,4 +16,27 @@ public class EnterpriseSyncResponse extends BaseResponse {
     private Integer status;
 
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

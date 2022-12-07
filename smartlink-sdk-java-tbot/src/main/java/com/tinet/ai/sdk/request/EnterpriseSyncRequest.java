@@ -96,7 +96,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.accountLoginName = accountLoginName;
 
         if (accountLoginName != null) {
-            putQueryParameter("accountLoginName", accountLoginName);
+            putBodyParameter("accountLoginName", accountLoginName);
         }
     }
 
@@ -104,7 +104,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.enterpriseId = enterpriseId;
 
         if (enterpriseId != null) {
-            putQueryParameter("enterpriseId", enterpriseId);
+            putBodyParameter("enterpriseId", enterpriseId);
         }
     }
 
@@ -116,7 +116,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.enterpriseName = enterpriseName;
 
         if (enterpriseName != null) {
-            putQueryParameter("enterpriseName", enterpriseName);
+            putBodyParameter("enterpriseName", enterpriseName);
         }
     }
 
@@ -128,7 +128,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.recordUrl = recordUrl;
 
         if (recordUrl != null) {
-            putQueryParameter("recordUrl", recordUrl);
+            putBodyParameter("recordUrl", recordUrl);
         }
     }
 
@@ -140,7 +140,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.token = token;
 
         if (recordUrl != null) {
-            putQueryParameter("recordUrl", recordUrl);
+            putBodyParameter("recordUrl", recordUrl);
         }
     }
 
@@ -152,7 +152,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.status = status;
 
         if (status != null) {
-            putQueryParameter("status", status);
+            putBodyParameter("status", status);
         }
     }
 
@@ -164,7 +164,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.active = active;
 
         if (active != null) {
-            putQueryParameter("active", active);
+            putBodyParameter("active", active);
         }
     }
 
@@ -176,7 +176,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.platform = platform;
 
         if (platform != null) {
-            putQueryParameter("platform", platform);
+            putBodyParameter("platform", platform);
         }
     }
 
@@ -188,7 +188,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.asrProvider = asrProvider;
 
         if (asrProvider != null) {
-            putQueryParameter("asrProvider", asrProvider);
+            putBodyParameter("asrProvider", asrProvider);
         }
     }
 
@@ -200,7 +200,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.hiddenType = hiddenType;
 
         if (hiddenType != null) {
-            putQueryParameter("hiddenType", hiddenType);
+            putBodyParameter("hiddenType", hiddenType);
         }
     }
 
@@ -212,7 +212,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.logo = logo;
 
         if (logo != null) {
-            putQueryParameter("logo", logo);
+            putBodyParameter("logo", logo);
         }
     }
 
@@ -224,7 +224,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.platformArea = platformArea;
 
         if (platformArea != null) {
-            putQueryParameter("platformArea", platformArea);
+            putBodyParameter("platformArea", platformArea);
         }
     }
 
@@ -236,7 +236,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.createTime = createTime;
 
         if (createTime != null) {
-            putQueryParameter("createTime", createTime);
+            putBodyParameter("createTime", createTime);
         }
     }
 
@@ -248,7 +248,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.updateTime = updateTime;
 
         if (updateTime != null) {
-            putQueryParameter("updateTime", updateTime);
+            putBodyParameter("updateTime", updateTime);
         }
     }
 
@@ -260,7 +260,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         this.enterpriseFeatures = enterpriseFeatures;
 
         if (enterpriseFeatures != null) {
-            putQueryParameter("enterpriseFeatures", enterpriseFeatures);
+            putBodyParameter("enterpriseFeatures", enterpriseFeatures);
         }
     }
 
