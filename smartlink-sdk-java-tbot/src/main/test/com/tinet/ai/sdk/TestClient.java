@@ -1,16 +1,23 @@
 package com.tinet.ai.sdk;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinet.ai.sdk.model.EnterpriseFeaturesModel;
 import com.tinet.ai.sdk.request.EnterpriseSyncRequest;
 import com.tinet.ai.sdk.response.EnterpriseSyncResponse;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 测试客户端
@@ -18,6 +25,7 @@ import java.util.Arrays;
  * @author huwk
  * @date 2019/9/19
  **/
+@Slf4j
 @Ignore
 public class TestClient {
     SmartlinkClient smartLinkClient;
@@ -29,7 +37,7 @@ public class TestClient {
         //测试环境
         configuration.setAccessKeyId("Q07K104667F5T7JKHFQP");
         configuration.setAccessKeySecret("344j0m85gix29klt1q66o5aa4mqa1k56");
-                 configuration.setHost(new HttpHost("tibot-test.clink.cn/api"));
+        configuration.setHost(new HttpHost("tibot-test.clink.cn", -1, "https"));
 
         //本地环境
 //        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
@@ -46,7 +54,7 @@ public class TestClient {
     public void syncEnterprise() throws Exception {
         EnterpriseSyncRequest request = new EnterpriseSyncRequest();
         request.setAccountLoginName("test");
-        request.setEnterpriseId("710000112345678");
+        request.setEnterpriseId("7100001");
         request.setStatus(Arrays.asList("sqc","kb"));
         request.setActive((short) 1);
         request.setPlatform("cticloud1");
@@ -54,9 +62,48 @@ public class TestClient {
         request.setAsrProvider("Alibaba");
         request.setHiddenType((short) 0);
 
+        JSONObject propertyJson = new JSONObject();
+        propertyJson.put("voiceRobotIb", "tibot");
+        propertyJson.put("voiceRobotOb", "emotibot");
+        propertyJson.put("robotTmate", "mango");
+        request.setEnterpriseFeatures(getEnterpriseFeaturesModels(propertyJson));
+
+        List<EnterpriseFeaturesModel> list = new ArrayList<>();
+        EnterpriseFeaturesModel model = new EnterpriseFeaturesModel();
+        model.setCode("robot_tmate");
+        model.setOpenFlag("1");
+        list.add(model);
+        request.setEnterpriseFeatures(list);
+
         EnterpriseSyncResponse response = smartLinkClient.getResponseModel(request);
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(response));
+    }
+
+    private ArrayList<EnterpriseFeaturesModel> getEnterpriseFeaturesModels(JSONObject propertyJson) {
+        ArrayList<EnterpriseFeaturesModel> modelArrayList = new ArrayList<>();
+        String voiceRobotIb = propertyJson.getString("voiceRobotIb");
+        String voiceRobotOb = propertyJson.getString("voiceRobotOb");
+        String robotTmate = propertyJson.getString("robotTmate");
+
+        setEnterpriseFeaturesModel(modelArrayList, voiceRobotIb, "voice_robot_ib");
+        setEnterpriseFeaturesModel(modelArrayList, voiceRobotOb, "voice_robot_ob");
+        setEnterpriseFeaturesModel(modelArrayList, robotTmate, "robot_tmate");
+
+        System.out.println("modelArrayList:{}" +  modelArrayList.toString());
+//        log.info("modelArrayList:{}", modelArrayList.toString());
+        return modelArrayList;
+    }
+
+    private void setEnterpriseFeaturesModel(ArrayList<EnterpriseFeaturesModel> modelArrayList, String config, String code) {
+
+            EnterpriseFeaturesModel enterpriseFeaturesModel = new EnterpriseFeaturesModel();
+            enterpriseFeaturesModel.setOpenFlag("1");
+            enterpriseFeaturesModel.setConfig(new ArrayList<>(Collections.singleton(config)));
+            enterpriseFeaturesModel.setCode(code);
+            modelArrayList.add(enterpriseFeaturesModel);
+
+
     }
 //
 //    @Test

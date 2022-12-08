@@ -100,6 +100,10 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
         }
     }
 
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
 
@@ -139,8 +143,8 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
     public void setToken(String token) {
         this.token = token;
 
-        if (recordUrl != null) {
-            putBodyParameter("recordUrl", recordUrl);
+        if (token != null) {
+            putBodyParameter("token", token);
         }
     }
 
@@ -265,7 +269,7 @@ public class EnterpriseSyncRequest extends BaseRequest<EnterpriseSyncResponse> {
     }
 
     public EnterpriseSyncRequest() {
-        super("/enterprise/sync", HttpMethodType.POST);
+        super("/api/enterprise/sync", HttpMethodType.POST);
     }
 
     @Override
