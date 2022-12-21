@@ -1,4 +1,4 @@
-package com.tinet.ai.sdk;
+package sdk;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tinet.auth.sdk.AuthClient;

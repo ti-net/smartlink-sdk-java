@@ -3,12 +3,13 @@ package com.tinet.ai.sdk;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinet.ai.sdk.model.EnterpriseFeaturesModel;
+import com.tinet.ai.sdk.request.EnterpriseGrayQKRequest;
 import com.tinet.ai.sdk.request.EnterpriseSyncRequest;
+import com.tinet.ai.sdk.response.EnterpriseGrayQKResponse;
 import com.tinet.ai.sdk.response.EnterpriseSyncResponse;
 import com.tinet.smartlink.sdk.core.SmartlinkClient;
 import com.tinet.smartlink.sdk.core.SmartlinkClientConfiguration;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpHost;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -28,7 +29,7 @@ import java.util.List;
 @Slf4j
 @Ignore
 public class TestClient {
-    SmartlinkClient smartLinkClient;
+    TBotAIHttpClient smartLinkClient;
 
     @Before
     public void init() {
@@ -47,7 +48,14 @@ public class TestClient {
 //        configuration.setConnectionRequestTimeout(100000);
         configuration.setConnectTimeout(100000);
         configuration.setSocketTimeout(100000);
-        smartLinkClient = new SmartlinkClient(configuration);
+        smartLinkClient = new TBotAIHttpClient(configuration);
+    }
+    @Test
+    public void getEnterpriseGray() throws Exception {
+        EnterpriseGrayQKRequest request = new EnterpriseGrayQKRequest();
+        request.setEnterpriseId("8000001");
+        EnterpriseGrayQKResponse responseModel = smartLinkClient.getResponseModel(request);
+        System.out.println(responseModel);
     }
 
     @Test
