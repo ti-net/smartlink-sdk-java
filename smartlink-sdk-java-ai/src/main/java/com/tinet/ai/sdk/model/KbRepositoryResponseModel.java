@@ -58,4 +58,8 @@ public class KbRepositoryResponseModel {
      */
     private String accountLoginName;
 
+    /**
+     * 所属人
+     */
+    private String owner;
 }
