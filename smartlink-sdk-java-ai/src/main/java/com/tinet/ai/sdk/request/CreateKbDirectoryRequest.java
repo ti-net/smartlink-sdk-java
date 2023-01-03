@@ -42,6 +42,11 @@ public class CreateKbDirectoryRequest extends BaseRequest<KbDirectoryResponse> {
      */
     private String owner;
 
+    /**
+     * 该节点所在的同级目录的节点id，排序
+     */
+    private String sort;
+
     public String getEnterpriseId() {
         return enterpriseId;
     }
@@ -105,6 +110,17 @@ public class CreateKbDirectoryRequest extends BaseRequest<KbDirectoryResponse> {
         this.owner = owner;
         if (owner != null) {
             putBodyParameter("owner", owner);
+        }
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+        if (sort != null) {
+            putBodyParameter("sort", sort);
         }
     }
 
