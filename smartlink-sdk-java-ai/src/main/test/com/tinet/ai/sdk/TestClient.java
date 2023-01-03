@@ -39,7 +39,8 @@ public class TestClient {
         //测试环境
         configuration.setAccessKeyId("U550M65OOC1Y7842Y985");
         configuration.setAccessKeySecret("58w82m7j0bop2g4g5ghaprh43076p951");
-                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+//                 configuration.setHost(new HttpHost("smartai-openapi-test.tinetcloud.com"));
+        configuration.setHost(new HttpHost("tibot-test.tinetcloud.com"));
 
         //本地环境
 //        configuration.setAccessKeyId("59F6WZYJ6PT4G879D318");
