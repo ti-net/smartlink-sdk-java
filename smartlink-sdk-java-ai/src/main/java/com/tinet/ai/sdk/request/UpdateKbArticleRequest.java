@@ -216,7 +216,7 @@ public class UpdateKbArticleRequest extends BaseRequest<ArticleResponse> {
             putBodyParameter("owner", owner);
         }
     }
-
+    DeleteKbArticleRequest
     public List<KbArticleResponseModel.RelatedQuestion> getRelatedQuestions() {
         return relatedQuestions;
     }
