@@ -3,6 +3,8 @@ package com.tinet.ai.sdk.request;
 import com.tinet.ai.sdk.model.Knowledge;
 import lombok.Data;
 
+import java.util.Map;
+
 /**
  * CC调用TiBot的请求体封装
  * 
@@ -59,4 +61,11 @@ public class ChatRequest {
 	 * ● 多轮会话选项列表知识ID：选项列表知识ID可为空；若选项列表添加为意图时，回传意图ID；若选项列表为变量判断时，回传知识ID为空。
 	 */
 	private Knowledge knowledge;
+
+	/**
+	 * 语音元数据透传 tibot用
+	 * caller_number 主叫号码
+	 * callee_number 被叫
+	 */
+	private Map<String, Object> voiceMetadata;
 }
