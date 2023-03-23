@@ -63,4 +63,9 @@ public class EventData {
      * 企业编码，平台唯一
      */
     private String identifier;
+
+    /**
+     * 平台标识 clink2_bj、clink2_sh
+     */
+    private String platform;
 }
